@@ -1,48 +1,31 @@
 @extends('admin.master')
-@section('title','add-banner')
+@section('title','Add banner')
 @section('admin-main')
-<h1>Admin add banner page</h1>
 <form action="" method="POST" role="form">
-    <legend>Form add new</legend>
     @csrf
      <div class="form-group">
-        <label for="">title</label>
-        <input type="text" class="form-control" name="title" placeholder="Input name">
+        <label for="">Title</label>
+        <input type="text" class="form-control" name="title" placeholder="Title...">
+        @error('title')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('title')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
     <div class="form-group">
-        <label for="">sumary</label>
-        <input type="text" class="form-control" name="sumary" placeholder="Input name">
+        <label for="">Summary</label>
+        <input type="text" class="form-control" name="summary" placeholder="Summary...">
+        @error('summary')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('sumary')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
     <div class="form-group">
-        <label for="">link</label>
-        <input type="text" class="form-control" name="link" placeholder="Input name">
-    </div>
-     @error('link')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
-    <div class="form-group">
-        <label for="">label</label>
-        
-        <div class="radio">
-            <label>
-                <input type="radio" name="status" value="0">
-                Ẩn
-            </label>
-            <label>
-                <input type="radio" name="status" value="1" checked>
-                Hiển thị
-            </label>
-        </div>
-        
+        <label for="">Link</label>
+        <input type="text" class="form-control" name="link" placeholder="Link...">
+        @error('link')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
 
-    <button type="submit" class="btn btn-primary">Add new</button>
+    <button type="submit" class="btn btn-primary mt-2">Add new</button>
 </form>
-<hr>
+
 @stop

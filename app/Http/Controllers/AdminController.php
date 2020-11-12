@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\models\products;
-use App\models\categories;
-use App\models\blogs;
-use App\models\users;
-use App\models\banners;
+use App\Models\Banner;
+use App\Models\Blog;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\User;
 
 class AdminController extends Controller
 //index
@@ -30,16 +30,9 @@ class AdminController extends Controller
           'name' => 'required|unique:products',
           'price' => 'required',
           'image' => 'required',
-          'image_list' => 'required',
+          'image_list' => 'required'
         ];
-        $mess = [
-          'name.required' => 'ten ko dc de trong',
-          'name.unique' => 'ten da duoc su dung',
-          'price.required' => 'gia ko dc de trong',
-          'image.required' => 'anh ko dc de trong',
-          'image_list.required' => 'anh ko dc de trong'
-        ];
-        request()->validate($rule,$mess);
+        request()->validate($rule);
         return redirect()->route('admin.product');
     }
 
@@ -56,15 +49,9 @@ class AdminController extends Controller
         $rule = [
           'name' => 'required|unique:categories',
           'link' => 'required',
-          'image' => 'required',
+          'image' => 'required'
         ];
-        $mess = [
-          'name.required' => 'ten ko dc de trong',
-          'name.unique' => 'ten da duoc su dung',
-          'link.required' => 'link ko dc de trong',
-          'image.required' => 'anh ko dc de trong',
-        ];
-        request()->validate($rule,$mess);
+        request()->validate($rule);
     	return redirect()->route('admin.category');
     }
 
@@ -87,14 +74,9 @@ class AdminController extends Controller
          $rule = [
           'title' => 'required',
           'sumary' => 'required',
-          'content' => 'required',
+          'content' => 'required'
         ];
-        $mess = [
-          'title.required' => 'title ko dc de trong',
-          'sumary.required' => 'sumary ko dc de trong',
-          'content.required' => 'noi dung ko dc de trong',
-        ];
-        request()->validate($rule,$mess);
+        request()->validate($rule);
     	return redirect()->route('admin.blog');
     }
 
@@ -111,14 +93,10 @@ class AdminController extends Controller
         $rule = [
           'title' => 'required',
           'sumary' => 'required',
-          'link' => 'required',
+          'link' => 'required'
         ];
-        $mess = [
-          'title.required' => 'title ko dc de trong',
-          'sumary.required' => 'sumary ko dc de trong',
-          'link.required' => 'link ko dc de trong',
-        ];
-        request()->validate($rule,$mess);
+        request()->validate($rule);
+
         return redirect()->route('admin.banner');
     }
 }

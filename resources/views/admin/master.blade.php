@@ -195,21 +195,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.product')}}" class="nav-link">
+                <a href="{{route('admin.banner')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Product</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.category')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Category</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.user')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>User</p>
+                  <p>Banner</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -219,9 +207,22 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.banner')}}" class="nav-link">
+                <a href="{{route('admin.category')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>banner</p>
+                  <p>Category</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.product')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Product</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a href="{{route('admin.user')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User</p>
                 </a>
               </li>
             </ul>

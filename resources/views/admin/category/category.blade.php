@@ -2,7 +2,7 @@
 @section('title','Category Managerment')
 @section('admin-main')
 
-<table class="table">
+<table class="table mb-2">
   <thead>
     <tr>
       <th scope="col">id</th>

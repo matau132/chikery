@@ -1,54 +1,36 @@
 @extends('admin.master')
-@section('title','add-category')
+@section('title','Add category')
 @section('admin-main')
-<h1>Admin add category page</h1>
 <form action="" method="POST" role="form">
-    <legend>Form add new</legend>
     @csrf
     <div class="form-group">
-        <label for="">name</label>
-        <input type="text" class="form-control" name="name" placeholder="Input name">
+        <label for="">Name</label>
+        <input type="text" class="form-control" name="name" placeholder="Name...">
+        @error('name')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('name')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
+     
     <div class="form-group">
-        <label for="">link</label>
-        <input type="text" class="form-control" name="link" placeholder="Input name">
+        <label for="">Link</label>
+        <input type="text" class="form-control" name="link" placeholder="Link...">
+        @error('link')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('link')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
+   
     <div class="form-group">
-        <label for="">sumary</label>
-        <input type="text" class="form-control" name="sumary" placeholder="Input name">
+        <label for="">Summary</label>
+        <input type="text" class="form-control" name="summary" placeholder="Summary...">
     </div>
-
-
     <div class="form-group">
-        <label for="">image</label>
-        <input type="file" class="form-control" name="image" placeholder="Input name">
+        <label for="">Image</label>
+        <input type="file" class="form-control" name="image" placeholder="">
+        @error('image')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('image')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
-    <div class="form-group">
-        <label for="">label</label>
-        
-        <div class="radio">
-            <label>
-                <input type="radio" name="status" value="0">
-                Ẩn
-            </label>
-            <label>
-                <input type="radio" name="status" value="1" checked>
-                Hiển thị
-            </label>
-        </div>
-        
-    </div>
-
-    <button type="submit" class="btn btn-primary">Add new</button>
+    <button type="submit" class="btn btn-primary mt-2">Add new</button>
 </form>
-<hr>
+
 @stop

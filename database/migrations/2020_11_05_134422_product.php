@@ -16,7 +16,7 @@ class Product extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name',150)->unique();
-            $table->text('sumary')->nullable();
+            $table->text('summary')->nullable();
             $table->text('content')->nullable();
             $table->float('price')->nullable();
             $table->string('image')->nullable();

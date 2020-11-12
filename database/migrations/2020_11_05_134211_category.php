@@ -17,7 +17,7 @@ class Category extends Migration
             $table->id();
             $table->string('name',150)->unique();
             $table->string('link',150)->nullable()->unique();
-            $table->text('sumary')->nullable();
+            $table->text('summary')->nullable();
             $table->string('image');
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('priority')->default(0);

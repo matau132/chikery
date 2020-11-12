@@ -1,65 +1,48 @@
 @extends('admin.master')
-@section('title','add-product')
+@section('title','Add product')
 @section('admin-main')
-<h1>Admin add product page</h1>
 <form action="" method="POST" role="form">
-    <legend>Form add new</legend>
     @csrf
     <div class="form-group">
-        <label for="">name</label>
-        <input type="text" class="form-control" name="name" placeholder="Input name">
+        <label for="">Name</label>
+        <input type="text" class="form-control" name="name" placeholder="Name...">
+        @error('name')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-    @error('name')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
+    
     <div class="form-group">
-        <label for="">sumary</label>
-        <input type="text" class="form-control" name="sumary" placeholder="Input name">
+        <label for="">Summary</label>
+        <input type="text" class="form-control" name="summary" placeholder="Summary...">
     </div>
     <div class="form-group">
-        <label for="">content</label>
+        <label for="">Content</label>
         <div>
-        	<textarea name="content" class="form-control"></textarea>
+        	<textarea name="content" class="form-control" placeholder="..."></textarea>
         </div>
     </div>
     <div class="form-group">
-        <label for="">price</label>
-        <input type="text" class="form-control" name="price" placeholder="Input name">
+        <label for="">Price</label>
+        <input type="number" class="form-control" name="price" placeholder="Price">
+        @error('price')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('price')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
     <div class="form-group">
-        <label for="">image</label>
+        <label for="">Image</label>
         <input type="file" class="form-control" name="image">
+        @error('image')
+            <small id="emailHelp" class="form-text text-danger">{{$message}}.</small>
+        @enderror
     </div>
-    @error('image')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
+    
     <div class="form-group">
-        <label for="">image_list</label>
+        <label for="">Image list</label>
         <input type="file" class="form-control" name="image_list">
+        @error('image_list')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
-     @error('image_list')
-    <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-    @enderror
-    <div class="form-group">
-        <label for="">label</label>
-        
-        <div class="radio">
-            <label>
-                <input type="radio" name="status" value="0">
-                Ẩn
-            </label>
-            <label>
-                <input type="radio" name="status" value="1" checked>
-                Hiển thị
-            </label>
-        </div>
-        
-    </div>
-
-    <button type="submit" class="btn btn-primary">Add new</button>
+    <button type="submit" class="btn btn-primary mt-2">Add new</button>
 </form>
-<hr>
 @stop

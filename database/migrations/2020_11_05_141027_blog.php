@@ -16,7 +16,7 @@ class Blog extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('sumary')->nullable();
+            $table->text('summary')->nullable();
             $table->text('content')->nullable();
             $table->string('image')->nullable();
             $table->bigInteger('admin_id')->unsigned();
