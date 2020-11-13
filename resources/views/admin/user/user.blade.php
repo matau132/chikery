@@ -5,11 +5,11 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">name</th>
-      <th scope="col">email</th>
-      <th scope="col">email_verified_at</th>
-      <th scope="col">password</th>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Email_verified_at</th>
+      <th scope="col">Password</th>
     </tr>
   </thead>
   <tbody>

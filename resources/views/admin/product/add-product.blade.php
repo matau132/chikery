@@ -1,7 +1,7 @@
 @extends('admin.master')
 @section('title','Add product')
 @section('admin-main')
-<form action="" method="POST" role="form">
+<form method="POST" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
         <label for="">Name</label>
@@ -10,7 +10,17 @@
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
         @enderror
     </div>
-    
+    <div class="form-group">
+        <label for="">Category</label>
+        <select name="category_id" class="form-control">
+            @foreach($cats as $cat)
+            <option value="{{$cat->id}}">{{$cat->name}}</option>
+            @endforeach
+        </select>
+        @error('category_id')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
+    </div>
     <div class="form-group">
         <label for="">Summary</label>
         <input type="text" class="form-control" name="summary" placeholder="Summary...">
@@ -35,10 +45,9 @@
             <small id="emailHelp" class="form-text text-danger">{{$message}}.</small>
         @enderror
     </div>
-    
     <div class="form-group">
         <label for="">Image list</label>
-        <input type="file" class="form-control" name="image_list">
+        <input type="file" multiple="" class="form-control" name="image_list[]">
         @error('image_list')
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
         @enderror

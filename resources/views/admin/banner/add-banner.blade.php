@@ -24,6 +24,13 @@
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
         @enderror
     </div>
+    <div class="form-group">
+        <label for="">Image</label>
+        <input type="file" class="form-control" name="image">
+        @error('image')
+            <small id="emailHelp" class="form-text text-danger">{{$message}}.</small>
+        @enderror
+    </div>
 
     <button type="submit" class="btn btn-primary mt-2">Add new</button>
 </form>

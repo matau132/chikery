@@ -5,11 +5,11 @@
 <table class="table mb-2">
   <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">name</th>
-      <th scope="col">image</th>
-      <th scope="col">link</th>
-      <th scope="col">sumary</th>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Link</th>
+      <th scope="col">Summary</th>
     </tr>
   </thead>
   <tbody>

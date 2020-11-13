@@ -5,13 +5,13 @@
 <table class="table mb-2">
   <thead>
     <tr>
-      <th scope="col">id</th>
-      <th scope="col">name</th>
-      <th scope="col">sumary</th>
-      <th scope="col">content</th>
-      <th scope="col">price</th>
-      <th scope="col">image</th>
-      <th scope="col">image_list</th>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Summary</th>
+      <th scope="col">Content</th>
+      <th scope="col">Price</th>
+      <th scope="col">Image</th>
+      <th scope="col">Image_list</th>
     </tr>
   </thead>
   <tbody>

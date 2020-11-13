@@ -18,27 +18,36 @@ class AdminController extends Controller
 
 //product
     public function product(){
-        $pros = products::all();
+        $pros = Product::all();
         return view('admin.product.product',compact('pros'));
     }
 
     public function addproduct(){
-    	return view('admin.product.add-product');
+        $cats = Category::all();
+    	return view('admin.product.add-product',compact('cats'));
     }
     public function post_addproduct(){
         $rule = [
           'name' => 'required|unique:products',
           'price' => 'required',
           'image' => 'required',
-          'image_list' => 'required'
+          'image_list' => 'required',
+          'category_id' => 'required'
         ];
         request()->validate($rule);
+        $img_name = request()->image->getClientOriginalName();
+        request()->image->move(public_path('uploads/product'),time().$img_name);
+        // $img_list = request()->image_list;
+        // $img_list_name = '';
+        // foreach ($img_list as $img) {
+        //     $
+        // };
         return redirect()->route('admin.product');
     }
 
 //category
     public function category(){
-        $cats = categories::all();
+        $cats = Category::all();
         return view('admin.category.category',compact('cats'));
     }
 
@@ -57,13 +66,13 @@ class AdminController extends Controller
 
 //user
     public function user(){
-        $users = users::all();
+        $users = User::all();
         return view('admin.user.user',compact('users'));
     }
 
 //blog
     public function blog(){
-        $blogs = blogs::all();
+        $blogs = Blog::all();
         return view('admin.blog.blog',compact('blogs'));
     }
 
@@ -82,7 +91,7 @@ class AdminController extends Controller
 
 //banner
     public function banner(){
-        $bns = banners::all();
+        $bns = Banner::all();
         return view('admin.banner.banner',compact('bns'));
     }
 
@@ -92,6 +101,7 @@ class AdminController extends Controller
     public function post_addbanner(){
         $rule = [
           'title' => 'required',
+          'image' => 'required',
           'sumary' => 'required',
           'link' => 'required'
         ];
