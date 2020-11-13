@@ -1,7 +1,7 @@
 @extends('admin.master')
 @section('title','Add category')
 @section('admin-main')
-<form action="" method="POST" role="form">
+<form action="" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
         <label for="">Name</label>

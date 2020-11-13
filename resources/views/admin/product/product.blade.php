@@ -1,17 +1,18 @@
 @extends('admin.master')
 @section('title','Product Managerment')
 @section('admin-main')
-
-<table class="table mb-2">
-  <thead>
+<div class="table-responsive">
+<table class="table table-hover mb-2">
+  <thead class="thead-light">
     <tr>
       <th scope="col">Id</th>
       <th scope="col">Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Image_list</th>
       <th scope="col">Summary</th>
       <th scope="col">Content</th>
       <th scope="col">Price</th>
-      <th scope="col">Image</th>
-      <th scope="col">Image_list</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -19,15 +20,20 @@
       @foreach($pros as $models)
       <td>{{$models->id}}</td>
       <td>{{$models->name}}</td>
-      <td>{{$models->sumary}}</td>
+      <td><img src="{{url('public/uploads/product')}}/{{$models->image}}" alt="" width="100px"></td>
+      <td>
+        @foreach(json_decode($models->image_list) as $img_list_name)
+        <img src="{{url('public/uploads/product')}}/{{$img_list_name}}" alt="" width="30%" height="100px">
+        @endforeach
+      </td>
+      <td>{{$models->summary}}</td>
       <td>{{$models->content}}</td>
       <td>{{$models->price}}</td>
-      <td>{{$models->image}}</td>
-      <td>{{$models->image_list}}</td>
       <td><a href="" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
     @endforeach
   </tbody>
 </table>
 <a href="{{route('admin.addproduct')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
+</div>
 @stop

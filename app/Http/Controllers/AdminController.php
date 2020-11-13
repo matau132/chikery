@@ -35,13 +35,26 @@ class AdminController extends Controller
           'category_id' => 'required'
         ];
         request()->validate($rule);
-        $img_name = request()->image->getClientOriginalName();
-        request()->image->move(public_path('uploads/product'),time().$img_name);
-        // $img_list = request()->image_list;
-        // $img_list_name = '';
-        // foreach ($img_list as $img) {
-        //     $
-        // };
+        
+        $img_name = time().(request()->image->getClientOriginalName());
+        request()->image->move(public_path('uploads/product'),$img_name);
+        $img_list = request()->image_list;
+        $img_list_name = [];
+        foreach ($img_list as $img) {
+            $list_name = time().($img->getClientOriginalName());
+            $img->move(public_path('uploads/product'),$list_name);
+            array_push($img_list_name,$list_name);
+        };
+        $db_list_name = json_encode($img_list_name);   
+        Product::create([
+            'name' => request()->name,
+            'category_id' => request()->category_id,
+            'summary' => request()->summary,
+            'content' => request()->content,
+            'price' => request()->price,
+            'image' => $img_name,
+            'image_list' => $db_list_name
+        ]);
         return redirect()->route('admin.product');
     }
 
@@ -61,6 +74,14 @@ class AdminController extends Controller
           'image' => 'required'
         ];
         request()->validate($rule);
+        $img_name = time().(request()->image->getClientOriginalName());
+        request()->image->move(public_path('uploads/category'),$img_name);
+        Category::create([
+            'name' => request()->name,
+            'link' => request()->link,
+            'summary' => request()->summary,
+            'image' => $img_name,
+        ]);
     	return redirect()->route('admin.category');
     }
 
@@ -86,6 +107,14 @@ class AdminController extends Controller
           'content' => 'required'
         ];
         request()->validate($rule);
+        $img_name = time().(request()->image->getClientOriginalName());
+        request()->image->move(public_path('uploads/blog'),$img_name);
+        Blog::create([
+            'title' => request()->title,
+            'summary' => request()->summary,
+            'content' => request()->content,
+            'image' => $img_name,
+        ]);
     	return redirect()->route('admin.blog');
     }
 
@@ -106,7 +135,14 @@ class AdminController extends Controller
           'link' => 'required'
         ];
         request()->validate($rule);
-
+        $img_name = time().(request()->image->getClientOriginalName());
+        request()->image->move(public_path('uploads/banner'),$img_name);
+        Banner::create([
+            'title' => request()->title,
+            'summary' => request()->summary,
+            'content' => request()->content,
+            'image' => $img_name,
+        ]);
         return redirect()->route('admin.banner');
     }
 }

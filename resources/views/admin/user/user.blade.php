@@ -1,9 +1,9 @@
 @extends('admin.master')
 @section('title','User Managerment')
 @section('admin-main')
-
-<table class="table">
-  <thead>
+<div class="table-responsive">
+<table class="table table-hover">
+  <thead class="thead-light">
     <tr>
       <th scope="col">Id</th>
       <th scope="col">Name</th>
@@ -24,4 +24,5 @@
     @endforeach
   </tbody>
 </table>
+</div>
 @stop

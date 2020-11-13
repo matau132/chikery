@@ -16,6 +16,7 @@ class Banner extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('image');
             $table->text('summary')->nullable();
             $table->string('link')->nullable();
             $table->tinyInteger('status')->default(1);

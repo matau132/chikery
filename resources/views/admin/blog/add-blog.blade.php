@@ -2,7 +2,7 @@
 @section('title','Add blog')
 @section('admin-main')
 
-<form action="" method="POST" role="form">
+<form action="" method="POST" role="form" enctype="multipart/form-data">
     @csrf
      <div class="form-group">
         <label for="">Title</label>
