@@ -256,21 +256,16 @@
 
     <!-- Main content -->
     <section class="content">
-
+      @if(session()->has('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>{{session()->get('success')}}</strong> 
+      </div>
+      @endif
       <!-- Default box -->
       <div class="card">
-        <!-- <div class="card-header">
-          <h3 class="card-title">@yield('title')</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div> -->
         <div class="card-body">
             @yield('admin-main')
         </div>
@@ -334,5 +329,8 @@
 <script src="{{url('public/admin')}}/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{url('public/admin')}}/dist/js/pages/dashboard.js"></script>
+<script>
+  $(".alert").alert();
+</script>
 </body>
 </html>

@@ -55,7 +55,7 @@ class AdminController extends Controller
             'image' => $img_name,
             'image_list' => $db_list_name
         ]);
-        return redirect()->route('admin.product');
+        return redirect()->route('admin.product')->with('success','Successfully add data!');
     }
 
 //category
@@ -70,7 +70,7 @@ class AdminController extends Controller
     public function post_addcategory(){
         $rule = [
           'name' => 'required|unique:categories',
-          'link' => 'required',
+          'link' => 'required|unique:categories',
           'image' => 'required'
         ];
         request()->validate($rule);
@@ -82,7 +82,7 @@ class AdminController extends Controller
             'summary' => request()->summary,
             'image' => $img_name,
         ]);
-    	return redirect()->route('admin.category');
+    	return redirect()->route('admin.category')->with('success','Successfully add data!');
     }
 
 //user
@@ -115,7 +115,7 @@ class AdminController extends Controller
             'content' => request()->content,
             'image' => $img_name,
         ]);
-    	return redirect()->route('admin.blog');
+    	return redirect()->route('admin.blog')->with('success','Successfully add data!');
     }
 
 //banner
@@ -143,6 +143,6 @@ class AdminController extends Controller
             'content' => request()->content,
             'image' => $img_name,
         ]);
-        return redirect()->route('admin.banner');
+        return redirect()->route('admin.banner')->with('success','Successfully add data!');
     }
 }
