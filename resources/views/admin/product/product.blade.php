@@ -29,7 +29,7 @@
       <td>{{$models->summary}}</td>
       <td>{{$models->content}}</td>
       <td>{{$models->price}}</td>
-      <td><a href="" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
+      <td><a href="{{route('admin.updateProduct',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
     @endforeach
   </tbody>

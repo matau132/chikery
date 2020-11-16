@@ -30,15 +30,16 @@ class AdminController extends Controller
         $rule = [
           'name' => 'required|unique:products',
           'price' => 'required',
-          'image' => 'required',
-          'image_list' => 'required',
+          'image' => 'required,mimes:png,jpg,jpeg',
+          'image_list' => 'required,mimes:png,jpg,jpeg',
           'category_id' => 'required'
         ];
         request()->validate($rule);
         
         $img_name = time().(request()->image->getClientOriginalName());
         request()->image->move(public_path('uploads/product'),$img_name);
-        $img_list = request()->image_list;
+
+        $img_list = request()->image_list;  //image list
         $img_list_name = [];
         foreach ($img_list as $img) {
             $list_name = time().($img->getClientOriginalName());
@@ -46,6 +47,7 @@ class AdminController extends Controller
             array_push($img_list_name,$list_name);
         };
         $db_list_name = json_encode($img_list_name);   
+
         Product::create([
             'name' => request()->name,
             'category_id' => request()->category_id,
@@ -56,6 +58,88 @@ class AdminController extends Controller
             'image_list' => $db_list_name
         ]);
         return redirect()->route('admin.product')->with('success','Successfully add data!');
+    }
+
+    public function update_product($id){
+        $cats = Category::all();
+        $prod = Product::where('id',$id)->first();
+        return view('admin.product.update',compact('cats','prod'));
+    }
+    public function post_update_product($id){
+        $rule = [
+            'name' => 'required|unique:products,name,'.$id,
+            'price' => 'required',
+            'image' => 'mimes:png,jpg,jpeg',
+            'image_list' => 'mimes:png,jpg,jpeg',
+            'category_id' => 'required'
+        ];
+        request()->validate($rule);
+
+        if(request()->has('image')){
+            $img_name = time().(request()->image->getClientOriginalName());
+            request()->image->move(public_path('uploads/product'),$img_name);
+            Product::where('id',$id)->update([
+                'name' => request()->name,
+                'category_id' => request()->category_id,
+                'summary' => request()->summary,
+                'content' => request()->content,
+                'price' => request()->price,
+                'image' => $img_name
+            ]);
+            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+        }
+        if(request()->has('image_list')){
+            $img_list = request()->image_list;  //image list
+            $img_list_name = [];
+            foreach ($img_list as $img) {
+                $list_name = time().($img->getClientOriginalName());
+                $img->move(public_path('uploads/product'),$list_name);
+                array_push($img_list_name,$list_name);
+            };
+            $db_list_name = json_encode($img_list_name);  
+            Product::where('id',$id)->update([
+                'name' => request()->name,
+                'category_id' => request()->category_id,
+                'summary' => request()->summary,
+                'content' => request()->content,
+                'price' => request()->price,
+                'image_list' => $db_list_name
+            ]); 
+            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+        }
+        if(request()->has('image')&&request()->has('image_list')){
+            $img_name = time().(request()->image->getClientOriginalName());
+            request()->image->move(public_path('uploads/product'),$img_name);
+            $img_list = request()->image_list;  //image list
+            $img_list_name = [];
+            foreach ($img_list as $img) {
+                $list_name = time().($img->getClientOriginalName());
+                $img->move(public_path('uploads/product'),$list_name);
+                array_push($img_list_name,$list_name);
+            };
+            $db_list_name = json_encode($img_list_name);  
+            Product::where('id',$id)->update([
+                'name' => request()->name,
+                'category_id' => request()->category_id,
+                'summary' => request()->summary,
+                'content' => request()->content,
+                'price' => request()->price,
+                'image' => $img_name,
+                'image_list' => $db_list_name
+            ]);
+            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+        }
+        if(!request()->has('image')&&!request()->has('image_list')){
+            Product::where('id',$id)->update([
+                'name' => request()->name,
+                'category_id' => request()->category_id,
+                'summary' => request()->summary,
+                'content' => request()->content,
+                'price' => request()->price
+            ]);
+            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+        }
+        
     }
 
 //category
@@ -71,7 +155,7 @@ class AdminController extends Controller
         $rule = [
           'name' => 'required|unique:categories',
           'link' => 'required|unique:categories',
-          'image' => 'required'
+          'image' => 'required,mimes:png,jpg,jpeg'
         ];
         request()->validate($rule);
         $img_name = time().(request()->image->getClientOriginalName());
@@ -84,6 +168,38 @@ class AdminController extends Controller
         ]);
     	return redirect()->route('admin.category')->with('success','Successfully add data!');
     }
+    public function update_category($id){
+        $cat = Category::where('id',$id)->first();
+        return view('admin.category.update',compact('cat'));
+    }
+    public function post_update_category($id){
+        $rule = [
+            'name' => 'required|unique:categories,name,'.$id,
+            'link' => 'required|unique:categories,link,'.$id,
+            'image' => 'mimes:png,jpg,jpeg'
+        ];
+        request()->validate($rule);
+        if(request()->has('image')){
+            $img_name = time().(request()->image->getClientOriginalName());
+            request()->image->move(public_path('uploads/category'),$img_name);
+            Category::where('id',$id)->update([
+                'name' => request()->name,
+                'link' => request()->link,
+                'summary' => request()->summary,
+                'image' => $img_name
+            ]);
+            return redirect()->route('admin.category')->with('success','Updated data successfully!');
+        }
+        else{
+            Category::where('id',$id)->update([
+                'name' => request()->name,
+                'link' => request()->link,
+                'summary' => request()->summary
+            ]);
+            return redirect()->route('admin.category')->with('success','Updated data successfully!');
+        }
+    }
+
 
 //user
     public function user(){
@@ -104,7 +220,8 @@ class AdminController extends Controller
          $rule = [
           'title' => 'required',
           'sumary' => 'required',
-          'content' => 'required'
+          'content' => 'required',
+          'image' => 'mimes:png,jpg,jpeg'
         ];
         request()->validate($rule);
         $img_name = time().(request()->image->getClientOriginalName());
@@ -116,6 +233,38 @@ class AdminController extends Controller
             'image' => $img_name,
         ]);
     	return redirect()->route('admin.blog')->with('success','Successfully add data!');
+    }
+    public function update_blog($id){
+        $blog = Blog::where('id',$id)->first();
+        return view('admin.blog.update',compact('blog'));
+    }
+    public function post_update_blog($id){
+        $rule = [
+            'title' => 'required',
+            'sumary' => 'required',
+            'content' => 'required',
+            'image' => 'mimes:png,jpg,jpeg'
+        ];
+        request()->validate($rule);
+        if(request()->has('image')){
+            $img_name = time().(request()->image->getClientOriginalName());
+            request()->image->move(public_path('uploads/blog'),$img_name);
+            Blog::where('id',$id)->update([
+                'title' => request()->title,
+                'summary' => request()->summary,
+                'content' => request()->content,
+                'image' => $img_name,
+            ]);
+            return redirect()->route('admin.blog')->with('success','Updated data successfully!');
+        }
+        else{
+            Blog::where('id',$id)->update([
+                'title' => request()->title,
+                'summary' => request()->summary,
+                'content' => request()->content
+            ]);
+            return redirect()->route('admin.blog')->with('success','Updated data successfully!');
+        }
     }
 
 //banner
@@ -130,9 +279,9 @@ class AdminController extends Controller
     public function post_addbanner(){
         $rule = [
           'title' => 'required',
-          'image' => 'required',
+          'image' => 'required,mimes:png,jpg,jpeg',
           'sumary' => 'required',
-          'link' => 'required'
+          'link' => 'required|unique:banners'
         ];
         request()->validate($rule);
         $img_name = time().(request()->image->getClientOriginalName());
@@ -141,8 +290,40 @@ class AdminController extends Controller
             'title' => request()->title,
             'summary' => request()->summary,
             'content' => request()->content,
-            'image' => $img_name,
+            'image' => $img_name
         ]);
         return redirect()->route('admin.banner')->with('success','Successfully add data!');
+    }
+    public function update_banner($id){
+        $banner = Banner::where('id',$id)->first();
+        return view('admin.banner.update',compact('banner'));
+    }
+    public function post_update_banner($id){
+        $rule = [
+            'title' => 'required',
+            'image' => 'required,mimes:png,jpg,jpeg',
+            'sumary' => 'required',
+            'link' => 'required|unique:banners,link,'.$id
+          ];
+        request()->validate($rule);
+        if(request()->has('image')){
+            $img_name = time().(request()->image->getClientOriginalName());
+            request()->image->move(public_path('uploads/banner'),$img_name);
+            Blog::where('id',$id)->update([
+                'title' => request()->title,
+                'summary' => request()->summary,
+                'content' => request()->content,
+                'image' => $img_name
+            ]);
+            return redirect()->route('admin.banner')->with('success','Updated data successfully!');
+        }
+        else{
+            Banner::where('id',$id)->update([
+                'title' => request()->title,
+                'summary' => request()->summary,
+                'content' => request()->content
+            ]);
+            return redirect()->route('admin.banner')->with('success','Updated data successfully!');
+        }
     }
 }

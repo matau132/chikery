@@ -32,15 +32,19 @@ Route::group(['prefix'=>'admin'],function(){
     //product
     Route::group(['prefix'=>'product'],function(){
 		Route::get('/','AdminController@product')->name('admin.product');
-		Route::get('/add-product','AdminController@addproduct')->name('admin.addproduct');
-		Route::post('/add-product','AdminController@post_addproduct');
+		Route::get('/add','AdminController@addproduct')->name('admin.addproduct');
+		Route::post('/add','AdminController@post_addproduct');
+		Route::get('/update/{id}','AdminController@update_product')->name('admin.updateProduct');
+		Route::post('/update/{id}','AdminController@post_update_product');
     });
 
     //category
     Route::group(['prefix'=>'category'],function(){
 		Route::get('/','AdminController@category')->name('admin.category');
-  		Route::get('/add-category','AdminController@addcategory')->name('admin.addcategory');
-  		Route::post('/add-category','AdminController@post_addcategory');
+  		Route::get('/add','AdminController@addcategory')->name('admin.addcategory');
+		Route::post('/add','AdminController@post_addcategory');
+		Route::get('/update/{id}','AdminController@update_category')->name('admin.updateCategory');
+		Route::post('/update/{id}','AdminController@post_update_category');
     });
 
     //user
@@ -49,15 +53,18 @@ Route::group(['prefix'=>'admin'],function(){
     //blog
     Route::group(['prefix'=>'blog'],function(){
 		Route::get('/','AdminController@blog')->name('admin.blog');
-		Route::get('/add-blog','AdminController@addblog')->name('admin.addblog');
-		Route::post('/add-blog','AdminController@post_addblog');
+		Route::get('/add','AdminController@addblog')->name('admin.addblog');
+		Route::post('/add','AdminController@post_addblog');
+		Route::get('/update/{id}','AdminController@update_blog')->name('admin.updateBlog');
+		Route::post('/update/{id}','AdminController@post_update_blog');
 	});
 
 	//banner
     Route::group(['prefix'=>'banner'],function(){
 		Route::get('/','AdminController@banner')->name('admin.banner');
-		Route::get('/add-banner','AdminController@addbanner')->name('admin.addbanner');
-		Route::post('/add-banner','AdminController@post_addbanner');
-		
+		Route::get('/add','AdminController@addbanner')->name('admin.addbanner');
+		Route::post('/add','AdminController@post_addbanner');
+		Route::get('/update/{id}','AdminController@update_banner')->name('admin.updateBanner');
+		Route::post('/update/{id}','AdminController@post_update_banner');
 	});
 });
