@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
         <label for="">Image</label>
-        <input type="file" class="form-control" name="name" placeholder="Input name">
+        <input type="file" class="form-control" name="image" placeholder="Input name">
     </div>
 
     <button type="submit" class="btn btn-primary mt-2">Add new</button>

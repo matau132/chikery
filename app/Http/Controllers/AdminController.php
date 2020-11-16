@@ -30,8 +30,8 @@ class AdminController extends Controller
         $rule = [
           'name' => 'required|unique:products',
           'price' => 'required',
-          'image' => 'required,mimes:png,jpg,jpeg',
-          'image_list' => 'required,mimes:png,jpg,jpeg',
+          'image' => 'required|mimes:png,jpg,jpeg',
+          'image_list' => 'required',
           'category_id' => 'required'
         ];
         request()->validate($rule);
@@ -70,7 +70,6 @@ class AdminController extends Controller
             'name' => 'required|unique:products,name,'.$id,
             'price' => 'required',
             'image' => 'mimes:png,jpg,jpeg',
-            'image_list' => 'mimes:png,jpg,jpeg',
             'category_id' => 'required'
         ];
         request()->validate($rule);
@@ -155,7 +154,7 @@ class AdminController extends Controller
         $rule = [
           'name' => 'required|unique:categories',
           'link' => 'required|unique:categories',
-          'image' => 'required,mimes:png,jpg,jpeg'
+          'image' => 'required|mimes:png,jpg,jpeg'
         ];
         request()->validate($rule);
         $img_name = time().(request()->image->getClientOriginalName());
@@ -219,7 +218,7 @@ class AdminController extends Controller
     public function post_addblog(){
          $rule = [
           'title' => 'required',
-          'sumary' => 'required',
+          'summary' => 'required',
           'content' => 'required',
           'image' => 'mimes:png,jpg,jpeg'
         ];
@@ -230,7 +229,7 @@ class AdminController extends Controller
             'title' => request()->title,
             'summary' => request()->summary,
             'content' => request()->content,
-            'image' => $img_name,
+            'image' => $img_name
         ]);
     	return redirect()->route('admin.blog')->with('success','Successfully add data!');
     }
@@ -241,7 +240,7 @@ class AdminController extends Controller
     public function post_update_blog($id){
         $rule = [
             'title' => 'required',
-            'sumary' => 'required',
+            'summary' => 'required',
             'content' => 'required',
             'image' => 'mimes:png,jpg,jpeg'
         ];
@@ -279,8 +278,8 @@ class AdminController extends Controller
     public function post_addbanner(){
         $rule = [
           'title' => 'required',
-          'image' => 'required,mimes:png,jpg,jpeg',
-          'sumary' => 'required',
+          'image' => 'required|mimes:png,jpg,jpeg',
+          'summary' => 'required',
           'link' => 'required|unique:banners'
         ];
         request()->validate($rule);
@@ -289,7 +288,7 @@ class AdminController extends Controller
         Banner::create([
             'title' => request()->title,
             'summary' => request()->summary,
-            'content' => request()->content,
+            'link' => request()->link,
             'image' => $img_name
         ]);
         return redirect()->route('admin.banner')->with('success','Successfully add data!');
@@ -301,18 +300,18 @@ class AdminController extends Controller
     public function post_update_banner($id){
         $rule = [
             'title' => 'required',
-            'image' => 'required,mimes:png,jpg,jpeg',
-            'sumary' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg',
+            'summary' => 'required',
             'link' => 'required|unique:banners,link,'.$id
           ];
         request()->validate($rule);
         if(request()->has('image')){
             $img_name = time().(request()->image->getClientOriginalName());
             request()->image->move(public_path('uploads/banner'),$img_name);
-            Blog::where('id',$id)->update([
+            Banner::where('id',$id)->update([
                 'title' => request()->title,
                 'summary' => request()->summary,
-                'content' => request()->content,
+                'link' => request()->link,
                 'image' => $img_name
             ]);
             return redirect()->route('admin.banner')->with('success','Updated data successfully!');
@@ -321,7 +320,7 @@ class AdminController extends Controller
             Banner::where('id',$id)->update([
                 'title' => request()->title,
                 'summary' => request()->summary,
-                'content' => request()->content
+                'link' => request()->link
             ]);
             return redirect()->route('admin.banner')->with('success','Updated data successfully!');
         }
