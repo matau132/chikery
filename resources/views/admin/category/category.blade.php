@@ -22,7 +22,7 @@
       <td><img src="{{url('public/uploads/category')}}/{{$models->image}}" alt="" width="100px"></td>
       <td>{{$models->link}}</td>
       <td>{{$models->summary}}</td>
-      <td><a href="{{route('admin.updateCategory',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
+      <td><a href="{{route('admin.updateCategory',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="{{route('admin.deleteCategory',$models->id)}}" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
     @endforeach
   </tbody>

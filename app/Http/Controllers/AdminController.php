@@ -138,7 +138,10 @@ class AdminController extends Controller
             ]);
             return redirect()->route('admin.product')->with('success','Updated data successfully!');
         }
-        
+    }
+    public function delete_product($id){
+        Product::where('id',$id)->delete();
+        return redirect()->route('admin.product')->with('success','Deleted data successfully!');
     }
 
 //category
@@ -197,6 +200,10 @@ class AdminController extends Controller
             ]);
             return redirect()->route('admin.category')->with('success','Updated data successfully!');
         }
+    }
+    public function delete_category($id){
+        Category::where('id',$id)->delete();
+        return redirect()->route('admin.category')->with('success','Deleted data successfully!');
     }
 
 
@@ -265,6 +272,10 @@ class AdminController extends Controller
             return redirect()->route('admin.blog')->with('success','Updated data successfully!');
         }
     }
+    public function delete_blog($id){
+        Blog::where('id',$id)->delete();
+        return redirect()->route('admin.blog')->with('success','Deleted data successfully!');
+    }
 
 //banner
     public function banner(){
@@ -324,5 +335,9 @@ class AdminController extends Controller
             ]);
             return redirect()->route('admin.banner')->with('success','Updated data successfully!');
         }
+    }
+    public function delete_banner($id){
+        Banner::where('id',$id)->delete();
+        return redirect()->route('admin.banner')->with('success','Deleted data successfully!');
     }
 }

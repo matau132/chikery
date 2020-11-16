@@ -36,6 +36,7 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::post('/add','AdminController@post_addproduct');
 		Route::get('/update/{id}','AdminController@update_product')->name('admin.updateProduct');
 		Route::post('/update/{id}','AdminController@post_update_product');
+		Route::get('/delete/{id}','AdminController@delete_product')->name('admin.deleteProduct');
     });
 
     //category
@@ -45,6 +46,7 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::post('/add','AdminController@post_addcategory');
 		Route::get('/update/{id}','AdminController@update_category')->name('admin.updateCategory');
 		Route::post('/update/{id}','AdminController@post_update_category');
+		Route::get('/delete/{id}','AdminController@delete_category')->name('admin.deleteCategory');
     });
 
     //user
@@ -57,6 +59,7 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::post('/add','AdminController@post_addblog');
 		Route::get('/update/{id}','AdminController@update_blog')->name('admin.updateBlog');
 		Route::post('/update/{id}','AdminController@post_update_blog');
+		Route::get('/delete/{id}','AdminController@delete_blog')->name('admin.deleteBlog');
 	});
 
 	//banner
@@ -66,5 +69,6 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::post('/add','AdminController@post_addbanner');
 		Route::get('/update/{id}','AdminController@update_banner')->name('admin.updateBanner');
 		Route::post('/update/{id}','AdminController@post_update_banner');
+		Route::get('/delete/{id}','AdminController@delete_banner')->name('admin.deleteBanner');
 	});
 });

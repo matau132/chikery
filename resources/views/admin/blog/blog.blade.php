@@ -21,7 +21,7 @@
       <td><img src="{{url('public/uploads/blog')}}/{{$models->image}}" alt="" width="100px"></td>
       <td>{{$models->summary}}</td>
       <td>{{$models->content}}</td>
-      <td><a href="{{route('admin.updateBlog',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
+      <td><a href="{{route('admin.updateBlog',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="{{route('admin.deleteBlog',$models->id)}}" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
     @endforeach
   </tbody>
