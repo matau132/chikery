@@ -23,7 +23,7 @@
       <td><img src="{{url('public/uploads/product')}}/{{$models->image}}" alt="" width="100px"></td>
       <td>
         @foreach(json_decode($models->image_list) as $img_list_name)
-        <img src="{{url('public/uploads/product')}}/{{$img_list_name}}" alt="" width="30%" height="100px">
+        <img src="{{url('public/uploads/product')}}/{{$img_list_name}}" alt="" width="100px" height="80px">
         @endforeach
       </td>
       <td>{{$models->summary}}</td>

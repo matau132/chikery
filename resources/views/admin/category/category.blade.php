@@ -27,6 +27,7 @@
     @endforeach
   </tbody>
 </table>
+{{-- {{$cats->link()}} --}}
 <a href="{{route('admin.addcategory')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 </div>
 @stop

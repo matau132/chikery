@@ -218,7 +218,12 @@
                   <p>Product</p>
                 </a>
               </li>
-              
+              <li class="nav-item">
+                <a href="{{route('admin.upload')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Upload Files</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="{{route('admin.user')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -262,6 +267,14 @@
           <span aria-hidden="true">&times;</span>
         </button>
         <strong>{{session()->get('success')}}</strong> 
+      </div>
+      @endif
+      @if(session()->has('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>{{session()->get('error')}}</strong> 
       </div>
       @endif
       <!-- Default box -->

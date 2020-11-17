@@ -22,13 +22,13 @@ Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/cart', 'HomeController@cart')->name('cart');
 
-
-
 //admin
 Route::group(['prefix'=>'admin'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');
-    
+	
+	Route::get('/uploads','AdminController@upload')->name('admin.upload');
+
     //product
     Route::group(['prefix'=>'product'],function(){
 		Route::get('/','AdminController@product')->name('admin.product');

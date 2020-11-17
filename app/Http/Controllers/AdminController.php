@@ -16,6 +16,10 @@ class AdminController extends Controller
     	return view('admin.index');
     }
 
+    public function upload(){
+    	return redirect('public/filemanager/dialog.php');
+    }
+
 //product
     public function product(){
         $pros = Product::all();
@@ -146,7 +150,7 @@ class AdminController extends Controller
 
 //category
     public function category(){
-        $cats = Category::all();
+        $cats = Category::paginate(8);
         return view('admin.category.category',compact('cats'));
     }
 
@@ -202,8 +206,14 @@ class AdminController extends Controller
         }
     }
     public function delete_category($id){
-        Category::where('id',$id)->delete();
-        return redirect()->route('admin.category')->with('success','Deleted data successfully!');
+        $cat = Category::find($id);
+        if($cat->product->count() > 0){
+            return redirect()->route('admin.category')->with('error','This category still have some products!');
+        }
+        else{
+            Category::where('id',$id)->delete();
+            return redirect()->route('admin.category')->with('success','Deleted data successfully!');
+        }
     }
 
 
@@ -227,6 +237,7 @@ class AdminController extends Controller
           'title' => 'required',
           'summary' => 'required',
           'content' => 'required',
+          'admin_id' => 'required',
           'image' => 'mimes:png,jpg,jpeg'
         ];
         request()->validate($rule);
@@ -236,6 +247,7 @@ class AdminController extends Controller
             'title' => request()->title,
             'summary' => request()->summary,
             'content' => request()->content,
+            'admin_id' => request()->admin_id,
             'image' => $img_name
         ]);
     	return redirect()->route('admin.blog')->with('success','Successfully add data!');
@@ -249,6 +261,7 @@ class AdminController extends Controller
             'title' => 'required',
             'summary' => 'required',
             'content' => 'required',
+            'admin_id' => 'required',
             'image' => 'mimes:png,jpg,jpeg'
         ];
         request()->validate($rule);
@@ -259,7 +272,8 @@ class AdminController extends Controller
                 'title' => request()->title,
                 'summary' => request()->summary,
                 'content' => request()->content,
-                'image' => $img_name,
+                'admin_id' => request()->admin_id,
+                'image' => $img_name
             ]);
             return redirect()->route('admin.blog')->with('success','Updated data successfully!');
         }
@@ -267,7 +281,8 @@ class AdminController extends Controller
             Blog::where('id',$id)->update([
                 'title' => request()->title,
                 'summary' => request()->summary,
-                'content' => request()->content
+                'content' => request()->content,
+                'admin_id' => request()->admin_id
             ]);
             return redirect()->route('admin.blog')->with('success','Updated data successfully!');
         }

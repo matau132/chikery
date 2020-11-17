@@ -27,6 +27,13 @@
         @enderror
     </div>
     <div class="form-group">
+        <label for="">Admin ID</label>
+        <input type="text" class="form-control" name="admin_id" placeholder="Admin ID...">
+        @error('admin_id')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
+    </div>
+    <div class="form-group">
         <label for="">Image</label>
         <div class="mb-2">
             <img src="{{url('public/uploads/blog')}}/{{$blog->image}}" alt="" width="300px">

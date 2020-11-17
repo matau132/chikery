@@ -28,6 +28,13 @@
         @enderror
     </div>
     <div class="form-group">
+        <label for="">Admin ID</label>
+        <input type="text" class="form-control" name="admin_id" placeholder="Admin ID...">
+        @error('admin_id')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
+    </div>
+    <div class="form-group">
         <label for="">Image</label>
         <input type="file" class="form-control" name="image" placeholder="Input name">
     </div>
