@@ -71,4 +71,14 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::post('/update/{id}','AdminController@post_update_banner');
 		Route::get('/delete/{id}','AdminController@delete_banner')->name('admin.deleteBanner');
 	});
+
+	//ingredient
+	Route::group(['prefix'=>'ingredient'],function(){
+		Route::get('/','AdminController@ingredient')->name('admin.ingredient');
+		Route::get('/add','AdminController@addIngredient')->name('admin.addIngredient');
+		Route::post('/add','AdminController@post_addIngredient');
+		Route::get('/update/{id}','AdminController@updateIngredient')->name('admin.updateIngredient');
+		Route::post('/update/{id}','AdminController@post_updateIngredient');
+		Route::get('/delete/{id}','AdminController@deleteIngredient')->name('admin.deleteIngredient');
+	});
 });

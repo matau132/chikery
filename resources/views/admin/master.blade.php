@@ -214,6 +214,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.ingredient')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ingredient</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.product')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Product</p>

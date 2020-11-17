@@ -8,6 +8,8 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Ingredient;
+use App\Models\Product_detail;
 
 class AdminController extends Controller
 //index
@@ -354,5 +356,40 @@ class AdminController extends Controller
     public function delete_banner($id){
         Banner::where('id',$id)->delete();
         return redirect()->route('admin.banner')->with('success','Deleted data successfully!');
+    }
+
+// ingredient
+    public function ingredient(){
+        $ingre = Ingredient::paginate(5);
+        return view('admin.ingredient.index',compact('ingre'));
+    }
+
+    public function addIngredient(){
+        return view('admin.ingredient.add');
+    }
+    public function post_addIngredient(){
+        $rule = [
+          'name' => 'required|unique:ingredients',
+          'price' => 'required'
+        ];
+        request()->validate($rule);
+        return redirect()->route('admin.ingredient')->with('success','Successfully add data!');
+    }
+    public function updateIngredient($id){
+        $ingre = Ingredient::where('id',$id)->first();
+        return view('admin.ingredient.update',compact('ingre'));
+    }
+    public function post_updateIngredient($id){
+        $rule = [
+          'name' => 'required|unique:ingredients,name,'.$id,
+          'price' => 'required'
+        ];
+        request()->validate($rule);
+        Ingredient::where('id',$id)->update(request()->only('name','price','status'));
+        return redirect()->route('admin.ingredient')->with('success','Updated data successfully!');
+    }
+    public function deleteIngredient($id){
+        Ingredient::where('id',$id)->delete();
+        return redirect()->route('admin.ingredient')->with('success','Deleted data successfully!');
     }
 }
