@@ -345,6 +345,9 @@
 <script src="{{url('public/admin')}}/dist/js/pages/dashboard.js"></script>
 <script>
   $(".alert").alert();
+  $('#summernote').summernote({
+    height: 200
+  });
 </script>
 </body>
 </html>

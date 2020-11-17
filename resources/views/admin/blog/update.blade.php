@@ -20,7 +20,7 @@
     <div class="form-group">
         <label for="">Content</label>
         <div>
-        	<textarea name="content" rows="2" cols="130" class="form-control" placeholder="..." value="{{$blog->content}}"></textarea>
+        	<textarea name="content" rows="2" cols="130" class="form-control" placeholder="..." value="{{$blog->content}}" id="summernote"></textarea>
         </div>
         @error('content')
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
