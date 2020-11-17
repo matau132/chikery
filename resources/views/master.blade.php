@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="{{url('public/site')}}/css/style.css">
   </head>
   <body>
-    <h1>test</h1>
     <header class="header header--default header--home-4 line" data-sticky="true">
       <div class="header__left">
         <ul class="ps-list--social">
