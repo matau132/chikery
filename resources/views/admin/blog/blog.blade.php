@@ -26,6 +26,7 @@
     @endforeach
   </tbody>
 </table>
-<a href="{{route('admin.addblog')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 </div>
+{{$blogs->links()}}
+<a href="{{route('admin.addblog')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

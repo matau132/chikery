@@ -34,6 +34,7 @@
     @endforeach
   </tbody>
 </table>
-<a href="{{route('admin.addproduct')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 </div>
+{{$pros->links()}}
+<a href="{{route('admin.addproduct')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

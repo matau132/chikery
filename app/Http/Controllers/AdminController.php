@@ -22,7 +22,7 @@ class AdminController extends Controller
 
 //product
     public function product(){
-        $pros = Product::all();
+        $pros = Product::paginate(5);
         return view('admin.product.product',compact('pros'));
     }
 
@@ -150,7 +150,7 @@ class AdminController extends Controller
 
 //category
     public function category(){
-        $cats = Category::paginate(8);
+        $cats = Category::paginate(5);
         return view('admin.category.category',compact('cats'));
     }
 
@@ -219,13 +219,13 @@ class AdminController extends Controller
 
 //user
     public function user(){
-        $users = User::all();
+        $users = User::paginate(5);
         return view('admin.user.user',compact('users'));
     }
 
 //blog
     public function blog(){
-        $blogs = Blog::all();
+        $blogs = Blog::paginate(5);
         return view('admin.blog.blog',compact('blogs'));
     }
 
@@ -294,7 +294,7 @@ class AdminController extends Controller
 
 //banner
     public function banner(){
-        $bns = Banner::all();
+        $bns = Banner::paginate(5);
         return view('admin.banner.banner',compact('bns'));
     }
 

@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="{{url('public/admin')}}/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="{{url('public/admin')}}/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="{{url('public/admin')}}/dist/css/customize-admin.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
