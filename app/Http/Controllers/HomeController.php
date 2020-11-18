@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
     public function index(){
-    	return view('home');
+        $pros = Product::paginate(4);
+    	return view('home',compact('pros'));
     }
     public function about(){
     	return view('about.about');
     }
     public function shop(){
-    	return view('shop.shop');
+        $pros = Product::all();
+    	return view('shop.shop',compact('pros'));
     }
     public function checkout(){
     	return view('checkout.checkout');
