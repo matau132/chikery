@@ -19,6 +19,7 @@ class Product extends Migration
             $table->text('summary')->nullable();
             $table->text('content')->nullable();
             $table->float('price')->nullable();
+            $table->float('weight')->nullable();
             $table->string('image')->nullable();
             $table->text('image_list')->nullable();
             $table->tinyInteger('status')->default(1);
