@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
     public function index(){
-    	return view('home');
+        $pros = Product::inRandomOrder()->limit(4)->get();
+
+    	return view('home',compact('pros'));
     }
     public function about(){
     	return view('about.about');

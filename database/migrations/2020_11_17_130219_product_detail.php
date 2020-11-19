@@ -18,8 +18,8 @@ class ProductDetail extends Migration
             $table->bigInteger('ingredient_id');
             $table->float('ingredient_quantity');
             $table->timestamps();
-            $table->foreign('product_id')->references('id')->on('product');
-            $table->foreign('ingredient_id')->references('id')->on('ingredient');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients');
         });
     }
 
