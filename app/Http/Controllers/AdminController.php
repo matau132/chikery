@@ -57,6 +57,7 @@ class AdminController extends Controller
         Product::create([
             'name' => request()->name,
             'category_id' => request()->category_id,
+            'weight' => request()->weight,
             'summary' => request()->summary,
             'content' => request()->content,
             'price' => request()->price,
@@ -86,6 +87,7 @@ class AdminController extends Controller
             Product::where('id',$id)->update([
                 'name' => request()->name,
                 'category_id' => request()->category_id,
+                'weight' => request()->weight,
                 'summary' => request()->summary,
                 'content' => request()->content,
                 'price' => request()->price,
@@ -105,6 +107,7 @@ class AdminController extends Controller
             Product::where('id',$id)->update([
                 'name' => request()->name,
                 'category_id' => request()->category_id,
+                'weight' => request()->weight,
                 'summary' => request()->summary,
                 'content' => request()->content,
                 'price' => request()->price,
@@ -126,6 +129,7 @@ class AdminController extends Controller
             Product::where('id',$id)->update([
                 'name' => request()->name,
                 'category_id' => request()->category_id,
+                'weight' => request()->weight,
                 'summary' => request()->summary,
                 'content' => request()->content,
                 'price' => request()->price,
@@ -138,6 +142,7 @@ class AdminController extends Controller
             Product::where('id',$id)->update([
                 'name' => request()->name,
                 'category_id' => request()->category_id,
+                'weight' => request()->weight,
                 'summary' => request()->summary,
                 'content' => request()->content,
                 'price' => request()->price

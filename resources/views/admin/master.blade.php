@@ -185,8 +185,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          
-          <li class="nav-item">
+          <li class="nav-item menu-is-opening menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
@@ -196,7 +195,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.banner')}}" class="nav-link">
+                <a href="{{route('admin.banner')}}" class="nav-link {{Request::routeIs('admin.banner') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Banner</p>
                 </a>

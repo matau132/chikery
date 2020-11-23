@@ -22,13 +22,17 @@
         @enderror
     </div>
     <div class="form-group">
+        <label for="">Weight</label>
+        <input type="text" class="form-control" name="weight" placeholder="Weight...">
+    </div>
+    <div class="form-group">
         <label for="">Summary</label>
         <input type="text" class="form-control" name="summary" placeholder="Summary..." value="{{$prod->summary}}">
     </div>
     <div class="form-group">
         <label for="">Content</label>
         <div>
-        	<textarea name="content" class="form-control" placeholder="..." value="{{$prod->content}}"></textarea>
+        	<textarea name="content" class="form-control" placeholder="..." id="summernote" value="{{$prod->content}}"></textarea>
         </div>
     </div>
     <div class="form-group">

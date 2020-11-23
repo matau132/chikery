@@ -9,6 +9,7 @@
       <th scope="col">Name</th>
       <th scope="col">Image</th>
       <th scope="col">Image_list</th>
+      <th scope="col">Weight</th>
       <th scope="col">Summary</th>
       <th scope="col">Content</th>
       <th scope="col">Price</th>
@@ -26,6 +27,7 @@
         <img src="{{url('public/uploads/product')}}/{{$img_list_name}}" alt="" width="100px" height="80px">
         @endforeach
       </td>
+      <td>{{$models->weight}}g</td>
       <td>{{$models->summary}}</td>
       <td>{{$models->content}}</td>
       <td>{{$models->price}}</td>

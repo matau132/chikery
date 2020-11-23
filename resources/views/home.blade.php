@@ -261,7 +261,7 @@
                 </div>
                 <div class="ps-product__content">
                   <div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$models->name}}</a>
-                    <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price sale"><del>${{$models->price}}</del>${{$models->price}}</span>
+                    <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price sale"><del>${{$models->price}}</del> ${{$models->price}}</span>
                   </div>
                   <div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="#">Add to cart</a>
                     <div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
