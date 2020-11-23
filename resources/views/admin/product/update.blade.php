@@ -23,7 +23,7 @@
     </div>
     <div class="form-group">
         <label for="">Weight</label>
-        <input type="text" class="form-control" name="weight" placeholder="Weight...">
+        <input type="number" class="form-control" name="weight" placeholder="Weight...">
     </div>
     <div class="form-group">
         <label for="">Summary</label>

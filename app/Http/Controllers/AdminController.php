@@ -378,6 +378,7 @@ class AdminController extends Controller
           'price' => 'required'
         ];
         request()->validate($rule);
+        Ingredient::create(request()->only('name','price'));
         return redirect()->route('admin.ingredient')->with('success','Successfully add data!');
     }
     public function updateIngredient($id){

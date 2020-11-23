@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/about', 'HomeController@about')->name('about');
-Route::get('/shop', 'HomeController@shop')->name('shop');
+
+Route::group(['prefix'=>'shop'],function(){
+	Route::get('/','HomeController@shop')->name('shop');
+	Route::get('/{id}-{name}', 'HomeController@shop_menu')->name('shop.category');
+});
 Route::get('/checkout', 'HomeController@checkout')->name('checkout');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
 Route::get('/blog', 'HomeController@blog')->name('blog');
