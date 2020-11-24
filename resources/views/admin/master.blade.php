@@ -195,31 +195,31 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.banner')}}" class="nav-link {{Request::routeIs('admin.banner') ? 'active' : ''}}">
+                <a href="{{route('admin.Banner')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Banner') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Banner</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.blog')}}" class="nav-link">
+                <a href="{{route('admin.Blog')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Blog') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Blog</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.category')}}" class="nav-link">
+                <a href="{{route('admin.Category')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Category') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Category</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.ingredient')}}" class="nav-link">
+                <a href="{{route('admin.Ingredient')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Ingredient') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ingredient</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.product')}}" class="nav-link">
+                <a href="{{route('admin.Product')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Product') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Product</p>
                 </a>
@@ -231,7 +231,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.user')}}" class="nav-link">
+                <a href="{{route('admin.User')}}" class="nav-link {{Str::contains(Request::route()->getName(),'User') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User</p>
                 </a>

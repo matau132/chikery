@@ -28,7 +28,7 @@ class AdminController extends Controller
         return view('admin.product.product',compact('pros'));
     }
 
-    public function addproduct(){
+    public function addProduct(){
         $cats = Category::all();
     	return view('admin.product.add-product',compact('cats'));
     }
@@ -64,7 +64,7 @@ class AdminController extends Controller
             'image' => $img_name,
             'image_list' => $db_list_name
         ]);
-        return redirect()->route('admin.product')->with('success','Successfully add data!');
+        return redirect()->route('admin.Product')->with('success','Successfully add data!');
     }
 
     public function update_product($id){
@@ -93,7 +93,7 @@ class AdminController extends Controller
                 'price' => request()->price,
                 'image' => $img_name
             ]);
-            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
         }
         if(request()->has('image_list')){
             $img_list = request()->image_list;  //image list
@@ -113,7 +113,7 @@ class AdminController extends Controller
                 'price' => request()->price,
                 'image_list' => $db_list_name
             ]); 
-            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
         }
         if(request()->has('image')&&request()->has('image_list')){
             $img_name = time().(request()->image->getClientOriginalName());
@@ -136,7 +136,7 @@ class AdminController extends Controller
                 'image' => $img_name,
                 'image_list' => $db_list_name
             ]);
-            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
         }
         if(!request()->has('image')&&!request()->has('image_list')){
             Product::where('id',$id)->update([
@@ -147,12 +147,12 @@ class AdminController extends Controller
                 'content' => request()->content,
                 'price' => request()->price
             ]);
-            return redirect()->route('admin.product')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
         }
     }
     public function delete_product($id){
         Product::where('id',$id)->delete();
-        return redirect()->route('admin.product')->with('success','Deleted data successfully!');
+        return redirect()->route('admin.Product')->with('success','Deleted data successfully!');
     }
 
 //category
@@ -179,7 +179,7 @@ class AdminController extends Controller
             'summary' => request()->summary,
             'image' => $img_name,
         ]);
-    	return redirect()->route('admin.category')->with('success','Successfully add data!');
+    	return redirect()->route('admin.Category')->with('success','Successfully add data!');
     }
     public function update_category($id){
         $cat = Category::where('id',$id)->first();
@@ -201,7 +201,7 @@ class AdminController extends Controller
                 'summary' => request()->summary,
                 'image' => $img_name
             ]);
-            return redirect()->route('admin.category')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Category')->with('success','Updated data successfully!');
         }
         else{
             Category::where('id',$id)->update([
@@ -209,17 +209,17 @@ class AdminController extends Controller
                 'link' => request()->link,
                 'summary' => request()->summary
             ]);
-            return redirect()->route('admin.category')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Category')->with('success','Updated data successfully!');
         }
     }
     public function delete_category($id){
         $cat = Category::find($id);
         if($cat->product->count() > 0){
-            return redirect()->route('admin.category')->with('error','This category still have some products!');
+            return redirect()->route('admin.Category')->with('error','This category still have some products!');
         }
         else{
             Category::where('id',$id)->delete();
-            return redirect()->route('admin.category')->with('success','Deleted data successfully!');
+            return redirect()->route('admin.Category')->with('success','Deleted data successfully!');
         }
     }
 
@@ -257,7 +257,7 @@ class AdminController extends Controller
             'admin_id' => request()->admin_id,
             'image' => $img_name
         ]);
-    	return redirect()->route('admin.blog')->with('success','Successfully add data!');
+    	return redirect()->route('admin.Blog')->with('success','Successfully add data!');
     }
     public function update_blog($id){
         $blog = Blog::where('id',$id)->first();
@@ -282,7 +282,7 @@ class AdminController extends Controller
                 'admin_id' => request()->admin_id,
                 'image' => $img_name
             ]);
-            return redirect()->route('admin.blog')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Blog')->with('success','Updated data successfully!');
         }
         else{
             Blog::where('id',$id)->update([
@@ -291,12 +291,12 @@ class AdminController extends Controller
                 'content' => request()->content,
                 'admin_id' => request()->admin_id
             ]);
-            return redirect()->route('admin.blog')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Blog')->with('success','Updated data successfully!');
         }
     }
     public function delete_blog($id){
         Blog::where('id',$id)->delete();
-        return redirect()->route('admin.blog')->with('success','Deleted data successfully!');
+        return redirect()->route('admin.Blog')->with('success','Deleted data successfully!');
     }
 
 //banner
@@ -324,7 +324,7 @@ class AdminController extends Controller
             'link' => request()->link,
             'image' => $img_name
         ]);
-        return redirect()->route('admin.banner')->with('success','Successfully add data!');
+        return redirect()->route('admin.Banner')->with('success','Successfully add data!');
     }
     public function update_banner($id){
         $banner = Banner::where('id',$id)->first();
@@ -347,7 +347,7 @@ class AdminController extends Controller
                 'link' => request()->link,
                 'image' => $img_name
             ]);
-            return redirect()->route('admin.banner')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Banner')->with('success','Updated data successfully!');
         }
         else{
             Banner::where('id',$id)->update([
@@ -355,12 +355,12 @@ class AdminController extends Controller
                 'summary' => request()->summary,
                 'link' => request()->link
             ]);
-            return redirect()->route('admin.banner')->with('success','Updated data successfully!');
+            return redirect()->route('admin.Banner')->with('success','Updated data successfully!');
         }
     }
     public function delete_banner($id){
         Banner::where('id',$id)->delete();
-        return redirect()->route('admin.banner')->with('success','Deleted data successfully!');
+        return redirect()->route('admin.Banner')->with('success','Deleted data successfully!');
     }
 
 // ingredient
@@ -379,7 +379,7 @@ class AdminController extends Controller
         ];
         request()->validate($rule);
         Ingredient::create(request()->only('name','price'));
-        return redirect()->route('admin.ingredient')->with('success','Successfully add data!');
+        return redirect()->route('admin.Ingredient')->with('success','Successfully add data!');
     }
     public function updateIngredient($id){
         $ingre = Ingredient::where('id',$id)->first();
@@ -392,10 +392,10 @@ class AdminController extends Controller
         ];
         request()->validate($rule);
         Ingredient::where('id',$id)->update(request()->only('name','price','status'));
-        return redirect()->route('admin.ingredient')->with('success','Updated data successfully!');
+        return redirect()->route('admin.Ingredient')->with('success','Updated data successfully!');
     }
     public function deleteIngredient($id){
         Ingredient::where('id',$id)->delete();
-        return redirect()->route('admin.ingredient')->with('success','Deleted data successfully!');
+        return redirect()->route('admin.Ingredient')->with('success','Deleted data successfully!');
     }
 }

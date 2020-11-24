@@ -29,5 +29,5 @@
 </table>
 </div>
 {{$cats->links()}}
-<a href="{{route('admin.addcategory')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
+<a href="{{route('admin.addCategory')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

@@ -29,7 +29,7 @@
       </td>
       <td>{{$models->weight}}g</td>
       <td>{{$models->summary}}</td>
-      <td>{{$models->content}}</td>
+      <td>{!!$models->content!!}</td>
       <td>{{$models->price}}</td>
       <td><a href="{{route('admin.updateProduct',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="{{route('admin.deleteProduct',$models->id)}}" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
@@ -38,5 +38,5 @@
 </table>
 </div>
 {{$pros->links()}}
-<a href="{{route('admin.addproduct')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
+<a href="{{route('admin.addProduct')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

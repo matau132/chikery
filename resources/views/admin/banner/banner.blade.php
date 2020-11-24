@@ -28,5 +28,5 @@
 </table>
 </div>
 {{$bns->links()}}
-<a href="{{route('admin.addbanner')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
+<a href="{{route('admin.addBanner')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop
