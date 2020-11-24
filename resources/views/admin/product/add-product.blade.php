@@ -43,6 +43,23 @@
         @enderror
     </div>
     <div class="form-group">
+        <label for="">Ingredients</label>
+        <div class="checkbox_wrapper">
+            <label class="checkbox" style="font-weight: 500">
+                <input type="checkbox" value="option1"> demo 1
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" id="inlineCheckbox1" value="option1"> demo 2
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" value="option1"> demo 3
+            </label>
+        </div>
+        @error('price')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
+    </div>
+    <div class="form-group">
         <label for="">Image</label>
         <input type="file" class="form-control" name="image">
         @error('image')

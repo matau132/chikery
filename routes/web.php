@@ -19,7 +19,7 @@ Route::get('/about', 'HomeController@about')->name('about');
 Route::group(['prefix'=>'shop'],function(){
 	Route::get('/','HomeController@shop')->name('shop');
 	Route::get('/{id}-{name}', 'HomeController@shop_cat')->name('shop.category');
-	Route::get('/{id}--{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
+	Route::get('/{id}_{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
 });
 Route::get('/checkout', 'HomeController@checkout')->name('checkout');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
@@ -85,5 +85,10 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::get('/update/{id}','AdminController@updateIngredient')->name('admin.updateIngredient');
 		Route::post('/update/{id}','AdminController@post_updateIngredient');
 		Route::get('/delete/{id}','AdminController@deleteIngredient')->name('admin.deleteIngredient');
+	});
+
+	//product detail
+	Route::group(['prefix'=>'product_detail'],function(){
+		Route::get('/','AdminController@product_detail')->name('admin.product_detail');
 	});
 });

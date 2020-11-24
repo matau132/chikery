@@ -32,8 +32,9 @@ class HomeController extends Controller
     public function shop_ingre($id,$name){
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
-        $pros = Ingredient::where('id',$id)->get();
-        return view('shop.shop_product',compact('cats','ingre','pros'));
+        $model = Ingredient::find($id);
+        dd($model->products);
+        return view('shop.shop_product',compact('cats','ingre'));
     }
     public function checkout(){
     	return view('checkout.checkout');

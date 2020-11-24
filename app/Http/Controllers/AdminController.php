@@ -29,7 +29,7 @@ class AdminController extends Controller
     }
 
     public function addProduct(){
-        $cats = Category::all();
+        $cats = Category::orderBy('name','asc')->get();
     	return view('admin.product.add-product',compact('cats'));
     }
     public function post_addproduct(){
@@ -397,5 +397,11 @@ class AdminController extends Controller
     public function deleteIngredient($id){
         Ingredient::where('id',$id)->delete();
         return redirect()->route('admin.Ingredient')->with('success','Deleted data successfully!');
+    }
+
+//product detail
+    public function Product_detail(){
+        $pro_d = Product_detail::paginate(5);
+        return view('admin.product_detail.index',compact('pro_d'));
     }
 }
