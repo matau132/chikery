@@ -12,4 +12,7 @@ class Product extends Model
     public function category(){
         return Product::hasOne(Category::class,'id','category_id');
     }
+    public function product_detail(){
+        return Product::hasMany(Product_detail::class,'product_id','id');
+    }
 }

@@ -19,7 +19,7 @@
               <h3 class="widget-title">Categories</h3>
               <ul>
                 @foreach($cats as $model)
-                <li><a href="{{route('shop.category',['id'=>$model->id,'slug' => Str::slug($model->name)])}}">{{$model->name}}</a></li>
+                <li><a href="{{route('shop.category',[$model->id, Str::slug($model->name)])}}">{{$model->name}}</a></li>
                 @endforeach
               </ul>
             </aside>
@@ -32,8 +32,8 @@
               <h3 class="widget-title">Ingredient</h3>
               @foreach($ingre as $model)
               <div class="ps-checkbox ps-checkbox--circle">
-                <input class="form-control" type="checkbox" id="{{$model->name}}" name="ingredient"/>
-                <label for="{{$model->name}}">{{$model->name}}</label>
+                  <input class="form-control" type="checkbox" id="{{$model->name}}" name="ingredient"/>
+                  <label for="{{$model->name}}"><a href="{{route('shop.ingredient',[$model->id, Str::slug($model->name)])}}" style="font-size: 20px;font-weight: 600;color: #555;">{{$model->name}}</a></label>
               </div>
               @endforeach
             </aside>

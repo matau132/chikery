@@ -19,12 +19,21 @@ class HomeController extends Controller
     }
     public function shop(){
         $cats = Category::orderBy('name','ASC')->get();
-        $ingre = Ingredient::all();
-    	return view('shop.shop_product',compact('cats','ingre'));
+        $ingre = Ingredient::orderBy('name','ASC')->get();
+        $pros = Product::orderby('created_at','desc')->get();
+    	return view('shop.shop_product',compact('cats','ingre','pros'));
     }
-    public function shop_menu($id,$name){
-        $pros = Product::where('id',$id)->get();
-        return view('shop.shop_product',compact('pros'));
+    public function shop_cat($id,$name){
+        $cats = Category::orderBy('name','ASC')->get();
+        $ingre = Ingredient::orderBy('name','ASC')->get();
+        $pros = Product::where('category_id',$id)->get();
+        return view('shop.shop_product',compact('cats','ingre','pros'));
+    }
+    public function shop_ingre($id,$name){
+        $cats = Category::orderBy('name','ASC')->get();
+        $ingre = Ingredient::orderBy('name','ASC')->get();
+        $pros = Ingredient::where('id',$id)->get();
+        return view('shop.shop_product',compact('cats','ingre','pros'));
     }
     public function checkout(){
     	return view('checkout.checkout');

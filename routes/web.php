@@ -18,7 +18,8 @@ Route::get('/about', 'HomeController@about')->name('about');
 
 Route::group(['prefix'=>'shop'],function(){
 	Route::get('/','HomeController@shop')->name('shop');
-	Route::get('/{id}-{name}', 'HomeController@shop_menu')->name('shop.category');
+	Route::get('/{id}-{name}', 'HomeController@shop_cat')->name('shop.category');
+	Route::get('/{id}--{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
 });
 Route::get('/checkout', 'HomeController@checkout')->name('checkout');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');

@@ -9,4 +9,7 @@ class Ingredient extends Model
 {
     use HasFactory;
     protected $fillable = ['name','price','status'];
+    public function product_detail(){
+        return Ingredient::hasMany(Product_detail::class,'product_id','id');
+    }
 }
