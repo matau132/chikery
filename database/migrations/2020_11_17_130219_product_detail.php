@@ -16,7 +16,6 @@ class ProductDetail extends Migration
         Schema::create('product_details', function (Blueprint $table) {
             $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('ingredient_id')->unsigned();
-            $table->float('ingredient_quantity');
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('ingredient_id')->references('id')->on('ingredients');

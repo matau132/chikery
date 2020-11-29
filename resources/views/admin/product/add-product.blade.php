@@ -42,18 +42,14 @@
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
         @enderror
     </div>
-    <div class="form-group">
+    <div class="form-group mb-1">
         <label for="">Ingredients</label>
         <div class="checkbox_wrapper">
-            <label class="checkbox" style="font-weight: 500">
-                <input type="checkbox" value="option1"> demo 1
+            @foreach($ingres as $ingre)
+            <label class="checkbox mr-2" style="font-weight: 500">
+                <input type="checkbox" value="{{$ingre->id}}" name="ingredient[]"> {{$ingre->name}}
             </label>
-            <label class="checkbox">
-                <input type="checkbox" id="inlineCheckbox1" value="option1"> demo 2
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox1" value="option1"> demo 3
-            </label>
+            @endforeach
         </div>
         @error('price')
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>

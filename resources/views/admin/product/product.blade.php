@@ -11,7 +11,6 @@
       <th scope="col">Image_list</th>
       <th scope="col">Weight</th>
       <th scope="col">Summary</th>
-      <th scope="col">Content</th>
       <th scope="col">Price</th>
       <th></th>
     </tr>
@@ -29,7 +28,6 @@
       </td>
       <td>{{$models->weight}}g</td>
       <td>{{$models->summary}}</td>
-      <td>{!!$models->content!!}</td>
       <td>{{$models->price}}</td>
       <td><a href="{{route('admin.updateProduct',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="{{route('admin.deleteProduct',$models->id)}}" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>

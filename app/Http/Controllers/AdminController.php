@@ -30,7 +30,8 @@ class AdminController extends Controller
 
     public function addProduct(){
         $cats = Category::orderBy('name','asc')->get();
-    	return view('admin.product.add-product',compact('cats'));
+        $ingres = Ingredient::orderBy('name','asc')->get();
+    	return view('admin.product.add-product',compact('cats','ingres'));
     }
     public function post_addproduct(){
         $rule = [
@@ -64,6 +65,16 @@ class AdminController extends Controller
             'image' => $img_name,
             'image_list' => $db_list_name
         ]);
+           
+        $thisProduct = Product::where('name',request()->name)->first();
+        if(request()->has('ingredient')){
+            foreach(request()->ingredient as $ingre){
+                Product_detail::create([
+                    'product_id' => $thisProduct->id,
+                    'ingredient_id' => $ingre
+                ]);
+            }
+        }
         return redirect()->route('admin.Product')->with('success','Successfully add data!');
     }
 

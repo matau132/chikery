@@ -9,11 +9,11 @@ class Product_detail extends Model
 {
     use HasFactory;
     protected $table = 'product_details';
-    protected $fillable = ['product_id','ingredient_id','quantity'];
+    protected $fillable = ['product_id','ingredient_id'];
     public function product(){
-        Product_detail::hasOne(Product::class,'id','product_id');
+        return Product_detail::belongsTo(Product::class,'id','product_id');
     }
     public function ingredient(){
-        Product_detail::hasOne(Ingredient::class,'id','ingredient_id');
+        return Product_detail::belongsTo(Ingredient::class,'id','ingredient_id');
     }
 }

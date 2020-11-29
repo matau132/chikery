@@ -7,7 +7,6 @@
     <tr>
       <th scope="col">Product ID</th>
       <th scope="col">Ingredient ID</th>
-      <th scope="col">Ingredient quantity</th>
       <th></th>
     </tr>
   </thead>
@@ -16,8 +15,6 @@
       @foreach($pro_d as $models)
       <td>{{$models->product_id}}</td>
       <td>{{$models->ingredient_id}}</td>
-      <td>{{$models->ingredient_quantity}}</td>
-      <td><a href="{{route('admin.updateProduct_detail',[$models->product_id,$models->ingredient_id])}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="{{route('admin.deleteProduct_detail',[$models->product_id,$models->ingredient_id])}}" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
     @endforeach
   </tbody>
