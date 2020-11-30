@@ -23,7 +23,20 @@
     </div>
     <div class="form-group">
         <label for="">Weight</label>
-        <input type="number" class="form-control" name="weight" placeholder="Weight...">
+        <input type="number" class="form-control" name="weight" placeholder="Weight..." value="{{$prod->weight}}">
+    </div>
+    <div class="form-group mb-1">
+        <label for="">Ingredients</label>
+        <div class="checkbox_wrapper">
+            @foreach($ingres as $ingre)
+            <label class="checkbox mr-2" style="font-weight: 500">
+                <input type="checkbox" value="{{$ingre->id}}" name="ingredient[]"> {{$ingre->name}}
+            </label>
+            @endforeach
+        </div>
+        @error('price')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
     </div>
     <div class="form-group">
         <label for="">Summary</label>

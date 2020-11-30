@@ -79,9 +79,11 @@ class AdminController extends Controller
     }
 
     public function update_product($id){
-        $cats = Category::all();
-        $prod = Product::where('id',$id)->first();
-        return view('admin.product.update',compact('cats','prod'));
+        $cats = Category::orderBy('name','asc')->get();
+        $prod = Product::find($id);
+        $ingres = Ingredient::orderBy('name','asc')->get();
+        $prod_ingres = $prod->ingredients;
+        return view('admin.product.update',compact('cats','prod','ingres','prod_ingres'));
     }
     public function post_update_product($id){
         $rule = [

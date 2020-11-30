@@ -32,7 +32,7 @@
               <h3 class="widget-title">Ingredient</h3>
               @foreach($ingre as $model)
               <div class="ps-checkbox ps-checkbox--circle">
-                  <input class="form-control" type="checkbox" id="{{$model->name}}" name="ingredient"/>
+                <input class="form-control" type="checkbox" id="{{$model->name}}" name="ingredient" {{$ingre_id==$model->id?'checked':''}}/>
                   <label for="{{$model->name}}"><a href="{{route('shop.ingredient',[$model->id, Str::slug($model->name)])}}" style="font-size: 20px;font-weight: 600;color: #555;">{{$model->name}}</a></label>
               </div>
               @endforeach
