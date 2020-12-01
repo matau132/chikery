@@ -82,7 +82,10 @@ class AdminController extends Controller
         $cats = Category::orderBy('name','asc')->get();
         $prod = Product::find($id);
         $ingres = Ingredient::orderBy('name','asc')->get();
-        $prod_ingres = $prod->ingredients;
+        $prod_ingres = [];
+        foreach($prod->ingredients as $prod_ingre){
+            $prod_ingres[] = $prod_ingre->id;
+        }
         return view('admin.product.update',compact('cats','prod','ingres','prod_ingres'));
     }
     public function post_update_product($id){

@@ -30,7 +30,8 @@
         <div class="checkbox_wrapper">
             @foreach($ingres as $ingre)
             <label class="checkbox mr-2" style="font-weight: 500">
-                <input type="checkbox" value="{{$ingre->id}}" name="ingredient[]"> {{$ingre->name}}
+                <?php $flag = in_array($ingre->id, $prod_ingres)?'checked':''; ?>
+                <input type="checkbox" value="{{$ingre->id}}" name="ingredient[]" {{$flag}}> {{$ingre->name}}
             </label>
             @endforeach
         </div>
