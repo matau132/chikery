@@ -9,7 +9,13 @@
 				</div>
 				<div class="ps-product__content">
 					<div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$model->name}}</a>
-						<p><span>{{$model->weight}}g</span></p><span class="ps-product__price">${{$model->price}}</span>
+						<p><span>{{$model->weight}}g</span></p><span class="ps-product__price sale">
+							@if(is_null($model->sale_price))
+								${{$model->price}}
+							@else
+								<del>${{$model->price}}</del> ${{$model->sale_price}}
+							@endif
+						</span>
 					</div>
 					<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="#">Add to cart</a>
 						<div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
@@ -20,7 +26,8 @@
 		@endforeach
 	</div>
 </div>
-<div class="ps-pagination">
+{{$pros->links('vendor/pagination/shop-paginate')}}
+<!-- <div class="ps-pagination">
 	<ul class="pagination">
 		<li><a href="#"><i class="fa fa-caret-left"></i></a></li>
 		<li class="active"><a href="#">1</a></li>
@@ -28,5 +35,5 @@
 		<li><a href="#">3</a></li>
 		<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
 	</ul>
-</div>
+</div> -->
 @stop

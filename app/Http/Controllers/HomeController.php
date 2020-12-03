@@ -20,14 +20,15 @@ class HomeController extends Controller
     public function shop(){
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
-        $pros = Product::orderby('created_at','desc')->get();
+        $pros = Product::orderby('name','asc')->paginate(6);
+        $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
-    	return view('shop.shop_product',compact('cats','ingre','pros','ingre_id'));
+    	return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
     }
     public function shop_cat($id,$name){
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
-        $pros = Product::where('category_id',$id)->get();
+        $pros = Product::where('category_id',$id)->paginate(6);
         $ingre_id = 0;
         return view('shop.shop_product',compact('cats','ingre','pros','ingre_id'));
     }

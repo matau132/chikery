@@ -39,24 +39,20 @@
             </aside>
             <aside class="widget widget_shop widget_recent-product">
               <h3 class="widget-title">Recent Products</h3>
+              @foreach($recent_prods as $recent_prod)
               <div class="ps-product--sidebar">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads')}}/product/17.png" alt=""/><a class="ps-product__overlay" href="product-default.html"></a></div>
-                <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Red sugar flower</a>
-                  <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price">$12.00</span>
+                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="product-default.html"></a></div>
+                <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">{{$recent_prod->name}}</a>
+                  <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price sale">
+                    @if(is_null($recent_prod->sale_price))
+                      ${{$recent_prod->price}}
+                    @else
+                      <del style="color: #555;font-size: 20px;">${{$recent_prod->price}}</del> ${{$recent_prod->sale_price}}
+                    @endif
+                  </span>
                 </div>
               </div>
-              <div class="ps-product--sidebar">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads')}}/product/18.png" alt=""/><a class="ps-product__overlay" href="product-default.html"></a></div>
-                <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Red sugar flower</a>
-                  <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price">$12.00</span>
-                </div>
-              </div>
-              <div class="ps-product--sidebar">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads')}}/product/19.png" alt=""/><a class="ps-product__overlay" href="product-default.html"></a></div>
-                <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">Red sugar flower</a>
-                  <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price sale"><del>$16.00</del> $12.00</span>
-                </div>
-              </div>
+              @endforeach
             </aside>
           </div>
           <div class="ps-shopping__right">

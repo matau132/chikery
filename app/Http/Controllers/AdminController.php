@@ -97,6 +97,16 @@ class AdminController extends Controller
         ];
         request()->validate($rule);
 
+        Product_detail::where('product_id',$id)->delete();
+        if(request()->has('ingredient')){
+            foreach(request()->ingredient as $ingre){
+                Product_detail::create([
+                    'product_id' => $id,
+                    'ingredient_id' => $ingre
+                ]);
+            }
+        }
+
         if(request()->has('image')){
             $img_name = time().(request()->image->getClientOriginalName());
             request()->image->move(public_path('uploads/product'),$img_name);
