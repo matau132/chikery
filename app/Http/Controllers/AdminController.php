@@ -10,6 +10,11 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Ingredient;
 use App\Models\Product_detail;
+use App\Http\Requests\User\UserRequestAdd;
+use App\Http\Requests\User\UserRequestUpdate;
+use App\Http\Requests\User\UserRequestChangePW;
+use App\Http\Requests\Banner\BannerRequestAdd;
+use App\Http\Requests\Banner\BannerRequestUpdate;
 
 class AdminController extends Controller
 //index
@@ -249,13 +254,6 @@ class AdminController extends Controller
         }
     }
 
-
-//user
-    public function user(){
-        $users = User::paginate(5);
-        return view('admin.user.user',compact('users'));
-    }
-
 //blog
     public function blog(){
         $blogs = Blog::paginate(5);
@@ -334,22 +332,8 @@ class AdminController extends Controller
     public function addbanner(){
         return view('admin.banner.add-banner');
     }
-    public function post_addbanner(){
-        $rule = [
-          'title' => 'required',
-          'image' => 'required|mimes:png,jpg,jpeg',
-          'summary' => 'required',
-          'link' => 'required|unique:banners'
-        ];
-        request()->validate($rule);
-        $img_name = time().(request()->image->getClientOriginalName());
-        request()->image->move(public_path('uploads/banner'),$img_name);
-        Banner::create([
-            'title' => request()->title,
-            'summary' => request()->summary,
-            'link' => request()->link,
-            'image' => $img_name
-        ]);
+    public function post_addbanner(Banner $banner,BannerRequestAdd $request){
+        $banner->add($request);
         return redirect()->route('admin.Banner')->with('success','Successfully add data!');
     }
     public function update_banner($id){
@@ -429,5 +413,37 @@ class AdminController extends Controller
     public function Product_detail(){
         $pro_d = Product_detail::paginate(5);
         return view('admin.product_detail.index',compact('pro_d'));
+    }
+
+//user
+    public function user(){
+        $users = User::paginate(5);
+        return view('admin.user.index',compact('users'));
+    }
+    public function adduser(){
+        return view('admin.user.add');
+    }
+    public function post_adduser(User $user,UserRequestAdd $request){
+        $user->add($request);
+        return redirect()->route('admin.User')->with('success','Successfully add data!');
+    }
+    public function update_user($id){
+        $user = User::where('id',$id)->first();
+        return view('admin.user.update',compact('user'));
+    }
+    public function post_update_user($id,User $user,UserRequestUpdate $request){
+        $user->edit($id,$request);
+        return redirect()->route('admin.User')->with('success','Updated data successfully!');
+    }
+    public function change_pw($id){
+        return view('admin.user.change_pw');
+    }
+    public function post_change_pw($id,User $user,UserRequestChangePW $request){
+        $user->edit_pw($id,$request);
+        return redirect()->route('admin.User')->with('success','Changed password successfully!');
+    }
+    public function delete_user($id,User $user){
+        $user->remove($id);
+        return redirect()->route('admin.User')->with('success','Deleted data successfully!');
     }
 }

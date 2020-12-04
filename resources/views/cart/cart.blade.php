@@ -5,7 +5,7 @@
         <div class="ps-hero__container">
           <div class="ps-breadcrumb">
             <ul class="breadcrumb">
-              <li><a href="index-2.html">Home</a></li>
+              <li><a href="{{route('home')}}">Home</a></li>
               <li>Shopping cart</li>
             </ul>
           </div>

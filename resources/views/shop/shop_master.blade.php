@@ -4,7 +4,7 @@
       <div class="ps-hero__container">
         <div class="ps-breadcrumb">
           <ul class="breadcrumb">
-            <li><a href="index-2.html">Home</a></li>
+            <li><a href="{{route('home')}}">Home</a></li>
             <li>Shop Page</li>
           </ul>
         </div>
@@ -42,8 +42,8 @@
               @foreach($recent_prods as $recent_prod)
               <div class="ps-product--sidebar">
                 <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="product-default.html"></a></div>
-                <div class="ps-product__content"><a class="ps-product__title" href="product-default.html">{{$recent_prod->name}}</a>
-                  <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price sale">
+                <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="product-default.html">{{$recent_prod->name}}</a>
+                  <p style="line-height: 1.6rem"><span>350g</span></p><span class="ps-product__price sale">
                     @if(is_null($recent_prod->sale_price))
                       ${{$recent_prod->price}}
                     @else

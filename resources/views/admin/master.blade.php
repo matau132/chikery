@@ -354,6 +354,7 @@
 <script src="{{url('public/admin')}}/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{url('public/admin')}}/dist/js/pages/dashboard.js"></script>
+<script src="{{url('public/admin')}}/dist/js/customize-admin.js"></script>
 <script>
   $(".alert").alert();
   $('#summernote').summernote({

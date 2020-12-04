@@ -53,9 +53,6 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::post('/update/{id}','AdminController@post_update_category');
 		Route::get('/delete/{id}','AdminController@delete_category')->name('admin.deleteCategory');
     });
-
-    //user
-	Route::get('/user','AdminController@user')->name('admin.User');
     
     //blog
     Route::group(['prefix'=>'blog'],function(){
@@ -90,5 +87,17 @@ Route::group(['prefix'=>'admin'],function(){
 	//product detail
 	Route::group(['prefix'=>'product_detail'],function(){
 		Route::get('/','AdminController@product_detail')->name('admin.product_detail');
+	});
+
+	//user
+	Route::group(['prefix'=>'user'],function(){
+		Route::get('/','AdminController@user')->name('admin.User');
+		Route::get('/add','AdminController@adduser')->name('admin.addUser');
+		Route::post('/add','AdminController@post_adduser');
+		Route::get('/update/{id}','AdminController@update_user')->name('admin.updateUser');
+		Route::post('/update/{id}','AdminController@post_update_user');
+		Route::get('/update/change_password/{id}','AdminController@change_pw')->name('admin.UserPW');
+		Route::post('/update/change_password/{id}','AdminController@post_change_pw');
+		Route::get('/delete/{id}','AdminController@delete_user')->name('admin.deleteUser');
 	});
 });

@@ -40,4 +40,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function add($request){
+        $hashed_pw = bcrypt($request->password);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $hashed_pw,
+        ]);
+    }
+
+    public function edit($id,$request){
+        User::where('id',$id)->update($request->only('name','email'));
+    }
+
+    public function edit_pw($id,$request){
+        $hashed_pw = bcrypt($request->password);
+        User::where('id',$id)->update([
+            'password' => $hashed_pw
+        ]);
+    }
+
+    public function remove($id){
+        User::where('id',$id)->delete();
+    }
 }
