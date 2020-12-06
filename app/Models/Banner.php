@@ -21,11 +21,27 @@ class Banner extends Model
         ]);
     }
 
-    // public function update($request){
+    public function edit($id,$request){
+        if($request->has('image')){
+            $img_name = time().($request->image->getClientOriginalName());
+            $request->image->move(public_path('uploads/banner'),$img_name);
+            Banner::where('id',$id)->update([
+                'title' => $request->title,
+                'summary' => $request->summary,
+                'link' => $request->link,
+                'image' => $img_name
+            ]);
+        }
+        else{
+            Banner::where('id',$id)->update([
+                'title' => $request->title,
+                'summary' => $request->summary,
+                'link' => $request->link
+            ]);
+        }
+    }
 
-    // }
-
-    // public function delete($request){
-
-    // }
+    public function remove($id){
+        Banner::where('id',$id)->delete();
+    }
 }

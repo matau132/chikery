@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Banner;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BannerRequestUpdate extends FormRequest
+class ProductRequestAdd extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,12 @@ class BannerRequestUpdate extends FormRequest
      */
     public function rules()
     {
-        $id = $this->id;
         return [
-            'title' => 'required',
+            'name' => 'required|unique:products',
+            'price' => 'required',
             'image' => 'required|mimes:png,jpg,jpeg',
-            'summary' => 'required',
-            'link' => 'required|unique:banners,link,'.$id
+            'image_list' => 'required',
+            'category_id' => 'required'
         ];
     }
     public function messages(){

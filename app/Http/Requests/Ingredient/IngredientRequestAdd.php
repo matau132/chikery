@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Banner;
+namespace App\Http\Requests\Ingredient;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BannerRequestUpdate extends FormRequest
+class IngredientRequestAdd extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,9 @@ class BannerRequestUpdate extends FormRequest
      */
     public function rules()
     {
-        $id = $this->id;
         return [
-            'title' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
-            'summary' => 'required',
-            'link' => 'required|unique:banners,link,'.$id
+            'name' => 'required|unique:ingredients',
+            'price' => 'required'
         ];
     }
     public function messages(){

@@ -15,6 +15,14 @@ use App\Http\Requests\User\UserRequestUpdate;
 use App\Http\Requests\User\UserRequestChangePW;
 use App\Http\Requests\Banner\BannerRequestAdd;
 use App\Http\Requests\Banner\BannerRequestUpdate;
+use App\Http\Requests\Blog\BlogRequestAdd;
+use App\Http\Requests\Blog\BlogRequestUpdate;
+use App\Http\Requests\Category\CategoryRequestAdd;
+use App\Http\Requests\Category\CategoryRequestUpdate;
+use App\Http\Requests\Ingredient\IngredientRequestAdd;
+use App\Http\Requests\Ingredient\IngredientRequestUpdate;
+use App\Http\Requests\Product\ProductRequestAdd;
+use App\Http\Requests\Product\ProductRequestUpdate;
 
 class AdminController extends Controller
 //index
@@ -38,51 +46,10 @@ class AdminController extends Controller
         $ingres = Ingredient::orderBy('name','asc')->get();
     	return view('admin.product.add-product',compact('cats','ingres'));
     }
-    public function post_addproduct(){
-        $rule = [
-          'name' => 'required|unique:products',
-          'price' => 'required',
-          'image' => 'required|mimes:png,jpg,jpeg',
-          'image_list' => 'required',
-          'category_id' => 'required'
-        ];
-        request()->validate($rule);
-        
-        $img_name = time().(request()->image->getClientOriginalName());
-        request()->image->move(public_path('uploads/product'),$img_name);
-
-        $img_list = request()->image_list;  //image list
-        $img_list_name = [];
-        foreach ($img_list as $img) {
-            $list_name = time().($img->getClientOriginalName());
-            $img->move(public_path('uploads/product'),$list_name);
-            array_push($img_list_name,$list_name);
-        };
-        $db_list_name = json_encode($img_list_name);   
-
-        Product::create([
-            'name' => request()->name,
-            'category_id' => request()->category_id,
-            'weight' => request()->weight,
-            'summary' => request()->summary,
-            'content' => request()->content,
-            'price' => request()->price,
-            'image' => $img_name,
-            'image_list' => $db_list_name
-        ]);
-           
-        $thisProduct = Product::where('name',request()->name)->first();
-        if(request()->has('ingredient')){
-            foreach(request()->ingredient as $ingre){
-                Product_detail::create([
-                    'product_id' => $thisProduct->id,
-                    'ingredient_id' => $ingre
-                ]);
-            }
-        }
+    public function post_addproduct(Product $pro,ProductRequestAdd $request){
+        $pro->add($request);
         return redirect()->route('admin.Product')->with('success','Successfully add data!');
     }
-
     public function update_product($id){
         $cats = Category::orderBy('name','asc')->get();
         $prod = Product::find($id);
@@ -93,96 +60,12 @@ class AdminController extends Controller
         }
         return view('admin.product.update',compact('cats','prod','ingres','prod_ingres'));
     }
-    public function post_update_product($id){
-        $rule = [
-            'name' => 'required|unique:products,name,'.$id,
-            'price' => 'required',
-            'image' => 'mimes:png,jpg,jpeg',
-            'category_id' => 'required'
-        ];
-        request()->validate($rule);
-
-        Product_detail::where('product_id',$id)->delete();
-        if(request()->has('ingredient')){
-            foreach(request()->ingredient as $ingre){
-                Product_detail::create([
-                    'product_id' => $id,
-                    'ingredient_id' => $ingre
-                ]);
-            }
-        }
-
-        if(request()->has('image')){
-            $img_name = time().(request()->image->getClientOriginalName());
-            request()->image->move(public_path('uploads/product'),$img_name);
-            Product::where('id',$id)->update([
-                'name' => request()->name,
-                'category_id' => request()->category_id,
-                'weight' => request()->weight,
-                'summary' => request()->summary,
-                'content' => request()->content,
-                'price' => request()->price,
-                'image' => $img_name
-            ]);
-            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
-        }
-        if(request()->has('image_list')){
-            $img_list = request()->image_list;  //image list
-            $img_list_name = [];
-            foreach ($img_list as $img) {
-                $list_name = time().($img->getClientOriginalName());
-                $img->move(public_path('uploads/product'),$list_name);
-                array_push($img_list_name,$list_name);
-            };
-            $db_list_name = json_encode($img_list_name);  
-            Product::where('id',$id)->update([
-                'name' => request()->name,
-                'category_id' => request()->category_id,
-                'weight' => request()->weight,
-                'summary' => request()->summary,
-                'content' => request()->content,
-                'price' => request()->price,
-                'image_list' => $db_list_name
-            ]); 
-            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
-        }
-        if(request()->has('image')&&request()->has('image_list')){
-            $img_name = time().(request()->image->getClientOriginalName());
-            request()->image->move(public_path('uploads/product'),$img_name);
-            $img_list = request()->image_list;  //image list
-            $img_list_name = [];
-            foreach ($img_list as $img) {
-                $list_name = time().($img->getClientOriginalName());
-                $img->move(public_path('uploads/product'),$list_name);
-                array_push($img_list_name,$list_name);
-            };
-            $db_list_name = json_encode($img_list_name);  
-            Product::where('id',$id)->update([
-                'name' => request()->name,
-                'category_id' => request()->category_id,
-                'weight' => request()->weight,
-                'summary' => request()->summary,
-                'content' => request()->content,
-                'price' => request()->price,
-                'image' => $img_name,
-                'image_list' => $db_list_name
-            ]);
-            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
-        }
-        if(!request()->has('image')&&!request()->has('image_list')){
-            Product::where('id',$id)->update([
-                'name' => request()->name,
-                'category_id' => request()->category_id,
-                'weight' => request()->weight,
-                'summary' => request()->summary,
-                'content' => request()->content,
-                'price' => request()->price
-            ]);
-            return redirect()->route('admin.Product')->with('success','Updated data successfully!');
-        }
+    public function post_update_product($id,Product $pro,ProductRequestUpdate $request){
+        $pro->edit($id,$request);
+        return redirect()->route('admin.Product')->with('success','Updated data successfully!');
     }
-    public function delete_product($id){
-        Product::where('id',$id)->delete();
+    public function delete_product($id,Product $pro){
+        $pro->remove($id);
         return redirect()->route('admin.Product')->with('success','Deleted data successfully!');
     }
 
@@ -191,66 +74,27 @@ class AdminController extends Controller
         $cats = Category::paginate(5);
         return view('admin.category.category',compact('cats'));
     }
-
     public function addcategory(){
     	return view('admin.category.add-category');
     }
-    public function post_addcategory(){
-        $rule = [
-          'name' => 'required|unique:categories',
-          'link' => 'required|unique:categories',
-          'image' => 'required|mimes:png,jpg,jpeg'
-        ];
-        request()->validate($rule);
-        $img_name = time().(request()->image->getClientOriginalName());
-        request()->image->move(public_path('uploads/category'),$img_name);
-        Category::create([
-            'name' => request()->name,
-            'link' => request()->link,
-            'summary' => request()->summary,
-            'image' => $img_name,
-        ]);
+    public function post_addcategory(Category $cat,CategoryRequestAdd $request){
+        $cat->add($request);
     	return redirect()->route('admin.Category')->with('success','Successfully add data!');
     }
     public function update_category($id){
         $cat = Category::where('id',$id)->first();
         return view('admin.category.update',compact('cat'));
     }
-    public function post_update_category($id){
-        $rule = [
-            'name' => 'required|unique:categories,name,'.$id,
-            'link' => 'required|unique:categories,link,'.$id,
-            'image' => 'mimes:png,jpg,jpeg'
-        ];
-        request()->validate($rule);
-        if(request()->has('image')){
-            $img_name = time().(request()->image->getClientOriginalName());
-            request()->image->move(public_path('uploads/category'),$img_name);
-            Category::where('id',$id)->update([
-                'name' => request()->name,
-                'link' => request()->link,
-                'summary' => request()->summary,
-                'image' => $img_name
-            ]);
-            return redirect()->route('admin.Category')->with('success','Updated data successfully!');
-        }
-        else{
-            Category::where('id',$id)->update([
-                'name' => request()->name,
-                'link' => request()->link,
-                'summary' => request()->summary
-            ]);
-            return redirect()->route('admin.Category')->with('success','Updated data successfully!');
-        }
+    public function post_update_category($id,Category $cat,CategoryRequestUpdate $request){
+        $cat->edit($id,$request);
+        return redirect()->route('admin.Category')->with('success','Updated data successfully!');
     }
-    public function delete_category($id){
-        $cat = Category::find($id);
-        if($cat->product->count() > 0){
-            return redirect()->route('admin.Category')->with('error','This category still have some products!');
+    public function delete_category($id,Category $cat){
+        if($cat->remove($id)){
+            return redirect()->route('admin.Category')->with('success','Deleted data successfully!');
         }
         else{
-            Category::where('id',$id)->delete();
-            return redirect()->route('admin.Category')->with('success','Deleted data successfully!');
+            return redirect()->route('admin.Category')->with('error','This category still have some products!');
         }
     }
 
@@ -259,67 +103,23 @@ class AdminController extends Controller
         $blogs = Blog::paginate(5);
         return view('admin.blog.blog',compact('blogs'));
     }
-
     public function addblog(){
     	return view('admin.blog.add-blog');
     }
-    public function post_addblog(){
-         $rule = [
-          'title' => 'required',
-          'summary' => 'required',
-          'content' => 'required',
-          'admin_id' => 'required',
-          'image' => 'mimes:png,jpg,jpeg'
-        ];
-        request()->validate($rule);
-        $img_name = time().(request()->image->getClientOriginalName());
-        request()->image->move(public_path('uploads/blog'),$img_name);
-        Blog::create([
-            'title' => request()->title,
-            'summary' => request()->summary,
-            'content' => request()->content,
-            'admin_id' => request()->admin_id,
-            'image' => $img_name
-        ]);
+    public function post_addblog(BlogRequestAdd $request,Blog $blog){
+        $blog->add($request);
     	return redirect()->route('admin.Blog')->with('success','Successfully add data!');
     }
     public function update_blog($id){
         $blog = Blog::where('id',$id)->first();
         return view('admin.blog.update',compact('blog'));
     }
-    public function post_update_blog($id){
-        $rule = [
-            'title' => 'required',
-            'summary' => 'required',
-            'content' => 'required',
-            'admin_id' => 'required',
-            'image' => 'mimes:png,jpg,jpeg'
-        ];
-        request()->validate($rule);
-        if(request()->has('image')){
-            $img_name = time().(request()->image->getClientOriginalName());
-            request()->image->move(public_path('uploads/blog'),$img_name);
-            Blog::where('id',$id)->update([
-                'title' => request()->title,
-                'summary' => request()->summary,
-                'content' => request()->content,
-                'admin_id' => request()->admin_id,
-                'image' => $img_name
-            ]);
-            return redirect()->route('admin.Blog')->with('success','Updated data successfully!');
-        }
-        else{
-            Blog::where('id',$id)->update([
-                'title' => request()->title,
-                'summary' => request()->summary,
-                'content' => request()->content,
-                'admin_id' => request()->admin_id
-            ]);
-            return redirect()->route('admin.Blog')->with('success','Updated data successfully!');
-        }
+    public function post_update_blog($id,Blog $blog,BlogRequestUpdate $request){
+       $blog->edit($id,$request);
+       return redirect()->route('admin.Blog')->with('success','Updated data successfully!');
     }
-    public function delete_blog($id){
-        Blog::where('id',$id)->delete();
+    public function delete_blog($id,Blog $blog){
+        $blog->remove($id);
         return redirect()->route('admin.Blog')->with('success','Deleted data successfully!');
     }
 
@@ -340,36 +140,12 @@ class AdminController extends Controller
         $banner = Banner::where('id',$id)->first();
         return view('admin.banner.update',compact('banner'));
     }
-    public function post_update_banner($id){
-        $rule = [
-            'title' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
-            'summary' => 'required',
-            'link' => 'required|unique:banners,link,'.$id
-          ];
-        request()->validate($rule);
-        if(request()->has('image')){
-            $img_name = time().(request()->image->getClientOriginalName());
-            request()->image->move(public_path('uploads/banner'),$img_name);
-            Banner::where('id',$id)->update([
-                'title' => request()->title,
-                'summary' => request()->summary,
-                'link' => request()->link,
-                'image' => $img_name
-            ]);
-            return redirect()->route('admin.Banner')->with('success','Updated data successfully!');
-        }
-        else{
-            Banner::where('id',$id)->update([
-                'title' => request()->title,
-                'summary' => request()->summary,
-                'link' => request()->link
-            ]);
-            return redirect()->route('admin.Banner')->with('success','Updated data successfully!');
-        }
+    public function post_update_banner($id,Banner $banner,BannerRequestUpdate $request){
+        $banner->edit($id,$request);
+        return redirect()->route('admin.Banner')->with('success','Updated data successfully!');
     }
-    public function delete_banner($id){
-        Banner::where('id',$id)->delete();
+    public function delete_banner($id,Banner $banner){
+        $banner->remove($id);
         return redirect()->route('admin.Banner')->with('success','Deleted data successfully!');
     }
 
@@ -378,34 +154,23 @@ class AdminController extends Controller
         $ingre = Ingredient::paginate(5);
         return view('admin.ingredient.index',compact('ingre'));
     }
-
     public function addIngredient(){
         return view('admin.ingredient.add');
     }
-    public function post_addIngredient(){
-        $rule = [
-          'name' => 'required|unique:ingredients',
-          'price' => 'required'
-        ];
-        request()->validate($rule);
-        Ingredient::create(request()->only('name','price'));
+    public function post_addIngredient(Ingredient $ingre,IngredientRequestAdd $request){
+        $ingre->add($request);
         return redirect()->route('admin.Ingredient')->with('success','Successfully add data!');
     }
     public function updateIngredient($id){
         $ingre = Ingredient::where('id',$id)->first();
         return view('admin.ingredient.update',compact('ingre'));
     }
-    public function post_updateIngredient($id){
-        $rule = [
-          'name' => 'required|unique:ingredients,name,'.$id,
-          'price' => 'required'
-        ];
-        request()->validate($rule);
-        Ingredient::where('id',$id)->update(request()->only('name','price','status'));
+    public function post_updateIngredient($id,Ingredient $ingre,IngredientRequestUpdate $request){
+        $ingre->edit($id,$request);
         return redirect()->route('admin.Ingredient')->with('success','Updated data successfully!');
     }
-    public function deleteIngredient($id){
-        Ingredient::where('id',$id)->delete();
+    public function deleteIngredient($id,Ingredient $ingre){
+        $ingre->remove($id);
         return redirect()->route('admin.Ingredient')->with('success','Deleted data successfully!');
     }
 

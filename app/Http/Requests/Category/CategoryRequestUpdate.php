@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Banner;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BannerRequestUpdate extends FormRequest
+class CategoryRequestUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,9 @@ class BannerRequestUpdate extends FormRequest
     {
         $id = $this->id;
         return [
-            'title' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
-            'summary' => 'required',
-            'link' => 'required|unique:banners,link,'.$id
+            'name' => 'required|unique:categories,name,'.$id,
+            'link' => 'required|unique:categories,link,'.$id,
+            'image' => 'mimes:png,jpg,jpeg'
         ];
     }
     public function messages(){
