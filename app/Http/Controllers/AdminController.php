@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Ingredient;
 use App\Models\Product_detail;
+use App\Models\Admin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
 use App\Http\Requests\User\UserRequestChangePW;
@@ -24,6 +25,9 @@ use App\Http\Requests\Ingredient\IngredientRequestAdd;
 use App\Http\Requests\Ingredient\IngredientRequestUpdate;
 use App\Http\Requests\Product\ProductRequestAdd;
 use App\Http\Requests\Product\ProductRequestUpdate;
+use App\Http\Requests\Admin\AdminRequestAdd;
+use App\Http\Requests\Admin\AdminRequestUpdate;
+use App\Http\Requests\Admin\AdminRequestLogin;
 
 class AdminController extends Controller
 //index
@@ -41,14 +45,9 @@ class AdminController extends Controller
     {
         return view('admin.login');
     }
-    public function post_login(Request $request)
+    public function post_login(AdminRequestLogin $request,Admin $admin)
     {
-        $rules = [
-            'email' => 'required|email',
-            'password' => 'required'
-        ];
-        $request->validate($rules);
-        if(Auth::attempt($request->only('email','password'),$request->has('remember'))){
+        if($admin->login($request)){
             return redirect()->route('admin.index');
         }
         else{
@@ -221,15 +220,47 @@ class AdminController extends Controller
         $user->edit($id,$request);
         return redirect()->route('admin.User')->with('success','Updated data successfully!');
     }
-    public function change_pw($id){
+    public function change_user_pw($id){
         return view('admin.user.change_pw');
     }
-    public function post_change_pw($id,User $user,UserRequestChangePW $request){
+    public function post_change_user_pw($id,User $user,UserRequestChangePW $request){
         $user->edit_pw($id,$request);
         return redirect()->route('admin.User')->with('success','Changed password successfully!');
     }
     public function delete_user($id,User $user){
         $user->remove($id);
         return redirect()->route('admin.User')->with('success','Deleted data successfully!');
+    }
+
+    //admin
+    public function admin(){
+        $admins = Admin::paginate(5);
+        return view('admin.ad.index',compact('admins'));
+    }
+    public function addadmin(){
+        return view('admin.ad.add');
+    }
+    public function post_addadmin(Admin $admin,AdminRequestAdd $request){
+        $admin->add($request);
+        return redirect()->route('admin.Admin')->with('success','Successfully add data!');
+    }
+    public function update_admin($id){
+        $admin = Admin::where('id',$id)->first();
+        return view('admin.ad.update',compact('admin'));
+    }
+    public function post_update_admin($id,Admin $admin,AdminRequestUpdate $request){
+        $admin->edit($id,$request);
+        return redirect()->route('admin.Admin')->with('success','Updated data successfully!');
+    }
+    public function change_admin_pw($id){
+        return view('admin.ad.change_pw');
+    }
+    public function post_change_admin_pw($id,Admin $admin,AdminRequestChangePW $request){
+        $admin->edit_pw($id,$request);
+        return redirect()->route('admin.Admin')->with('success','Changed password successfully!');
+    }
+    public function delete_admin($id,Admin $admin){
+        $admin->remove($id);
+        return redirect()->route('admin.Admin')->with('success','Deleted data successfully!');
     }
 }

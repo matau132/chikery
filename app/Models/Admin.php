@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 
 class Admin extends Authenticatable
 {
@@ -18,4 +19,9 @@ class Admin extends Authenticatable
         'address',
         'avatar',
     ];
+
+    public function login($request)
+    {
+        return Auth::attempt($request->only('email','password'),$request->has('remember'));
+    }
 }

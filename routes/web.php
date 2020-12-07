@@ -30,7 +30,7 @@ Route::get('/cart', 'HomeController@cart')->name('cart');
 //admin
 Route::get('/admin/login','AdminController@login')->name('admin.login');
 Route::post('/admin/login','AdminController@post_login');
-Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'admin'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');
 	
@@ -98,8 +98,20 @@ Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
 		Route::post('/add','AdminController@post_adduser');
 		Route::get('/update/{id}','AdminController@update_user')->name('admin.updateUser');
 		Route::post('/update/{id}','AdminController@post_update_user');
-		Route::get('/update/change_password/{id}','AdminController@change_pw')->name('admin.UserPW');
-		Route::post('/update/change_password/{id}','AdminController@post_change_pw');
+		Route::get('/update/change_password/{id}','AdminController@change_user_pw')->name('admin.UserPW');
+		Route::post('/update/change_password/{id}','AdminController@post_change_user_pw');
 		Route::get('/delete/{id}','AdminController@delete_user')->name('admin.deleteUser');
+	});
+
+	//admin
+	Route::group(['prefix'=>'ad'],function(){
+		Route::get('/','AdminController@admin')->name('admin.Admin');
+		Route::get('/add','AdminController@addadmin')->name('admin.addAdmin');
+		Route::post('/add','AdminController@post_addadmin');
+		Route::get('/update/{id}','AdminController@update_admin')->name('admin.updateAdmin');
+		Route::post('/update/{id}','AdminController@post_update_admin');
+		Route::get('/update/change_password/{id}','AdminController@change_admin_pw')->name('admin.AdminPW');
+		Route::post('/update/change_password/{id}','AdminController@post_change_admin_pw');
+		Route::get('/delete/{id}','AdminController@delete_admin')->name('admin.deleteAdmin');
 	});
 });

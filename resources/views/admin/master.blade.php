@@ -203,6 +203,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{{route('admin.Admin')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Admin') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Admin</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.Banner')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Banner') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Banner</p>
