@@ -27,6 +27,7 @@ use App\Http\Requests\Product\ProductRequestAdd;
 use App\Http\Requests\Product\ProductRequestUpdate;
 use App\Http\Requests\Admin\AdminRequestAdd;
 use App\Http\Requests\Admin\AdminRequestUpdate;
+use App\Http\Requests\Admin\AdminRequestChangePW;
 use App\Http\Requests\Admin\AdminRequestLogin;
 
 class AdminController extends Controller
@@ -53,6 +54,11 @@ class AdminController extends Controller
         else{
             return redirect()->back()->with('error','Incorect Email or Password!');
         }
+    }
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return view('admin.login');
     }
 
 //product
@@ -232,7 +238,7 @@ class AdminController extends Controller
         return redirect()->route('admin.User')->with('success','Deleted data successfully!');
     }
 
-    //admin
+//admin
     public function admin(){
         $admins = Admin::paginate(5);
         return view('admin.ad.index',compact('admins'));

@@ -4,8 +4,8 @@
 <form action="" method="POST" role="form" enctype="multipart/form-data">
     @csrf
      <div class="form-group">
-        <label for="">Username</label>
-        <input type="text" class="form-control" name="name" placeholder="Username...">
+        <label for="">Name</label>
+        <input type="text" class="form-control" name="name" placeholder="Name...">
         @error('name')
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
         @enderror
@@ -14,6 +14,20 @@
         <label for="">Email</label>
         <input type="text" class="form-control" name="email" placeholder="Email...">
         @error('email')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="">Phone number</label>
+        <input type="number" class="form-control" name="phone" placeholder="Phone...">
+        @error('phone')
+            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="">Address</label>
+        <input type="text" class="form-control" name="address" placeholder="Address...">
+        @error('address')
             <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
         @enderror
     </div>

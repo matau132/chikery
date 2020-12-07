@@ -173,6 +173,9 @@
         </div>
         <div class="info">
           <a href="#" class="d-block">Alexander Pierce</a>
+          @if(Auth::guard('admin')->check())
+            <a href="{{route('admin.logout')}}" title="logout">Logout</a>
+          @endif
         </div>
       </div>
 

@@ -22,6 +22,33 @@ class Admin extends Authenticatable
 
     public function login($request)
     {
-        return Auth::attempt($request->only('email','password'),$request->has('remember'));
+        return Auth::guard('admin')->attempt($request->only('email','password'),$request->has('remember'));
+    }
+
+    public function add($request)
+    {
+        $hashed_pw = bcrypt($request->password);
+        Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'password' => $hashed_pw,
+        ]);
+    }
+
+    public function edit($id,$request){
+        Admin::where('id',$id)->update($request->only('name','email','phone','address'));
+    }
+
+    public function edit_pw($id,$request){
+        $hashed_pw = bcrypt($request->password);
+        Admin::where('id',$id)->update([
+            'password' => $hashed_pw
+        ]);
+    }
+
+    public function remove($id){
+        Admin::where('id',$id)->delete();
     }
 }

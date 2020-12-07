@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminRequestAdd extends FormRequest
+class AdminRequestChangePW extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,6 @@ class AdminRequestAdd extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:admins',
-            'email' => 'required|email|unique:admins',
             'password' => 'required',
             'confirm_pw' => 'required|same:password'
         ];

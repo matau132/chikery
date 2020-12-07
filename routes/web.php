@@ -30,7 +30,8 @@ Route::get('/cart', 'HomeController@cart')->name('cart');
 //admin
 Route::get('/admin/login','AdminController@login')->name('admin.login');
 Route::post('/admin/login','AdminController@post_login');
-Route::group(['prefix'=>'admin'],function(){
+Route::get('/admin/login','AdminController@logout')->name('admin.logout');
+Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');
 	

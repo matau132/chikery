@@ -23,7 +23,7 @@ class UserRequestUpdate extends FormRequest
      */
     public function rules()
     {
-        $id = $this->request->get('id');
+        $id = $this->id;
         return [
             'name' => 'required|unique:users,name,'.$id,
             'email' => 'required|email|unique:users,email,'.$id

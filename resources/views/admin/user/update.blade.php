@@ -3,7 +3,6 @@
 @section('admin-main')
 <form action="" method="POST" role="form" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" value="{{$user->id}}" name="id">
     <div class="form-group">
         <label for="">Username</label>
         <input type="text" class="form-control" name="name" placeholder="Username..." value="{{$user->name}}">
