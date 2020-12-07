@@ -28,7 +28,9 @@ Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/cart', 'HomeController@cart')->name('cart');
 
 //admin
-Route::group(['prefix'=>'admin'],function(){
+Route::get('/admin/login','AdminController@login')->name('admin.login');
+Route::post('/admin/login','AdminController@post_login');
+Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');
 	

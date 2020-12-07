@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
@@ -33,6 +34,26 @@ class AdminController extends Controller
 
     public function upload(){
     	return redirect('public/filemanager/dialog.php');
+    }
+
+//login
+    public function login()
+    {
+        return view('admin.login');
+    }
+    public function post_login(Request $request)
+    {
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required'
+        ];
+        $request->validate($rules);
+        if(Auth::attempt($request->only('email','password'),$request->has('remember'))){
+            return redirect()->route('admin.index');
+        }
+        else{
+            return redirect()->back()->with('error','Incorect Email or Password!');
+        }
     }
 
 //product
