@@ -41,6 +41,12 @@ class HomeController extends Controller
         $ingre_id = $id;
         return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
     }
+    public function shop_detail($id,$name)
+    {
+        $pro = Product::find($id);
+        $relate_pro = Product::where('category_id',$pro->category_id)->limit(4)->get();
+        return view('product.product-detail',compact('pro','relate_pro'));
+    }
     public function checkout(){
     	return view('checkout.checkout');
     }

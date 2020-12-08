@@ -171,12 +171,12 @@
         <div class="image">
           <img src="{{url('public/admin')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
+        @if(Auth::guard('admin')->check())
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-          @if(Auth::guard('admin')->check())
+          <a href="#" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
             <a href="{{route('admin.logout')}}" title="logout">Logout</a>
-          @endif
         </div>
+        @endif
       </div>
 
       <!-- SidebarSearch Form -->

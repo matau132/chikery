@@ -5,7 +5,7 @@
 		@foreach($pros as $model)
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 ">
 			<div class="ps-product">
-				<div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" alt=""/><a class="ps-product__overlay" href="product-default.html"></a>
+				<div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}"></a>
 				</div>
 				<div class="ps-product__content">
 					<div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$model->name}}</a>

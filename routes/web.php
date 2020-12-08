@@ -20,6 +20,7 @@ Route::group(['prefix'=>'shop'],function(){
 	Route::get('/','HomeController@shop')->name('shop');
 	Route::get('/{id}-{name}', 'HomeController@shop_cat')->name('shop.category');
 	Route::get('/{id}_{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
+	Route::get('/product/{id}-{name}','HomeController@shop_detail')->name('shop.detail');
 });
 Route::get('/checkout', 'HomeController@checkout')->name('checkout');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
@@ -30,7 +31,7 @@ Route::get('/cart', 'HomeController@cart')->name('cart');
 //admin
 Route::get('/admin/login','AdminController@login')->name('admin.login');
 Route::post('/admin/login','AdminController@post_login');
-Route::get('/admin/login','AdminController@logout')->name('admin.logout');
+Route::get('/admin/logout','AdminController@logout')->name('admin.logout');
 Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');

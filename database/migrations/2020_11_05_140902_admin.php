@@ -21,6 +21,7 @@ class Admin extends Migration
             $table->string('password');
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
