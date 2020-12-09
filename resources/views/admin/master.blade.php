@@ -248,6 +248,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.Size')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Size') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Size</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.upload')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Uploaded Files</p>

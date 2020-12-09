@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ingredient extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','price','status'];
+    protected $fillable = ['name','price','summary','status'];
     public function products(){
         return $this->belongsToMany(Product::class,'product_details','ingredient_id','product_id');
     }

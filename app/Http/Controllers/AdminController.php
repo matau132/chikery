@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Ingredient;
+use App\Models\Size;
 use App\Models\Product_detail;
 use App\Models\Admin;
 use App\Http\Requests\User\UserRequestAdd;
@@ -23,6 +24,8 @@ use App\Http\Requests\Category\CategoryRequestAdd;
 use App\Http\Requests\Category\CategoryRequestUpdate;
 use App\Http\Requests\Ingredient\IngredientRequestAdd;
 use App\Http\Requests\Ingredient\IngredientRequestUpdate;
+use App\Http\Requests\Size\SizeRequestAdd;
+use App\Http\Requests\Size\SizeRequestUpdate;
 use App\Http\Requests\Product\ProductRequestAdd;
 use App\Http\Requests\Product\ProductRequestUpdate;
 use App\Http\Requests\Admin\AdminRequestAdd;
@@ -63,14 +66,15 @@ class AdminController extends Controller
 
 //product
     public function product(){
-        $pros = Product::paginate(5);
+        $pros = Product::orderBy('name','asc')->paginate(5);
         return view('admin.product.product',compact('pros'));
     }
 
     public function addProduct(){
         $cats = Category::orderBy('name','asc')->get();
         $ingres = Ingredient::orderBy('name','asc')->get();
-    	return view('admin.product.add-product',compact('cats','ingres'));
+        $sizes = Size::orderBy('name','asc')->get();
+    	return view('admin.product.add-product',compact('cats','ingres','sizes'));
     }
     public function post_addproduct(Product $pro,ProductRequestAdd $request){
         $pro->add($request);
@@ -84,7 +88,12 @@ class AdminController extends Controller
         foreach($prod->ingredients as $prod_ingre){
             $prod_ingres[] = $prod_ingre->id;
         }
-        return view('admin.product.update',compact('cats','prod','ingres','prod_ingres'));
+        $sizes = Size::orderBy('name','asc')->get();
+        $prod_sizes = [];
+        foreach($prod->sizes as $prod_size){
+            $prod_sizes[] = $prod_size->id;
+        }
+        return view('admin.product.update',compact('cats','prod','ingres','prod_ingres','sizes','prod_sizes'));
     }
     public function post_update_product($id,Product $pro,ProductRequestUpdate $request){
         $pro->edit($id,$request);
@@ -97,7 +106,7 @@ class AdminController extends Controller
 
 //category
     public function category(){
-        $cats = Category::paginate(5);
+        $cats = Category::orderBy('name','asc')->paginate(5);
         return view('admin.category.category',compact('cats'));
     }
     public function addcategory(){
@@ -126,7 +135,7 @@ class AdminController extends Controller
 
 //blog
     public function blog(){
-        $blogs = Blog::paginate(5);
+        $blogs = Blog::orderBy('title','asc')->paginate(5);
         return view('admin.blog.blog',compact('blogs'));
     }
     public function addblog(){
@@ -151,7 +160,7 @@ class AdminController extends Controller
 
 //banner
     public function banner(){
-        $bns = Banner::paginate(5);
+        $bns = Banner::orderBy('title','asc')->paginate(5);
         return view('admin.banner.banner',compact('bns'));
     }
 
@@ -177,7 +186,7 @@ class AdminController extends Controller
 
 // ingredient
     public function ingredient(){
-        $ingre = Ingredient::paginate(5);
+        $ingre = Ingredient::orderBy('name','asc')->paginate(5);
         return view('admin.ingredient.index',compact('ingre'));
     }
     public function addIngredient(){
@@ -202,13 +211,38 @@ class AdminController extends Controller
 
 //product detail
     public function Product_detail(){
-        $pro_d = Product_detail::paginate(5);
+        $pro_d = Product_detail::orderBy('product_id','asc')->paginate(5);
         return view('admin.product_detail.index',compact('pro_d'));
+    }
+
+//size
+    public function size(){
+        $sizes = Size::orderBy('name','asc')->paginate(5);
+        return view('admin.size.index',compact('sizes'));
+    }
+    public function addSize(){
+        return view('admin.size.add');
+    }
+    public function post_addSize(Size $size,SizeRequestAdd $request){
+        $size->add($request);
+        return redirect()->route('admin.Size')->with('success','Successfully add data!');
+    }
+    public function updateSize($id){
+        $size = Size::find($id);
+        return view('admin.size.update',compact('size'));
+    }
+    public function post_updateSize($id,Size $size,SizeRequestUpdate $request){
+        $size->edit($id,$request);
+        return redirect()->route('admin.Size')->with('success','Updated data successfully!');
+    }
+    public function deleteSize($id,Size $size){
+        $size->remove($id);
+        return redirect()->route('admin.Size')->with('success','Deleted data successfully!');
     }
 
 //user
     public function user(){
-        $users = User::paginate(5);
+        $users = User::orderBy('name','asc')->paginate(5);
         return view('admin.user.index',compact('users'));
     }
     public function adduser(){
@@ -240,7 +274,7 @@ class AdminController extends Controller
 
 //admin
     public function admin(){
-        $admins = Admin::paginate(5);
+        $admins = Admin::orderBy('name','asc')->paginate(5);
         return view('admin.ad.index',compact('admins'));
     }
     public function addadmin(){

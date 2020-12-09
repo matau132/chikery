@@ -93,6 +93,15 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 		Route::get('/','AdminController@product_detail')->name('admin.product_detail');
 	});
 
+	Route::group(['prefix'=>'size'],function(){
+		Route::get('/','AdminController@size')->name('admin.Size');
+		Route::get('/add','AdminController@addSize')->name('admin.addSize');
+		Route::post('/add','AdminController@post_addSize');
+		Route::get('/update/{id}','AdminController@updateSize')->name('admin.updateSize');
+		Route::post('/update/{id}','AdminController@post_updateSize');
+		Route::get('/delete/{id}','AdminController@deleteSize')->name('admin.deleteSize');
+	});
+
 	//user
 	Route::group(['prefix'=>'user'],function(){
 		Route::get('/','AdminController@user')->name('admin.User');

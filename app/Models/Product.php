@@ -15,6 +15,9 @@ class Product extends Model
     public function ingredients(){
         return Product::belongsToMany(Ingredient::class,'product_details','product_id','ingredient_id');
     }
+    public function sizes(){
+        return Product::belongsToMany(Size::class,'size_details','product_id','size_id');
+    }
 
     public function add($request)
     {
@@ -50,6 +53,14 @@ class Product extends Model
                 ]);
             }
         }
+        if($request->has('sizes')){
+            foreach($request->sizes as $size){
+                Size_detail::create([
+                    'product_id' => $thisProduct->id,
+                    'size_id' => $size
+                ]);
+            }
+        }
     }
 
     public function edit($id,$request)
@@ -60,6 +71,15 @@ class Product extends Model
                 Product_detail::create([
                     'product_id' => $id,
                     'ingredient_id' => $ingre
+                ]);
+            }
+        }
+        Size_detail::where('product_id',$id)->delete();
+        if($request->has('sizes')){
+            foreach($request->sizes as $size){
+                Size_detail::create([
+                    'product_id' => $id,
+                    'size_id' => $size
                 ]);
             }
         }
@@ -132,6 +152,7 @@ class Product extends Model
     public function remove($id)
     {
         Product_detail::where('product_id',$id)->delete();
+        Size_detail::where('product_id',$id)->delete();
         Product::where('id',$id)->delete();
     }
 }

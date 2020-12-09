@@ -51,9 +51,16 @@
             </label>
             @endforeach
         </div>
-        @error('price')
-            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-        @enderror
+    </div>
+    <div class="form-group mb-1">
+        <label for="">Sizes</label>
+        <div class="checkbox_wrapper">
+            @foreach($sizes as $size)
+            <label class="checkbox mr-2" style="font-weight: 500">
+                <input type="checkbox" value="{{$size->id}}" name="sizes[]"> {{$size->name}}
+            </label>
+            @endforeach
+        </div>
     </div>
     <div class="form-group">
         <label for="">Image</label>

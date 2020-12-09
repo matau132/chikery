@@ -35,9 +35,17 @@
             </label>
             @endforeach
         </div>
-        @error('price')
-            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-        @enderror
+    </div>
+    <div class="form-group mb-1">
+        <label for="">Sizes</label>
+        <div class="checkbox_wrapper">
+            @foreach($sizes as $size)
+            <label class="checkbox mr-2" style="font-weight: 500">
+                <?php $flag = in_array($size->id, $prod_sizes)?'checked':''; ?>
+                <input type="checkbox" value="{{$size->id}}" name="sizes[]" {{$flag}}> {{$size->name}}
+            </label>
+            @endforeach
+        </div>
     </div>
     <div class="form-group">
         <label for="">Summary</label>
@@ -46,7 +54,7 @@
     <div class="form-group">
         <label for="">Content</label>
         <div>
-        	<textarea name="content" class="form-control" placeholder="..." id="summernote" value="{{$prod->content}}"></textarea>
+        	<textarea name="content" class="form-control" placeholder="..." id="summernote">{{$prod->content}}</textarea>
         </div>
     </div>
     <div class="form-group">
