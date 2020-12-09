@@ -538,7 +538,9 @@
   </div>
   <div class="ps-search" id="site-search"><a class="ps-btn--close" href="#"></a>
     <div class="ps-search__content">
+
       <x-search/>
+
     </div>
   </div>
   <!-- Plugins-->
@@ -561,6 +563,7 @@
   <script src="{{url('public/site')}}/plugins/gmap3.min.js"></script>
   <!-- Custom scripts-->
   <script src="{{url('public/site')}}/js/main.js"></script>
+  <script src="{{url('public/site')}}/js/customize.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
 </body>
 

@@ -167,7 +167,7 @@
       </div>
     </div>
     <div class="navigation--list">
-      <div class="navigation__content"><a class="navigation__item active" href="{{route('home')}}"><i class="fa fa-home"></i></a><a class="navigation__item ps-toggle--sidebar" href="#navigation-mobile"><i class="fa fa-bars"></i></a><a class="navigation__item ps-toggle--sidebar" href="#search-sidebar"><i class="fa fa-search"></i></a><a class="navigation__item ps-toggle--sidebar" href="#cart-mobile"><i class="fa fa-shopping-basket"></i></a></div>
+      <div class="navigation__content"><a class="navigation__item active" href="{{route('home')}}"><i class="fa fa-home"></i></a><a class="navigation__item ps-toggle--sidebar" href="#navigation-mobile"><i class="fa fa-bars"></i></a><a class="navigation__item ps-toggle--sidebar" href="#search-sidebar"><i class="fa fa-search" id="pro_search"></i></a><a class="navigation__item ps-toggle--sidebar" href="#cart-mobile"><i class="fa fa-shopping-basket"></i></a></div>
     </div>
     <!--include search-sidebar-->
     
@@ -230,7 +230,9 @@
     </div>
     <div class="ps-search" id="site-search"><a class="ps-btn--close" href="#"></a>
       <div class="ps-search__content">
+        
         <x-search/>
+
       </div>
     </div>
     <!-- Plugins-->
@@ -253,6 +255,7 @@
     <script src="{{url('public/site')}}/plugins/gmap3.min.js"></script>
     <!-- Custom scripts-->
     <script src="{{url('public/site')}}/js/main.js"></script>
+    <script src="{{url('public/site')}}/js/customize.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
   </body>
 
