@@ -10,7 +10,7 @@ use App\Models\Ingredient;
 class HomeController extends Controller
 {
     public function index(){
-        $pros = Product::inRandomOrder()->limit(4)->get();
+        $pros = Product::orderBy('created_at','desc')->limit(4)->get();
 
     	return view('home',compact('pros'));
     }

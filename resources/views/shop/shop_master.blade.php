@@ -41,8 +41,8 @@
               <h3 class="widget-title">Recent Products</h3>
               @foreach($recent_prods as $recent_prod)
               <div class="ps-product--sidebar">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="product-default.html"></a></div>
-                <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="product-default.html">{{$recent_prod->name}}</a>
+                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}"></a></div>
+                <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}">{{$recent_prod->name}}</a>
                   <p style="line-height: 1.6rem"><span>350g</span></p><span class="ps-product__price sale">
                     @if(is_null($recent_prod->sale_price))
                       ${{$recent_prod->price}}

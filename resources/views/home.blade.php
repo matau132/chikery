@@ -254,18 +254,19 @@
         </div>
         <div class="ps-section__content">
           <div class="row">
-            @foreach($pros as $models)
+            @foreach($pros as $model)
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
               <div class="ps-product text-center">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$models->image}}" style="width: 258.75px; height: 258.75px" alt=""/><a class="ps-product__overlay" href="product-default.html"></a><span class="ps-badge ps-badge--sale"><i></i></span>
+                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" style="width: 258.75px; height: 258.75px" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}"></a>
+                  <span class="ps-badge ps-badge--new"><i>New</i></span>
                 </div>
                 <div class="ps-product__content">
-                  <div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$models->name}}</a>
-                    <p><span>350g</span><span>30 Min</span><span>120 <sup>o</sup>C</span></p><span class="ps-product__price sale">
-                      @if(is_null($models->sale_price))
-                        ${{$models->price}}
+                  <div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
+                    <p><span>350g</span></p><span class="ps-product__price sale">
+                      @if(is_null($model->sale_price))
+                        ${{$model->price}}
                       @else
-                        <del>${{$models->price}}</del> ${{$models->sale_price}}
+                        <del>${{$model->price}}</del> ${{$model->sale_price}}
                       @endif
                     </span>
                   </div> 
@@ -278,7 +279,7 @@
             @endforeach 
           </div>
         </div>
-        <div class="ps-section__footer"><a class="ps-btn ps-btn--outline" href="#"> All products</a></div>
+        <div class="ps-section__footer"><a class="ps-btn ps-btn--outline" href="{{route('shop')}}"> All products</a></div>
       </div>
     </div>
     <div class="ps-section ps-home-awards bg--cover" data-background="{{url('public/uploads')}}/bg/home-5/home-award.jpg">

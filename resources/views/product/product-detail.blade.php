@@ -88,7 +88,7 @@
         <div class="ps-tabs">
           <div class="ps-tab active" id="tab-1">
             <div class="ps-document">
-              <p>{!!$pro->content!!}</p>
+              <p>{!!$pro->summary!!}</p>
             </div>
           </div>
           <div class="ps-tab" id="tab-2">
@@ -170,7 +170,7 @@
             </form>
           </div>
           <div class="ps-tab" id="tab-3">
-            <p>Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a sound that is both articulate and pronounced. The analogue knobs allow you to fine tune the controls to your personal preferences while the guitar-influenced leather strap enables easy and stylish travel.</p>
+            <p>{!!$pro->content!!}</p>
           </div>
         </div>
       </div>
