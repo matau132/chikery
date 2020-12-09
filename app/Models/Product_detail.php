@@ -11,9 +11,9 @@ class Product_detail extends Model
     protected $table = 'product_details';
     protected $fillable = ['product_id','ingredient_id'];
     public function product(){
-        return Product_detail::belongsTo(Product::class,'id','product_id');
+        return Product_detail::hasOne(Product::class,'id','product_id');
     }
     public function ingredient(){
-        return Product_detail::belongsTo(Ingredient::class,'id','ingredient_id');
+        return Product_detail::hasOne(Ingredient::class,'id','ingredient_id');
     }
 }

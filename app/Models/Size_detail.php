@@ -10,4 +10,12 @@ class Size_detail extends Model
     use HasFactory;
     protected $table = 'size_details';
     protected $fillable = ['product_id','size_id'];
+    public function product()
+    {
+        return Size_detail::hasOne(Product::class,'id','product_id');
+    }
+    public function size()
+    {
+        return Size_detail::hasOne(Size::class,'id','size_id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Auth;
 use App\Models\Banner;
 use App\Models\Blog;
@@ -12,6 +13,7 @@ use App\Models\User;
 use App\Models\Ingredient;
 use App\Models\Size;
 use App\Models\Product_detail;
+use App\Models\Size_detail;
 use App\Models\Admin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
@@ -186,7 +188,7 @@ class AdminController extends Controller
 
 // ingredient
     public function ingredient(){
-        $ingre = Ingredient::orderBy('name','asc')->paginate(5);
+        $ingre = Ingredient::orderBy('name','asc')->paginate(8);
         return view('admin.ingredient.index',compact('ingre'));
     }
     public function addIngredient(){
@@ -210,8 +212,8 @@ class AdminController extends Controller
     }
 
 //product detail
-    public function Product_detail(){
-        $pro_d = Product_detail::orderBy('product_id','asc')->paginate(5);
+    public function product_detail(){
+        $pro_d = Product_detail::orderBy('product_id','asc')->paginate(8);
         return view('admin.product_detail.index',compact('pro_d'));
     }
 
@@ -240,9 +242,15 @@ class AdminController extends Controller
         return redirect()->route('admin.Size')->with('success','Deleted data successfully!');
     }
 
+//size detail
+public function size_detail(){
+    $size_d = Size_detail::orderBy('product_id','asc')->paginate(8);
+    return view('admin.size_detail.index',compact('size_d'));
+}
+
 //user
     public function user(){
-        $users = User::orderBy('name','asc')->paginate(5);
+        $users = User::orderBy('name','asc')->paginate(8);
         return view('admin.user.index',compact('users'));
     }
     public function adduser(){
@@ -274,7 +282,7 @@ class AdminController extends Controller
 
 //admin
     public function admin(){
-        $admins = Admin::orderBy('name','asc')->paginate(5);
+        $admins = Admin::orderBy('name','asc')->paginate(8);
         return view('admin.ad.index',compact('admins'));
     }
     public function addadmin(){

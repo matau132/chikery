@@ -1,0 +1,10 @@
+search,error search
+user
+cart
+order
+review,rating
+ajax sort
+blog
+contact
+
+

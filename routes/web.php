@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//site
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/about', 'HomeController@about')->name('about');
 
@@ -22,16 +23,19 @@ Route::group(['prefix'=>'shop'],function(){
 	Route::get('/{id}_{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
 	Route::get('/product/{id}-{name}','HomeController@shop_detail')->name('shop.detail');
 });
+
 Route::get('/checkout', 'HomeController@checkout')->name('checkout');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
 Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/cart', 'HomeController@cart')->name('cart');
+Route::get('/search', 'HomeController@search')->name('search');
 
 //admin
 Route::get('/admin/login','AdminController@login')->name('admin.login');
 Route::post('/admin/login','AdminController@post_login');
 Route::get('/admin/logout','AdminController@logout')->name('admin.logout');
+
 Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');
@@ -89,10 +93,11 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	});
 
 	//product detail
-	Route::group(['prefix'=>'product_detail'],function(){
+	Route::group(['prefix'=>'product-detail'],function(){
 		Route::get('/','AdminController@product_detail')->name('admin.product_detail');
 	});
 
+	//size
 	Route::group(['prefix'=>'size'],function(){
 		Route::get('/','AdminController@size')->name('admin.Size');
 		Route::get('/add','AdminController@addSize')->name('admin.addSize');
@@ -100,6 +105,11 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 		Route::get('/update/{id}','AdminController@updateSize')->name('admin.updateSize');
 		Route::post('/update/{id}','AdminController@post_updateSize');
 		Route::get('/delete/{id}','AdminController@deleteSize')->name('admin.deleteSize');
+	});
+
+	//size detail
+	Route::group(['prefix'=>'size-detail'],function(){
+		Route::get('/','AdminController@size_detail')->name('admin.size_detail');
 	});
 
 	//user

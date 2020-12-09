@@ -538,10 +538,7 @@
   </div>
   <div class="ps-search" id="site-search"><a class="ps-btn--close" href="#"></a>
     <div class="ps-search__content">
-      <form class="ps-form--primary-search" action="http://nouthemes.net/html/chikery/do_action" method="post">
-        <input class="form-control" type="text" placeholder="Search for...">
-        <button><i class="fa fa-search"></i></button>
-      </form>
+      <x-search/>
     </div>
   </div>
   <!-- Plugins-->
