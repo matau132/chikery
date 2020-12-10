@@ -39,12 +39,13 @@ class HomeController extends Controller
         }
     }
     public function shop_ingre($id,$name){
-        $pros = Ingredient::find($id)->products->paginate(6);
+        $prod = Ingredient::find($id);
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
         $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = $id;
-        if($pros){
+        if($prod){
+            $pros = $prod->products->paginate(6);
             return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
         }
         else{

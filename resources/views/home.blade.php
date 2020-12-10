@@ -264,9 +264,9 @@
                   <div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
                     <p><span>350g</span></p><span class="ps-product__price sale">
                       @if(is_null($model->sale_price))
-                        ${{$model->price}}
+                        ${{number_format($model->price,2)}}
                       @else
-                        <del>${{$model->price}}</del> ${{$model->sale_price}}
+                        <del>${{number_format($model->price,2)}}</del> ${{number_format($model->sale_price,2)}}
                       @endif
                     </span>
                   </div> 

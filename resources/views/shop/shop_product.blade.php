@@ -2,6 +2,9 @@
 @section('shop-main')
 <div class="ps-product-box">
 	<div class="row">
+		@if($pros->count()==0)
+		<p class="mx-auto">No products were found matching your selection!</p>
+		@endif
 		@foreach($pros as $model)
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 ">
 			<div class="ps-product">
@@ -11,9 +14,9 @@
 					<div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
 						<p><span>{{$model->weight}}g</span></p><span class="ps-product__price sale">
 							@if(is_null($model->sale_price))
-								${{$model->price}}
+								${{number_format($model->price,2)}}
 							@else
-								<del>${{$model->price}}</del> ${{$model->sale_price}}
+								<del>${{number_format($model->price,2)}}</del> ${{number_format($model->sale_price,2)}}
 							@endif
 						</span>
 					</div>

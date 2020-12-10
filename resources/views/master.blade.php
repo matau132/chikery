@@ -170,9 +170,22 @@
       <div class="navigation__content"><a class="navigation__item active" href="{{route('home')}}"><i class="fa fa-home"></i></a><a class="navigation__item ps-toggle--sidebar" href="#navigation-mobile"><i class="fa fa-bars"></i></a><a class="navigation__item ps-toggle--sidebar" href="#search-sidebar"><i class="fa fa-search" id="pro_search"></i></a><a class="navigation__item ps-toggle--sidebar" href="#cart-mobile"><i class="fa fa-shopping-basket"></i></a></div>
     </div>
     <!--include search-sidebar-->
-    
-    @yield('main')
+    <div class="ps-page--@yield('class')">
+      <div class="ps-hero bg--cover" data-background="{{url('public/uploads')}}/hero/shop-hero.png">
+        <div class="ps-hero__container">
+          <div class="ps-breadcrumb">
+            <ul class="breadcrumb">
+              <li><a href="{{route('home')}}">Home</a></li>
+              <li>@yield('title')</li>
+            </ul>
+          </div>
+          <h1 class="ps-hero__heading">@yield('title')</h1>
+        </div>
+      </div>
 
+      @yield('main')
+      
+    </div>
     <footer class="ps-footer ps-footer--light">
       <div class="ps-footer__content">
         <div class="container">

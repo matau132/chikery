@@ -1,16 +1,7 @@
 @extends('master')
+@section('title','Shop Products')
+@section('class','shopping')
 @section('main')
-<div class="ps-hero ps-hero--shopping bg--cover" data-background="{{url('public/uploads')}}/hero/shop-hero.png">
-      <div class="ps-hero__container">
-        <div class="ps-breadcrumb">
-          <ul class="breadcrumb">
-            <li><a href="{{route('home')}}">Home</a></li>
-            <li>Shop Page</li>
-          </ul>
-        </div>
-        <h1 class="ps-hero__heading">Shop Products</h1>
-      </div>
-    </div>
     <div class="ps-page--shop">
       <div class="container">
         <div class="ps-shopping">
@@ -45,9 +36,9 @@
                 <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}">{{$recent_prod->name}}</a>
                   <p style="line-height: 1.6rem"><span>350g</span></p><span class="ps-product__price sale">
                     @if(is_null($recent_prod->sale_price))
-                      ${{$recent_prod->price}}
+                      ${{number_format($recent_prod->price,2)}}
                     @else
-                      <del style="color: #555;font-size: 20px;">${{$recent_prod->price}}</del> ${{$recent_prod->sale_price}}
+                      <del style="color: #555;font-size: 20px;">${{number_format($recent_prod->price,2)}}</del> ${{number_format($recent_prod->sale_price,2)}}
                     @endif
                   </span>
                 </div>
