@@ -34,6 +34,9 @@
     <div class="mb-2">
         <a href="{{route('admin.AdminPW',$admin->id)}}" title="Change password">Change password</a>
     </div>
-    <button type="submit" class="btn btn-primary mt-2">Update</button>
+    <button type="submit" class="btn btn-primary mt-2 mr-2">Update</button>
+    @if(Auth::guard('admin')->check())
+    <a href="{{route('admin.deleteAdmin',$admin->id)}}" class="btn btn-danger mt-2" title="Delete"><i class="fas fa-times pr-2"></i></i>Delete</a>
+    @endif
 </form>
 @stop

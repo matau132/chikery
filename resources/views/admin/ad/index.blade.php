@@ -9,7 +9,6 @@
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">Password</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -19,7 +18,6 @@
       <td>{{$models->name}}</td>
       <td>{{$models->email}}</td>
       <td>{{$models->password}}</td>
-      <td><a href="{{route('admin.updateAdmin',$models->id)}}" class="btn text-primary" title="Edit"><i class="fas fa-edit"></i></a><a href="{{route('admin.deleteAdmin',$models->id)}}" title="Delete" class="btn text-danger"><i class="fas fa-trash"></i></a></td>
     </tr>
     @endforeach
   </tbody>
@@ -27,4 +25,7 @@
 </div>
 {{$admins->links()}}
 <a href="{{route('admin.addAdmin')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
+@if(Auth::guard('admin')->check())
+<a href="{{route('admin.updateAdmin',Auth::guard('admin')->user()->id)}}" class="btn btn-primary" title="Update"><i class="fas fa-pen pr-2"></i>Update</a>
+@endif
 @stop
