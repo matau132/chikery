@@ -31,7 +31,12 @@ class HomeController extends Controller
         $ingre = Ingredient::orderBy('name','ASC')->get();
         $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
-        return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+        if($pros){
+            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+        }
+        else{
+            return redirect()->route('error');
+        }
     }
     public function shop_ingre($id,$name){
         $pros = Ingredient::find($id)->products->paginate(6);
@@ -39,13 +44,23 @@ class HomeController extends Controller
         $ingre = Ingredient::orderBy('name','ASC')->get();
         $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = $id;
-        return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+        if($pros){
+            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+        }
+        else{
+            return redirect()->route('error');
+        }
     }
     public function shop_detail($id,$name)
     {
         $pro = Product::find($id);
-        $relate_pro = Product::where('category_id',$pro->category_id)->limit(4)->get();
-        return view('product.product-detail',compact('pro','relate_pro'));
+        if($pro){
+            $relate_pro = Product::where('category_id',$pro->category_id)->limit(4)->get();
+            return view('product.product-detail',compact('pro','relate_pro'));
+        }
+        else{
+            return redirect()->route('error');
+        }
     }
     public function search(Request $request)
     {
@@ -55,6 +70,10 @@ class HomeController extends Controller
         $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
         return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+    }
+    public function error()
+    {
+        return view('error.error');
     }
     public function checkout(){
     	return view('checkout.checkout');

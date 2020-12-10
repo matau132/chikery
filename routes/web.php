@@ -30,6 +30,7 @@ Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/cart', 'HomeController@cart')->name('cart');
 Route::get('/search', 'HomeController@search')->name('search');
+Route::get('/404','HomeController@error')->name('error');
 
 //admin
 Route::get('/admin/login','AdminController@login')->name('admin.login');
