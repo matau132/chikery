@@ -25,8 +25,8 @@ class AdminRequestUpdate extends FormRequest
     {
         $id = $this->id;
         return [
-            'name' => 'required|unique:users,name,'.$id,
-            'email' => 'required|email|unique:users,email,'.$id
+            'name' => 'required|unique:admins,name,'.$id,
+            'email' => 'required|email|unique:admins,email,'.$id
         ];
     }
     public function messages(){

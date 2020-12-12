@@ -270,6 +270,7 @@
     <script src="{{url('public/site')}}/js/main.js"></script>
     <script src="{{url('public/site')}}/js/customize.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
+    @yield('js')
   </body>
 
 <!-- Mirrored from nouthemes.net/html/chikery/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Nov 2020 15:33:27 GMT -->

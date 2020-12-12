@@ -25,7 +25,7 @@ class Authenticate extends Middleware
         $guards = empty($guards) ? [null] : $guards;
 
         if(!Auth::check()){
-            return redirect()->route('admin.login');
+            return redirect()->route('user.login');
         }
 
         return $next($request);

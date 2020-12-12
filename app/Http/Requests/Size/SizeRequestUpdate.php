@@ -23,8 +23,9 @@ class SizeRequestUpdate extends FormRequest
      */
     public function rules()
     {
+        $id = $this->id;
         return [
-            //
+            'name' => 'required|unique:sizes,name,'.$id
         ];
     }
     public function messages(){

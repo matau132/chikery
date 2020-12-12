@@ -24,7 +24,7 @@ class SizeRequestAdd extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|unique:sizes'
         ];
     }
     public function messages(){

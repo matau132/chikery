@@ -50,11 +50,11 @@
             <div class="ps-shopping__top">
               <p>Show 1-12 of 35 result</p>
               <figure>
-                <select class="ps-select" title="Default Sorting">
+                <select class="ps-select shop-sorting" title="Default Sorting">
                   <option value="1">Default Sorting 1</option>
                   <option value="2">Default Sorting 2</option>
                   <option value="3">Default Sorting 3</option>
-                </select><a href="#"><i class="fa fa-bars"></i></a><a class="active" href="#"><i class="fa fa-th"></i></a>
+                </select>
               </figure>
             </div>
 
