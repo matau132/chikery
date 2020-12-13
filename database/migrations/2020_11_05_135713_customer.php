@@ -17,9 +17,9 @@ class Customer extends Migration
             $table->id();
             $table->string('name');
             $table->string('email',150)->unique();
-            $table->string('phone');
             $table->string('password');
-            $table->string('address');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
         });

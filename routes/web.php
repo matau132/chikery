@@ -23,8 +23,15 @@ Route::group(['prefix'=>'shop'],function(){
 	Route::get('/{id}_{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
 	Route::get('/product/{id}-{name}','HomeController@shop_detail')->name('shop.detail');
 });
+Route::group(['prefix'=>'user'],function(){
+	Route::get('/login', 'HomeController@user_login')->name('user.login');
+	Route::post('/login', 'HomeController@post_user_login');
+	Route::get('/register', 'HomeController@user_register')->name('user.register');
+	Route::post('/register', 'HomeController@post_user_register');
+	Route::get('/logout', 'HomeController@user_logout')->name('user.logout');
+});
 
-Route::get('/checkout', 'HomeController@checkout')->name('checkout');
+Route::get('/checkout', 'HomeController@checkout')->name('checkout')->middleware('customer');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
 Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');

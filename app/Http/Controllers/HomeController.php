@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Auth;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Ingredient;
+use App\Models\Customer;
+use App\Http\Requests\User\UserRequestLogin;
+use App\Http\Requests\User\UserRequestAdd;
+use App\Http\Requests\User\UserRequestUpdate;
+use App\Http\Requests\User\UserRequestChangePW;
 
 class HomeController extends Controller
 {
@@ -76,6 +82,49 @@ class HomeController extends Controller
     {
         return view('error.error');
     }
+//user    
+    public function user_login(Request $request)
+    {
+        if (session('link')) {
+            $myPath     = session('link');
+            $loginPath  = url('/user/login');
+            $previous   = url()->previous();
+            if ($previous == $loginPath) {
+                session(['link' => $myPath]);
+            }
+            else{
+                session(['link' => $previous]);
+            }
+        }
+        else{
+             session(['link' => url()->previous()]);
+        }
+        return view('user.login');
+    }
+    public function post_user_login(UserRequestLogin $request,Customer $user)
+    {
+        if($user->login($request)){
+            return redirect(session('link'));
+        }
+        else{
+            return redirect()->back()->with('error','Incorect Email or Password!');
+        }
+    }
+    public function user_register()
+    {
+        return view('user.register');
+    }
+    public function post_user_register(UserRequestAdd $request,Customer $user)
+    {
+        $user->add($request);
+        return redirect(session('link'));
+    }
+    public function user_logout()
+    {
+        Auth::guard('customer')->logout();
+        return redirect()->back();
+    }
+
     public function checkout(){
     	return view('checkout.checkout');
     }

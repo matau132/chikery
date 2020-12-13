@@ -22,8 +22,19 @@
     <link rel="stylesheet" href="{{url('public/site')}}/plugins/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="{{url('public/site')}}/plugins/chikery-icon/style.css">
     <link rel="stylesheet" href="{{url('public/site')}}/css/style.css">
+    <link rel="stylesheet" href="{{url('public/site')}}/css/custom.css">
   </head>
   <body>
+    @if(!Auth::guard('customer')->check())
+    <div class="user-wrapper d-flex justify-content-end">
+      <a href="{{route('user.login')}}" class="login-btn"><i class="fa fa-user pr-2"></i>Login</a>
+    </div>
+    @else
+    <div class="user-wrapper d-flex justify-content-end">
+      <a href="#" class="login-btn mr-4"><i class="fa fa-user pr-2"></i>{{Auth::guard('customer')->user()->email}}</a>
+      <a href="{{route('user.logout')}}" style="margin-right: 30px">Log out</a>
+    </div>
+    @endif
     <header class="header header--default header--home-4 line" data-sticky="true">
       <div class="header__left">
         <ul class="ps-list--social">
