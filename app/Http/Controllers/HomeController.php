@@ -20,6 +20,16 @@ use App\Http\Requests\User\UserRequestChangePW;
 
 class HomeController extends Controller
 {
+    protected $cats;
+    protected $ingre;
+    protected $recent_prods;
+    public function __construct()
+    {
+        $this->cats = Category::orderBy('name','ASC')->get();
+        $this->ingre = Ingredient::orderBy('name','ASC')->get();
+        $this->recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
+    }
+
     public function index(Size_detail $size_dt){
         $pros = Product::orderBy('created_at','desc')->limit(4)->get();
     	return view('home',compact('pros','size_dt'));
@@ -29,20 +39,14 @@ class HomeController extends Controller
     }
     public function shop(Size_detail $size_dt){
         $pros = Product::orderby('name','asc')->paginate(6);
-        $cats = Category::orderBy('name','ASC')->get();
-        $ingre = Ingredient::orderBy('name','ASC')->get();
-        $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
-    	return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods','size_dt'));
+    	return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
     }
     public function shop_cat($id,$name,Size_detail $size_dt){
         $pros = Product::where('category_id',$id)->paginate(6);
-        $cats = Category::orderBy('name','ASC')->get();
-        $ingre = Ingredient::orderBy('name','ASC')->get();
-        $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
         if($pros){
-            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods','size_dt'));
+            return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
         }
         else{
             return redirect()->route('error');
@@ -50,13 +54,10 @@ class HomeController extends Controller
     }
     public function shop_ingre($id,$name,Size_detail $size_dt){
         $prod = Ingredient::find($id);
-        $cats = Category::orderBy('name','ASC')->get();
-        $ingre = Ingredient::orderBy('name','ASC')->get();
-        $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = $id;
         if($prod){
             $pros = $prod->products->paginate(6);
-            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods','size_dt'));
+            return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
         }
         else{
             return redirect()->route('error');
@@ -73,14 +74,11 @@ class HomeController extends Controller
             return redirect()->route('error');
         }
     }
-    public function search(Request $request)
+    public function search(Request $request,Size_detail $size_dt)
     {
         $pros = Product::where('name','like','%'.$request->key_word.'%')->paginate(6);
-        $cats = Category::orderBy('name','ASC')->get();
-        $ingre = Ingredient::orderBy('name','ASC')->get();
-        $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
-        return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+        return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
     }
     public function error()
     {
@@ -132,7 +130,6 @@ class HomeController extends Controller
 //cart  
     public function cart(Cart $cart){
         $cart_items = $cart->items;
-        // dd($cart_items);
         return view('cart.cart',compact('cart_items'));
     }
     public function cart_add($id,$size_id,Cart $cart){

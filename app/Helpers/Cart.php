@@ -33,6 +33,9 @@ class Cart{
     public function remove($id,$size_id)
     {
         unset($this->items[$id][$size_id]);
+        if(empty($this->items[$id])){
+            unset($this->items[$id]);
+        };
         session(['cart'=>$this->items]);
     }
 }

@@ -4,6 +4,9 @@
 @section('main')
 <div class="container">
   <div class="ps-shopping-cart">
+    @if(empty($cart_items))
+      <p class="text-center">There are no products in your cart.</p>
+    @else
     <div class="table-responsive">
       <table class="table ps-table ps-table--shopping-cart">
         <thead>
@@ -41,9 +44,12 @@
         </tbody>
       </table>
     </div>
+    @endif
     <div class="ps-section__actions">
+      @if(!empty($cart_items))
       <figure><a class="ps-btn ps-btn--outline" href="#">Clear Shopping Cart</a><a class="ps-btn ps-btn--outline" href="#">Update Shopping Cart</a></figure>
-      <figure><a class="ps-btn" href="#">Continue Shopping</a></figure>
+      @endif
+      <figure><a class="ps-btn" href="{{route('shop')}}">Continue Shopping</a></figure>
     </div>
     <div class="ps-section__footer">
       <div class="ps-shopping-cart__coupon">
