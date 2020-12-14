@@ -255,6 +255,11 @@
         <div class="ps-section__content">
           <div class="row">
             @foreach($pros as $model)
+            <?php 
+              $size_id = $model->sizes->first()->id;
+              $price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->price;
+              $sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->sale_price;  
+            ?>
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
               <div class="ps-product text-center">
                 <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" style="width: 258.75px; height: 258.75px" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}"></a>
@@ -263,10 +268,10 @@
                 <div class="ps-product__content">
                   <div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
                     <p><span>350g</span></p><span class="ps-product__price sale">
-                      @if(is_null($model->sale_price))
-                        ${{number_format($model->price,2)}}
+                      @if(is_null($sale_price))
+                        ${{number_format($price,2)}}
                       @else
-                        <del>${{number_format($model->price,2)}}</del> ${{number_format($model->sale_price,2)}}
+                        <del>${{number_format($price,2)}}</del> ${{number_format($sale_price,2)}}
                       @endif
                     </span>
                   </div> 

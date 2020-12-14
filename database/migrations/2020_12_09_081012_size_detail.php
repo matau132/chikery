@@ -16,6 +16,9 @@ class SizeDetail extends Migration
         Schema::create('size_details', function (Blueprint $table) {
             $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('size_id')->unsigned();
+            $table->float('price');
+            $table->float('sale_price')->nullable();
+            $table->integer('quantity')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products');

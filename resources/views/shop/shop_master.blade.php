@@ -31,14 +31,19 @@
             <aside class="widget widget_shop widget_recent-product">
               <h3 class="widget-title">Recent Products</h3>
               @foreach($recent_prods as $recent_prod)
+              <?php 
+                $rc_size_id = $recent_prod->sizes->first()->id;
+                $rc_price = $size_dt->where('product_id',$recent_prod->id)->where('size_id',$rc_size_id)->first()->price;
+                $rc_sale_price = $size_dt->where('product_id',$recent_prod->id)->where('size_id',$rc_size_id)->first()->sale_price;  
+              ?>
               <div class="ps-product--sidebar">
                 <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}"></a></div>
                 <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}">{{$recent_prod->name}}</a>
                   <p style="line-height: 1.6rem"><span>350g</span></p><span class="ps-product__price sale">
-                    @if(is_null($recent_prod->sale_price))
-                      ${{number_format($recent_prod->price,2)}}
+                    @if(is_null($rc_sale_price))
+                      ${{number_format($rc_price,2)}}
                     @else
-                      <del style="color: #555;font-size: 20px;">${{number_format($recent_prod->price,2)}}</del> ${{number_format($recent_prod->sale_price,2)}}
+                      <del style="color: #555;font-size: 20px;">${{number_format($rc_price,2)}}</del> ${{number_format($rc_sale_price,2)}}
                     @endif
                   </span>
                 </div>

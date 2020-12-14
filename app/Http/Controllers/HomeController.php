@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
+use App\Helpers\Cart;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Customer;
+use App\Models\Size;
+use App\Models\Size_detail;
+use App\Models\Blog;
 use App\Http\Requests\User\UserRequestLogin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
@@ -16,35 +20,35 @@ use App\Http\Requests\User\UserRequestChangePW;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index(Size_detail $size_dt){
         $pros = Product::orderBy('created_at','desc')->limit(4)->get();
-    	return view('home',compact('pros'));
+    	return view('home',compact('pros','size_dt'));
     }
     public function about(){
     	return view('about.about');
     }
-    public function shop(){
+    public function shop(Size_detail $size_dt){
         $pros = Product::orderby('name','asc')->paginate(6);
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
         $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
-    	return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+    	return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods','size_dt'));
     }
-    public function shop_cat($id,$name){
+    public function shop_cat($id,$name,Size_detail $size_dt){
         $pros = Product::where('category_id',$id)->paginate(6);
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
         $recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
         $ingre_id = 0;
         if($pros){
-            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods','size_dt'));
         }
         else{
             return redirect()->route('error');
         }
     }
-    public function shop_ingre($id,$name){
+    public function shop_ingre($id,$name,Size_detail $size_dt){
         $prod = Ingredient::find($id);
         $cats = Category::orderBy('name','ASC')->get();
         $ingre = Ingredient::orderBy('name','ASC')->get();
@@ -52,18 +56,18 @@ class HomeController extends Controller
         $ingre_id = $id;
         if($prod){
             $pros = $prod->products->paginate(6);
-            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods'));
+            return view('shop.shop_product',compact('cats','ingre','pros','ingre_id','recent_prods','size_dt'));
         }
         else{
             return redirect()->route('error');
         }
     }
-    public function shop_detail($id,$name)
+    public function shop_detail($id,$name,Size_detail $size_dt)
     {
         $pro = Product::find($id);
         if($pro){
             $relate_pro = Product::where('category_id',$pro->category_id)->limit(4)->get();
-            return view('product.product-detail',compact('pro','relate_pro'));
+            return view('product.product-detail',compact('pro','relate_pro','size_dt'));
         }
         else{
             return redirect()->route('error');
@@ -125,6 +129,16 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
+//cart  
+    public function cart(){
+        return view('cart.cart');
+    }
+    public function cart_add($id,Cart $cart){
+        $pro = Product::find($id);
+        $cart->add($pro);
+        
+    }
+
     public function checkout(){
     	return view('checkout.checkout');
     }
@@ -136,8 +150,5 @@ class HomeController extends Controller
     }
     public function contact(){
     	return view('contact.contact');
-    }
-    public function cart(){
-    	return view('cart.cart');
     }
 }

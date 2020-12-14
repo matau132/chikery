@@ -6,7 +6,7 @@
   <div class="container">
     <div class="home-login-wrapper">
       <form method="post" class="register-form">
-        <h3 class="text-center text-white">User Register</h3>
+        <h3 class="text-center text-white" style="text-shadow: 2px 2px 4px #000000">User Register</h3>
         @csrf
         <div class="form-control">
             <input type="text" name="name" required="">

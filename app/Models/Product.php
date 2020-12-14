@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','summary','content','price','weight','image','image_list','status','priority','category_id'];
+    protected $fillable = ['name','summary','content','weight','image','image_list','status','priority','category_id'];
     public function category(){
         return Product::hasOne(Category::class,'id','category_id');
     }
@@ -39,7 +39,6 @@ class Product extends Model
             'weight' => $request->weight,
             'summary' => $request->summary,
             'content' => $request->content,
-            'price' => $request->price,
             'image' => $img_name,
             'image_list' => $db_list_name
         ]);
@@ -57,7 +56,8 @@ class Product extends Model
             foreach($request->sizes as $size){
                 Size_detail::create([
                     'product_id' => $thisProduct->id,
-                    'size_id' => $size
+                    'size_id' => $size,
+                    'price' => $request->size[$size]['price']
                 ]);
             }
         }
@@ -79,7 +79,10 @@ class Product extends Model
             foreach($request->sizes as $size){
                 Size_detail::create([
                     'product_id' => $id,
-                    'size_id' => $size
+                    'size_id' => $size,
+                    'price' => $request->size[$size]['price'],
+                    'sale_price' => $request->size[$size]['sale_price'],
+                    'quantity' => $request->size[$size]['quantity']
                 ]);
             }
         }
@@ -90,7 +93,6 @@ class Product extends Model
             'weight' => $request->weight,
             'summary' => $request->summary,
             'content' => $request->content,
-            'price' => $request->price,
         ]);
 
         if($request->has('image')){         //image

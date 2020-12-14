@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductRequestAdd extends FormRequest
 {
@@ -25,15 +26,15 @@ class ProductRequestAdd extends FormRequest
     {
         return [
             'name' => 'required|unique:products',
-            'price' => 'required',
             'image' => 'required|mimes:png,jpg,jpeg',
             'image_list' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'sizes' => 'required'
         ];
     }
     public function messages(){
         return [
-            //
+            'sizes.required' => 'Please choose one size'
         ];
     }
 }

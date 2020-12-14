@@ -82,7 +82,7 @@ class AdminController extends Controller
         $pro->add($request);
         return redirect()->route('admin.Product')->with('success','Successfully add data!');
     }
-    public function update_product($id){
+    public function update_product($id,Size_detail $size_dt){
         $cats = Category::orderBy('name','asc')->get();
         $prod = Product::find($id);
         $ingres = Ingredient::orderBy('name','asc')->get();
@@ -95,7 +95,7 @@ class AdminController extends Controller
         foreach($prod->sizes as $prod_size){
             $prod_sizes[] = $prod_size->id;
         }
-        return view('admin.product.update',compact('cats','prod','ingres','prod_ingres','sizes','prod_sizes'));
+        return view('admin.product.update',compact('cats','prod','ingres','prod_ingres','sizes','prod_sizes','size_dt'));
     }
     public function post_update_product($id,Product $pro,ProductRequestUpdate $request){
         $pro->edit($id,$request);

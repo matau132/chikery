@@ -46,13 +46,15 @@
 	top: 6px;
 	pointer-events: none;
 	transition: 0.5s;
-	color: #fff
+    color: #fff;
+    text-shadow: 1px 1px 3px #000000;
 }
 .home-login-wrapper .form-control input:not([type=radio]):focus~label,
 .home-login-wrapper .form-control input:not([type=radio]):valid~label{
 	top: -17px;
 	font-size: 70%;
-	color: #ce873a;
+    color: #ce873a;
+    text-shadow: none;
 }
 .home-login-wrapper .form-control input:not([type=radio]):focus,
 .home-login-wrapper .form-control input:not([type=radio]):valid{

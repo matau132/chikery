@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Route;
 //site
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/about', 'HomeController@about')->name('about');
-
+//site shop
 Route::group(['prefix'=>'shop'],function(){
 	Route::get('/','HomeController@shop')->name('shop');
 	Route::get('/{id}-{name}', 'HomeController@shop_cat')->name('shop.category');
 	Route::get('/{id}_{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
 	Route::get('/product/{id}-{name}','HomeController@shop_detail')->name('shop.detail');
 });
+//site user
 Route::group(['prefix'=>'user'],function(){
 	Route::get('/login', 'HomeController@user_login')->name('user.login');
 	Route::post('/login', 'HomeController@post_user_login');
@@ -30,14 +31,22 @@ Route::group(['prefix'=>'user'],function(){
 	Route::post('/register', 'HomeController@post_user_register');
 	Route::get('/logout', 'HomeController@user_logout')->name('user.logout');
 });
+//site cart
+Route::group(['prefix'=>'cart'],function(){
+	Route::get('/', 'HomeController@cart')->name('cart');
+	Route::get('/add/{id}', 'HomeController@cart_add')->name('cart.add');
+	// Route::get('/update', 'HomeController@cart_update')->name('cart.update');
+});
 
 Route::get('/checkout', 'HomeController@checkout')->name('checkout')->middleware('customer');
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
 Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');
-Route::get('/cart', 'HomeController@cart')->name('cart');
 Route::get('/search', 'HomeController@search')->name('search');
 Route::get('/404','HomeController@error')->name('error');
+
+
+
 
 //admin
 Route::get('/admin/login','AdminController@login')->name('admin.login');

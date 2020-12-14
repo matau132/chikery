@@ -18,8 +18,6 @@ class Product extends Migration
             $table->string('name',150)->unique();
             $table->text('summary')->nullable();
             $table->text('content')->nullable();
-            $table->float('price')->nullable();
-            $table->float('sale_price')->nullable();
             $table->float('weight')->nullable();
             $table->string('image')->nullable();
             $table->text('image_list')->nullable();

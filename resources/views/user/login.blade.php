@@ -14,7 +14,7 @@
       </div>
       @endif
       <form method="post">
-        <h3 class="text-center text-white">User Login</h3>
+        <h3 class="text-center text-white" style="text-shadow: 2px 2px 4px #000000">User Login</h3>
         @csrf
         <div class="form-control">
           <input type="text" name="email" required="">

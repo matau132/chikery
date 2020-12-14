@@ -26,14 +26,14 @@ class ProductRequestUpdate extends FormRequest
         $id = $this->id;
         return [
             'name' => 'required|unique:products,name,'.$id,
-            'price' => 'required',
             'image' => 'mimes:png,jpg,jpeg',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'sizes' => 'required'
         ];
     }
     public function messages(){
         return [
-            //
+            'sizes.required' => 'Please choose one size'
         ];
     }
 }

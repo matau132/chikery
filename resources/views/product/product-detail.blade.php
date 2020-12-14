@@ -36,12 +36,17 @@
             </select>
           </div>
         </div>
+        <?php 
+          $size_id = $pro->sizes->first()->id;
+          $price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->price;
+          $sale_price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->sale_price;  
+        ?>
         <h4 class="ps-product__price sale">
-          @if(!is_null($pro->sale_price))
-              <del>${{$pro->price}}</del> ${{$pro->sale_price}}
-            @else
-            ${{$pro->price}}
-            @endif
+          @if(!is_null($sale_price))
+            <del>${{$price}}</del> ${{$sale_price}}
+          @else
+          ${{$price}}
+          @endif
         </h4>
         <div class="ps-product__desc">
           <p>{!!Str::limit($pro->summary,500)!!}</p>
@@ -175,6 +180,11 @@
     <div class="ps-section__content">
       <div class="row">
         @foreach($relate_pro as $model)
+        <?php 
+          $rl_size_id = $model->sizes->first()->id;
+          $rl_price = $size_dt->where('product_id',$model->id)->where('size_id',$rl_size_id)->first()->price;
+          $rl_sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$rl_size_id)->first()->sale_price;  
+        ?>
         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
           <div class="ps-product">
             <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" alt=""/><a class="ps-product__overlay" href="product-default.html"></a>
@@ -182,10 +192,10 @@
             <div class="ps-product__content">
               <div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$model->name}}</a>
                 <p><span>{{$model->weight}}g</span></p><span class="ps-product__price sale">
-                  @if(is_null($model->sale_price))
-                    ${{$model->price}}
+                  @if(is_null($rl_sale_price))
+                    ${{$rl_price}}
                   @else
-                    <del>${{$model->price}}</del> ${{$model->sale_price}}
+                    <del>${{$rl_price}}</del> ${{$rl_sale_price}}
                   @endif
                 </span>
               </div>

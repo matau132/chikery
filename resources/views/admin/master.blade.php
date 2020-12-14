@@ -384,6 +384,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{url('public/admin')}}/dist/js/pages/dashboard.js"></script>
 <script src="{{url('public/admin')}}/dist/js/customize-admin.js"></script>
+@yield('js')
 <script>
   $(".alert").alert();
   $('#summernote').summernote({
