@@ -16,24 +16,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div class="ps-product--cart">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads')}}/product/3.png" alt=""><a class="ps-product__overlay" href="product-detail.html"></a></div>
-                <div class="ps-product__content"><a class="ps-product__title" href="product-detail.html">Jean Woman Summer</a></div>
-              </div>
-            </td>
-            <td>$12.00</td>
-            <td>
-              <div class="form-group--number">
-                <button class="up"></button>
-                <button class="down"></button>
-                <input class="form-control" type="text" placeholder="1" value="1">
-              </div>
-            </td>
-            <td class="total">$12.00</td>
-            <td class="ps-table__actions"><a class="ps-btn--close" href="#"></a></td>
-          </tr>
+          @foreach($cart_items as $model)
+            @foreach($model as $item)
+            <tr>
+              <td>
+                <div class="ps-product--cart">
+                  <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$item['image']}}" alt=""><a class="ps-product__overlay" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}"></a></div>
+                    <div class="ps-product__content"><a class="ps-product__title" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}">{{$item['name']}}</a></div>
+                </div>
+              </td>
+              <td>${{number_format($item['price'],2)}}</td>
+              <td>
+                <div class="form-group--number">
+                  <button class="up"></button>
+                  <button class="down"></button>
+                  <input class="form-control" type="text" value="{{$item['quantity']}}">
+                </div>
+              </td>
+              <td class="total">${{number_format($item['price']*$item['quantity'],2)}}</td>
+              <td class="ps-table__actions"><a class="ps-btn--close" href="{{route('cart.remove',['id'=>$item['id'],'size_id'=>$item['size_id']])}}"></a></td>
+            </tr>
+            @endforeach
+          @endforeach
         </tbody>
       </table>
     </div>

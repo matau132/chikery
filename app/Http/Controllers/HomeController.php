@@ -130,13 +130,21 @@ class HomeController extends Controller
     }
 
 //cart  
-    public function cart(){
-        return view('cart.cart');
+    public function cart(Cart $cart){
+        $cart_items = $cart->items;
+        // dd($cart_items);
+        return view('cart.cart',compact('cart_items'));
     }
-    public function cart_add($id,Cart $cart){
+    public function cart_add($id,$size_id,Cart $cart){
         $pro = Product::find($id);
-        $cart->add($pro);
-        
+        $cart->add($pro,$size_id);
+        // session()->forget('cart');
+        return redirect()->back();
+    }
+    public function cart_remove($id,$size_id,Cart $cart)
+    {
+        $cart->remove($id,$size_id);
+        return redirect()->back();
     }
 
     public function checkout(){

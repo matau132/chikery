@@ -25,7 +25,7 @@
 							@endif
 						</span>
 					</div>
-						<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',$model->id)}}">Add to cart</a>
+						<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->id,'size_id'=>$size_id])}}">Add to cart</a>
 						<div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
 					</div>
 				</div>
