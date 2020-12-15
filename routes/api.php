@@ -20,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/product',function(){
     return Product::paginate(2);
 });
+Route::get('/cart/change-size',function(){
+	//
+});

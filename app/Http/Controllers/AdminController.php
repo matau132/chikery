@@ -8,8 +8,8 @@ use Auth;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
-use App\Models\User;
 use App\Models\Ingredient;
 use App\Models\Size;
 use App\Models\Product_detail;
@@ -248,38 +248,12 @@ public function size_detail(){
     return view('admin.size_detail.index',compact('size_d'));
 }
 
-//user
-    public function user(){
-        $users = User::orderBy('name','asc')->paginate(8);
-        return view('admin.user.index',compact('users'));
+//customer
+    public function customer(){
+        $customers = Customer::orderBy('name','asc')->paginate(8);
+        return view('admin.customer.index',compact('customers'));
     }
-    public function adduser(){
-        return view('admin.user.add');
-    }
-    public function post_adduser(User $user,UserRequestAdd $request){
-        $user->add($request);
-        return redirect()->route('admin.User')->with('success','Successfully add data!');
-    }
-    public function update_user($id){
-        $user = User::where('id',$id)->first();
-        return view('admin.user.update',compact('user'));
-    }
-    public function post_update_user($id,User $user,UserRequestUpdate $request){
-        $user->edit($id,$request);
-        return redirect()->route('admin.User')->with('success','Updated data successfully!');
-    }
-    public function change_user_pw($id){
-        return view('admin.user.change_pw');
-    }
-    public function post_change_user_pw($id,User $user,UserRequestChangePW $request){
-        $user->edit_pw($id,$request);
-        return redirect()->route('admin.User')->with('success','Changed password successfully!');
-    }
-    public function delete_user($id,User $user){
-        $user->remove($id);
-        return redirect()->route('admin.User')->with('success','Deleted data successfully!');
-    }
-
+    
 //admin
     public function admin(){
         $admins = Admin::orderBy('name','asc')->paginate(8);

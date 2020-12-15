@@ -156,10 +156,10 @@ class HomeController extends Controller
     }
 
 //cart  
-    public function cart(Cart $cart,Size $size){
+    public function cart(Cart $cart,Size $size,Product $product){
         $cart_items = $cart->items;
         // dd($cart_items);
-        return view('cart.cart',compact('cart_items','size'));
+        return view('cart.cart',compact('cart_items','size','product'));
     }
     public function cart_add($id,$size_id,Cart $cart){
         $pro = Product::find($id);
@@ -168,6 +168,7 @@ class HomeController extends Controller
     }
     public function cart_update(Request $request,Cart $cart)
     {
+        dd($request->all());
         $cart->update($request);
         return redirect()->back()->with('success','Your cart has been updated!');
     }

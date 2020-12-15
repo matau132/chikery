@@ -230,6 +230,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.Customer')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Customer') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Customer</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.Ingredient')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Ingredient') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ingredient</p>
@@ -263,12 +269,6 @@
                 <a href="{{route('admin.upload')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Uploaded Files</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.User')}}" class="nav-link {{Str::contains(Request::route()->getName(),'User') ? 'active' : ''}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>User</p>
                 </a>
               </li>
             </ul>

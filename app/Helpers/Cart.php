@@ -34,7 +34,7 @@ class Cart{
     {
         foreach($this->items as $cart_item){
             foreach($cart_item as $item){
-                if($request->cart[$item['id']][$item['size_id']]['quantity']==0){
+                if($request->cart[$item['id']][$item['size_id']]['quantity']==0||is_null($request->cart[$item['id']][$item['size_id']]['quantity'])){
                     unset($this->items[$item['id']][$item['size_id']]);
                 }
                 else{

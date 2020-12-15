@@ -131,16 +131,9 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 		Route::get('/','AdminController@size_detail')->name('admin.size_detail');
 	});
 
-	//user
-	Route::group(['prefix'=>'user'],function(){
-		Route::get('/','AdminController@user')->name('admin.User');
-		Route::get('/add','AdminController@adduser')->name('admin.addUser');
-		Route::post('/add','AdminController@post_adduser');
-		Route::get('/update/{id}','AdminController@update_user')->name('admin.updateUser');
-		Route::post('/update/{id}','AdminController@post_update_user');
-		Route::get('/update/change_password/{id}','AdminController@change_user_pw')->name('admin.UserPW');
-		Route::post('/update/change_password/{id}','AdminController@post_change_user_pw');
-		Route::get('/delete/{id}','AdminController@delete_user')->name('admin.deleteUser');
+	//customer
+	Route::group(['prefix'=>'customer'],function(){
+		Route::get('/','AdminController@customer')->name('admin.Customer');
 	});
 
 	//admin

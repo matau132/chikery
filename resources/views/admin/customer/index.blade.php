@@ -1,5 +1,5 @@
 @extends('admin.master')
-@section('title','Admin Managerment')
+@section('title','Customer Managerment')
 @section('admin-main')
 <div class="table-responsive">
 <table class="table table-hover">
@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <tr>
-      @foreach($admins as $models)
+      @foreach($customers as $models)
       <td>{{$models->id}}</td>
       <td>{{$models->name}}</td>
       <td>{{$models->email}}</td>
@@ -25,9 +25,5 @@
   </tbody>
 </table>
 </div>
-{{$admins->links()}}
-<a href="{{route('admin.addAdmin')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
-@if(Auth::guard('admin')->check())
-<a href="{{route('admin.updateAdmin',Auth::guard('admin')->user()->id)}}" class="btn btn-primary" title="Update"><i class="fas fa-pen pr-2"></i>Update</a>
-@endif
+{{$customers->links()}}
 @stop
