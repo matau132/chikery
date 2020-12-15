@@ -35,8 +35,9 @@ Route::group(['prefix'=>'user'],function(){
 Route::group(['prefix'=>'cart'],function(){
 	Route::get('/', 'HomeController@cart')->name('cart');
 	Route::get('/add/{id}-{size_id}', 'HomeController@cart_add')->name('cart.add');
-	// Route::get('/update', 'HomeController@cart_update')->name('cart.update');
+	Route::post('/update', 'HomeController@cart_update')->name('cart.update');
 	Route::get('/remove/{id}-{size_id}', 'HomeController@cart_remove')->name('cart.remove');
+	Route::get('/clear', 'HomeController@cart_clear')->name('cart.clear');
 });
 
 Route::get('/checkout', 'HomeController@checkout')->name('checkout')->middleware('customer');

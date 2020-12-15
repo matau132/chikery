@@ -2,55 +2,70 @@
 @section('title','Cart')
 @section('class','cart ps-page')
 @section('main')
+<?php $sub_price = 0; ?>
 <div class="container">
   <div class="ps-shopping-cart">
     @if(empty($cart_items))
       <p class="text-center">There are no products in your cart.</p>
     @else
-    <div class="table-responsive">
-      <table class="table ps-table ps-table--shopping-cart">
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Unit Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($cart_items as $model)
-            @foreach($model as $item)
-            <tr>
-              <td>
-                <div class="ps-product--cart">
-                  <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$item['image']}}" alt=""><a class="ps-product__overlay" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}"></a></div>
-                    <div class="ps-product__content"><a class="ps-product__title" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}">{{$item['name']}}</a></div>
-                </div>
-              </td>
-              <td>${{number_format($item['price'],2)}}</td>
-              <td>
-                <div class="form-group--number">
-                  <button class="up"></button>
-                  <button class="down"></button>
-                  <input class="form-control" type="text" value="{{$item['quantity']}}">
-                </div>
-              </td>
-              <td class="total">${{number_format($item['price']*$item['quantity'],2)}}</td>
-              <td class="ps-table__actions"><a class="ps-btn--close" href="{{route('cart.remove',['id'=>$item['id'],'size_id'=>$item['size_id']])}}"></a></td>
-            </tr>
-            @endforeach
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-    @endif
-    <div class="ps-section__actions">
-      @if(!empty($cart_items))
-      <figure><a class="ps-btn ps-btn--outline" href="#">Clear Shopping Cart</a><a class="ps-btn ps-btn--outline" href="#">Update Shopping Cart</a></figure>
+    <form action="{{route('cart.update')}}" method="post">
+      @csrf
+      @if(session()->has('success'))
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close p-0" data-dismiss="alert" aria-label="Close" style="bottom: 0">
+          <span aria-hidden="true" style="font-family: inherit;font-size: 2.5rem;padding: 7px 12.5px">&times;</span>
+        </button>
+        <strong>{{session()->get('success')}}</strong> 
+      </div>
       @endif
-      <figure><a class="ps-btn" href="{{route('shop')}}">Continue Shopping</a></figure>
-    </div>
+      <div class="table-responsive">
+        <table class="table ps-table ps-table--shopping-cart">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th class="text-center">Size</th>
+              <th class="text-center">Unit Price</th>
+              <th class="text-center">Quantity</th>
+              <th class="text-center">Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($cart_items as $model)
+              @foreach($model as $item)
+              <tr>
+                <td>
+                  <div class="ps-product--cart">
+                    <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$item['image']}}" alt=""><a class="ps-product__overlay" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}"></a></div>
+                      <div class="ps-product__content"><a class="ps-product__title" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}">{{$item['name']}}</a></div>
+                  </div>
+                </td>
+                <td class="text-center">{{$size->find($item['size_id'])->name}}</td>
+                <td class="text-center">${{number_format($item['price'],2)}}</td>
+                <td class="text-center">
+                  <div class="form-group--number" style="width: 150px">
+                    <button class="up" type="button"></button>
+                    <button class="down" type="button"></button>
+                    <input class="form-control" type="text" value="{{$item['quantity']}}" name="cart[{{$item['id']}}][{{$item['size_id']}}]">
+                  </div>
+                </td>
+                <td class="total text-center">${{number_format($item['price']*$item['quantity'],2)}}</td>
+                <td class="ps-table__actions text-center"><a class="ps-btn--close" href="{{route('cart.remove',['id'=>$item['id'],'size_id'=>$item['size_id']])}}"></a></td>
+              </tr>
+              <?php $sub_price += $item['quantity']*$item['price']; ?>
+              @endforeach
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      @endif
+      <div class="ps-section__actions">
+        @if(!empty($cart_items))
+        <figure><a class="ps-btn ps-btn--outline" href="{{route('cart.clear')}}">Clear Shopping Cart</a><button class="ps-btn ps-btn--outline">Update Shopping Cart</button></figure>
+        @endif
+        <figure><a class="ps-btn" href="{{route('shop')}}">Continue Shopping</a></figure>
+      </div>
+    </form>
     <div class="ps-section__footer">
       <div class="ps-shopping-cart__coupon">
         <p>Enter your code if you have one. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
@@ -64,7 +79,7 @@
         <table class="table">
           <tr>
             <td>SubTotal</td>
-            <td><strong>$48.00</strong></td>
+            <td><strong>${{number_format($sub_price,2)}}</strong></td>
           </tr>
           <tr>
             <td>Shipping</td>
@@ -88,4 +103,22 @@
     </div>
   </div>
 </div>
+@stop
+@section('js')
+<script>
+  $(document).ready(function () {
+    $('.form-group--number button').click(function () { 
+      var quantity = parseInt($(this).siblings('input').val());
+      if($(this).hasClass('up')){
+        quantity += 1;
+      }
+      else{
+        if(quantity>0){
+          quantity -= 1;
+        }
+      }
+      $(this).siblings('input').attr('value',quantity);
+    });
+  });
+</script>
 @stop

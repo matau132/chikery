@@ -40,13 +40,27 @@ class HomeController extends Controller
     public function shop(Size_detail $size_dt){
         $pros = Product::orderby('name','asc')->paginate(6);
         $ingre_id = 0;
-    	return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
+    	return view('shop.shop_product',[
+            'cats' => $this->cats,
+            'ingre' => $this->ingre,
+            'pros' => $pros,
+            'ingre_id' => $ingre_id,
+            'recent_prods' => $this->recent_prods,
+            'size_dt' => $size_dt
+            ]);
     }
     public function shop_cat($id,$name,Size_detail $size_dt){
         $pros = Product::where('category_id',$id)->paginate(6);
         $ingre_id = 0;
         if($pros){
-            return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
+            return view('shop.shop_product',[
+                'cats' => $this->cats,
+                'ingre' => $this->ingre,
+                'pros' => $pros,
+                'ingre_id' => $ingre_id,
+                'recent_prods' => $this->recent_prods,
+                'size_dt' => $size_dt
+                ]);
         }
         else{
             return redirect()->route('error');
@@ -57,7 +71,14 @@ class HomeController extends Controller
         $ingre_id = $id;
         if($prod){
             $pros = $prod->products->paginate(6);
-            return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
+            return view('shop.shop_product',[
+                'cats' => $this->cats,
+                'ingre' => $this->ingre,
+                'pros' => $pros,
+                'ingre_id' => $ingre_id,
+                'recent_prods' => $this->recent_prods,
+                'size_dt' => $size_dt
+                ]);
         }
         else{
             return redirect()->route('error');
@@ -78,7 +99,14 @@ class HomeController extends Controller
     {
         $pros = Product::where('name','like','%'.$request->key_word.'%')->paginate(6);
         $ingre_id = 0;
-        return view('shop.shop_product',['cats'=>$this->cats,'ingre'=>$this->ingre,'pros'=>$pros,'ingre_id'=>$ingre_id,'recent_prods'=>$this->recent_prods,'size_dt'=>$size_dt]);
+        return view('shop.shop_product',[
+            'cats' => $this->cats,
+            'ingre' => $this->ingre,
+            'pros' => $pros,
+            'ingre_id' => $ingre_id,
+            'recent_prods' => $this->recent_prods,
+            'size_dt' => $size_dt
+            ]);
     }
     public function error()
     {
@@ -128,19 +156,29 @@ class HomeController extends Controller
     }
 
 //cart  
-    public function cart(Cart $cart){
+    public function cart(Cart $cart,Size $size){
         $cart_items = $cart->items;
-        return view('cart.cart',compact('cart_items'));
+        // dd($cart_items);
+        return view('cart.cart',compact('cart_items','size'));
     }
     public function cart_add($id,$size_id,Cart $cart){
         $pro = Product::find($id);
         $cart->add($pro,$size_id);
-        // session()->forget('cart');
         return redirect()->back();
+    }
+    public function cart_update(Request $request,Cart $cart)
+    {
+        $cart->update($request);
+        return redirect()->back()->with('success','Your cart has been updated!');
     }
     public function cart_remove($id,$size_id,Cart $cart)
     {
         $cart->remove($id,$size_id);
+        return redirect()->back();
+    }
+    public function cart_clear()
+    {
+        session()->forget('cart');
         return redirect()->back();
     }
 

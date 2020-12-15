@@ -70,28 +70,7 @@
     </div>
     <div class="header__right">
       <div class="header__actions"><a class="ps-search-btn" href="#"><i class="fa fa-search"></i></a><a href="#"><i class="fa fa-heart-o"></i></a>
-        <div class="ps-cart--mini"><a class="ps-cart__toggle" href="#"><i class="fa fa-shopping-basket"></i><span><i>2</i></span></a>
-          <div class="ps-cart__content">
-            <div class="ps-cart__items">
-              <div class="ps-product--mini-cart">
-                <div class="ps-product__thumbnail"><a href="#"><img src="{{url('public/uploads')}}/product/12.png" alt=""></a></div>
-                <div class="ps-product__content"><span class="ps-btn--close"></span><a class="ps-product__title" href="product-default.html">Jean Woman Summer</a>
-                  <p><strong>Quantity: 1</strong></p><small>$12.00</small>
-                </div>
-              </div>
-              <div class="ps-product--mini-cart">
-                <div class="ps-product__thumbnail"><a href="#"><img src="{{url('public/uploads')}}/product/13.png" alt=""></a></div>
-                <div class="ps-product__content"><span class="ps-btn--close"></span><a class="ps-product__title" href="product-default.html">Jean Woman Summer</a>
-                  <p><strong>Quantity: 1</strong></p><small>$12.00</small>
-                </div>
-              </div>
-            </div>
-            <div class="ps-cart__footer">
-              <h3>Sub Total:<strong>$48.00</strong></h3>
-              <figure><a class="ps-btn" href="{{route('cart')}}">View Cart</a><a class="ps-btn ps-btn--dark" href="{{route('checkout')}}">Checkout</a></figure>
-            </div>
-          </div>
-        </div>
+        <x-cart />
       </div>
     </div>
   </header>
@@ -104,35 +83,9 @@
       </div>
     </div>
   </header>
-  <div class="ps-panel--sidebar" id="cart-mobile">
-    <div class="ps-panel__header">
-      <h3>Shopping Cart</h3>
-    </div>
-    <div class="navigation__content">
-      <div class="ps-cart--mobile">
-        <div class="ps-cart__content">
-          <div class="ps-cart__items">
-            <div class="ps-product--mini-cart">
-              <div class="ps-product__thumbnail"><a href="#"><img src="{{url('public/uploads')}}/product/12.png" alt=""></a></div>
-              <div class="ps-product__content"><span class="ps-btn--close"></span><a class="ps-product__title" href="product-default.html">Jean Woman Summer</a>
-                <p><strong>Quantity: 1</strong></p><small>$12.00</small>
-              </div>
-            </div>
-            <div class="ps-product--mini-cart">
-              <div class="ps-product__thumbnail"><a href="#"><img src="{{url('public/uploads')}}/product/13.png" alt=""></a></div>
-              <div class="ps-product__content"><span class="ps-btn--close"></span><a class="ps-product__title" href="product-default.html">Jean Woman Summer</a>
-                <p><strong>Quantity: 1</strong></p><small>$12.00</small>
-              </div>
-            </div>
-          </div>
-          <div class="ps-cart__footer">
-            <h3>Sub Total:<strong>$48.00</strong></h3>
-            <figure><a class="ps-btn" href="{{route('cart')}}">View Cart</a><a class="ps-btn ps-btn--dark" href="{{route('checkout')}}">Checkout</a></figure>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
+  <x-cart_mobile />
+
   <div class="ps-panel--sidebar" id="navigation-mobile">
     <div class="ps-panel__header">
       <h3>Menu</h3>

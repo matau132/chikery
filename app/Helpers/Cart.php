@@ -30,6 +30,24 @@ class Cart{
         session(['cart'=>$this->items]);
     }
 
+    public function update($request)
+    {
+        foreach($this->items as $cart_item){
+            foreach($cart_item as $item){
+                if($request->cart[$item['id']][$item['size_id']]==0){
+                    unset($this->items[$item['id']][$item['size_id']]);
+                }
+                else{
+                    $this->items[$item['id']][$item['size_id']]['quantity'] = $request->cart[$item['id']][$item['size_id']];
+                }
+                if(empty($this->items[$item['id']])){
+                    unset($this->items[$item['id']]);
+                }
+            }
+        }
+        session(['cart' => $this->items]);
+    }
+
     public function remove($id,$size_id)
     {
         unset($this->items[$id][$size_id]);
