@@ -39,7 +39,7 @@
               <div class="ps-product--sidebar">
                 <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}"></a></div>
                 <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}">{{$recent_prod->name}}</a>
-                  <p style="line-height: 1.6rem"><span>350g</span></p><span class="ps-product__price sale">
+                  <p style="line-height: 1.6rem"><span>{{$recent_prod->weight}}g</span></p><span class="ps-product__price sale">
                     @if(is_null($rc_sale_price))
                       ${{number_format($rc_price,2)}}
                     @else

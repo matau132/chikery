@@ -40,13 +40,22 @@
                       <div class="ps-product__content"><a class="ps-product__title" href="{{route("shop.detail",[$item['id'],Str::slug($item['name'])])}}">{{$item['name']}}</a></div>
                   </div>
                 </td>
-                <td class="text-center">{{$size->find($item['size_id'])->name}}</td>
+                <style>.select2{margin-right: 0 !important;}</style>
+                <td class="ps-product--detail">
+                  <div class="ps-product__shopping pb-0">
+                    <select class="ps-select" title="Choose Size">
+                      <option value="1">Small</option>
+                      <option value="2">Medium</option>
+                      <option value="3">Large</option>
+                    </select>
+                  </div>
+                </td>
                 <td class="text-center">${{number_format($item['price'],2)}}</td>
                 <td class="text-center">
                   <div class="form-group--number" style="width: 150px">
                     <button class="up" type="button"></button>
                     <button class="down" type="button"></button>
-                    <input class="form-control" type="text" value="{{$item['quantity']}}" name="cart[{{$item['id']}}][{{$item['size_id']}}]">
+                    <input class="form-control" type="text" value="{{$item['quantity']}}" name="cart[{{$item['id']}}][{{$item['size_id']}}][quantity]">
                   </div>
                 </td>
                 <td class="total text-center">${{number_format($item['price']*$item['quantity'],2)}}</td>
@@ -63,9 +72,10 @@
         @if(!empty($cart_items))
         <figure><a class="ps-btn ps-btn--outline" href="{{route('cart.clear')}}">Clear Shopping Cart</a><button class="ps-btn ps-btn--outline">Update Shopping Cart</button></figure>
         @endif
-        <figure><a class="ps-btn" href="{{route('shop')}}">Continue Shopping</a></figure>
+        <figure class="{{empty($cart_items)?'text-center':''}}"><a class="ps-btn" href="{{route('shop')}}">Continue Shopping</a></figure>
       </div>
     </form>
+    @if(!empty($cart_items))
     <div class="ps-section__footer">
       <div class="ps-shopping-cart__coupon">
         <p>Enter your code if you have one. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
@@ -101,6 +111,7 @@
         </table><a class="ps-btn ps-btn--fullwidth" href="#">Proceed to checkout</a>
       </figure>
     </div>
+    @endif
   </div>
 </div>
 @stop
