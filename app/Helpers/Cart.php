@@ -32,16 +32,32 @@ class Cart{
 
     public function update($request)
     {
-        foreach($this->items as $cart_item){
-            foreach($cart_item as $item){
-                if($request->cart[$item['id']][$item['size_id']]['quantity']==0||is_null($request->cart[$item['id']][$item['size_id']]['quantity'])){
-                    unset($this->items[$item['id']][$item['size_id']]);
+        // dd($request->all());
+        foreach($this->items as $pro_id => $cart_item){
+            foreach($cart_item as $cart_size_id => $item){
+                $quantity = $request->cart[$pro_id][$cart_size_id]['quantity'];
+                $size_id = $request->cart[$pro_id][$cart_size_id]['size_id'];
+                if($quantity==0||is_null($quantity)){
+                    unset($this->items[$pro_id][$cart_size_id]);
                 }
                 else{
-                    $this->items[$item['id']][$item['size_id']]['quantity'] = $request->cart[$item['id']][$item['size_id']]['quantity'];
+                    $this->items[$pro_id][$cart_size_id]['quantity'] = $quantity;
                 }
-                if(empty($this->items[$item['id']])){
-                    unset($this->items[$item['id']]);
+                if($size_id != $cart_size_id){
+                    if(isset($this->items[$pro_id][$size_id])){
+                        $this->items[$pro_id][$size_id]['quantity'] += $quantity;
+                    }
+                    else{
+                        $size_dt = Size_detail::where('product_id',$pro_id)->where('size_id',$size_id)->first();
+                        $this->items[$pro_id][$size_id] = $item;
+                        $this->items[$pro_id][$size_id]['quantity'] = $quantity;
+                        $this->items[$pro_id][$size_id]['size_id'] = $size_id;
+                        $this->items[$pro_id][$size_id]['price'] = $size_dt->sale_price ? $size_dt->sale_price : $size_dt->price;
+                    }
+                    unset($this->items[$pro_id][$cart_size_id]);
+                }
+                if(empty($this->items[$pro_id])){
+                    unset($this->items[$pro_id]);
                 }
             }
         }

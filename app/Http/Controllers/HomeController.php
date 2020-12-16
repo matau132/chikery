@@ -168,7 +168,6 @@ class HomeController extends Controller
     }
     public function cart_update(Request $request,Cart $cart)
     {
-        dd($request->all());
         $cart->update($request);
         return redirect()->back()->with('success','Your cart has been updated!');
     }
