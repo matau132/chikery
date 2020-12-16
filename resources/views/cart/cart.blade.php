@@ -43,14 +43,14 @@
                 <style>.select2{margin-right: 0 !important;}</style>
                 <td class="ps-product--detail">
                   <div class="ps-product__shopping pb-0">
-                    <select class="ps-select" title="Choose Size" name="cart[{{$item['id']}}][{{$item['size_id']}}][size_id]">
+                    <select class="ps-select size_box" title="Choose Size" name="cart[{{$item['id']}}][{{$item['size_id']}}][size_id]">
                       @foreach($product->find($item['id'])->sizes as $size)
                         <option value="{{$size->id}}" {{$size->id==$item['size_id']?'selected':''}}>{{$size->name}}</option>
                       @endforeach
                     </select>
                   </div>
                 </td>
-                <td class="text-center" onclick="demo()">${{number_format($item['price'],2)}}</td>
+                <td class="text-center">${{number_format($item['price'],2)}}</td>
                 <td class="text-center">
                   <div class="form-group--number" style="width: 150px">
                     <button class="up" type="button"></button>
@@ -130,9 +130,19 @@
       }
       $(this).siblings('input').attr('value',quantity);
     });
-    function demo () {
-      console.log('ok');
-    }
+   
+    // $('.size_box').change(function () { 
+    //   $.ajax(
+    //     {
+    //       type: 'GET',
+    //       url: '{{url("api/cart/change-size")}}',
+    //       dataType: 'json',
+    //       success: function(res){
+    //         console.log(res);
+    //       }
+    //     }
+    //   );
+    // });
   });
 </script>
 @stop

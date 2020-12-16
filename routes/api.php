@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,5 +22,5 @@ Route::get('/product',function(){
     return Product::paginate(2);
 });
 Route::get('/cart/change-size',function(){
-	//
+    //
 });

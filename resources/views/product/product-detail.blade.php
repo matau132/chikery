@@ -53,7 +53,7 @@
         </div>
         <div class="ps-product__specification">
           <p><strong>AVAILABILITY:</strong>InStock</p>
-          <p><strong> CATEGORIES:</strong><a href="shop-default.html">{{$pro->category->name}}</a></p>
+          <p><strong> CATEGORIES:</strong><a href="{{route('shop.ingredient',[$pro->category->id, Str::slug($pro->category->name)])}}">{{$pro->category->name}}</a></p>
         </div>
         <div class="ps-product__shopping">
           <select class="ps-select" title="Choose Size">
