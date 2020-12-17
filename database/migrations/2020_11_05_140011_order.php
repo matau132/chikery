@@ -16,9 +16,11 @@ class Order extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('customer_id')->unsigned();
-            $table->string('name')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('phone');
             $table->string('address');
+            $table->text('note')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->bigInteger('payment_id')->unsigned();
             $table->bigInteger('shipping_id')->unsigned();

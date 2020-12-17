@@ -15,6 +15,8 @@ use App\Models\Size;
 use App\Models\Product_detail;
 use App\Models\Size_detail;
 use App\Models\Admin;
+use App\Models\Shipping;
+use App\Models\Payment;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
 use App\Http\Requests\User\UserRequestChangePW;
@@ -34,6 +36,10 @@ use App\Http\Requests\Admin\AdminRequestAdd;
 use App\Http\Requests\Admin\AdminRequestUpdate;
 use App\Http\Requests\Admin\AdminRequestChangePW;
 use App\Http\Requests\Admin\AdminRequestLogin;
+use App\Http\Requests\Shipping\ShippingRequestAdd;
+use App\Http\Requests\Shipping\ShippingRequestUpdate;
+use App\Http\Requests\Payment\PaymentRequestAdd;
+use App\Http\Requests\Payment\PaymentRequestUpdate;
 
 class AdminController extends Controller
 //index
@@ -284,5 +290,63 @@ public function size_detail(){
     public function delete_admin($id,Admin $admin){
         $admin->remove($id);
         return redirect()->route('admin.Admin')->with('success','Deleted data successfully!');
+    }
+
+//shipping
+    public function shipping(){
+        $ship = Shipping::orderBy('name','asc')->paginate(8);
+        return view('admin.shipping.index',compact('ship'));
+    }
+    public function addShipping(){
+        return view('admin.shipping.add');
+    }
+    public function post_addShipping(Shipping $ship,ShippingRequestAdd $request){
+        $ship->add($request);
+        return redirect()->route('admin.Shipping')->with('success','Successfully add data!');
+    }
+    public function updateShipping($id){
+        $ship = Shipping::where('id',$id)->first();
+        return view('admin.shipping.update',compact('ship'));
+    }
+    public function post_updateShipping($id,Shipping $ship,ShippingRequestUpdate $request){
+        $ship->edit($id,$request);
+        return redirect()->route('admin.Shipping')->with('success','Updated data successfully!');
+    }
+    public function deleteShipping($id,Shipping $ship){
+        if($ship->remove($id)){
+            return redirect()->route('admin.Shipping')->with('success','Deleted data successfully!');
+        }
+        else{
+            return redirect()->route('admin.Shipping')->with('error','There are still some orders related to this shipping service!');
+        }
+    }
+
+//payment
+    public function payment(){
+        $payment = Payment::orderBy('name','asc')->paginate(8);
+        return view('admin.payment.index',compact('payment'));
+    }
+    public function addPayment(){
+        return view('admin.payment.add');
+    }
+    public function post_addPayment(Payment $payment,PaymentRequestAdd $request){
+        $payment->add($request);
+        return redirect()->route('admin.Payment')->with('success','Successfully add data!');
+    }
+    public function updatePayment($id){
+        $payment = Payment::where('id',$id)->first();
+        return view('admin.payment.update',compact('payment'));
+    }
+    public function post_updatePayment($id,Payment $payment,PaymentRequestUpdate $request){
+        $payment->edit($id,$request);
+        return redirect()->route('admin.Payment')->with('success','Updated data successfully!');
+    }
+    public function deletePayment($id,Payment $payment){
+        if($payment->remove($id)){
+            return redirect()->route('admin.Payment')->with('success','Deleted data successfully!');
+        }
+        else{
+            return redirect()->route('admin.Payment')->with('error','There are still some orders related to this payment service!');
+        }
     }
 }

@@ -5,6 +5,14 @@
 <?php $sub_price = 0; ?>
 <div class="container">
   <div class="ps-shopping-cart">
+    @if(session()->has('error'))
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close p-0" data-dismiss="alert" aria-label="Close" style="bottom: 0">
+          <span aria-hidden="true" style="font-family: inherit;font-size: 2.5rem;padding: 7px 12.5px">&times;</span>
+        </button>
+        <strong>{{session()->get('error')}}</strong> 
+      </div>
+    @endif
     @if(empty($cart_items))
       <p class="text-center">There are no products in your cart.</p>
     @else
@@ -85,6 +93,7 @@
         </div>
       </div>
       <figure class="ps-shopping-cart__total">
+        <form action="{{route('checkout')}}">
         <figcaption>Cart Total</figcaption>
         <table class="table">
           <tr>
@@ -94,21 +103,20 @@
           <tr>
             <td>Shipping</td>
             <td>
+              @foreach($ship as $model)
               <div class="ps-radio">
-                <input class="form-control" type="radio" id="shipping-1" name="shipping"/>
-                <label for="shipping-1">Flat Rate: $50.00 </label>
+                <input class="form-control" type="radio" id="shipping-{{$model->id}}" name="shipping" value="{{$model->id}}"/>
+                <label for="shipping-{{$model->id}}" class="shipping_label">{{$model->name}}: ${{number_format($model->price,2)}} </label>
               </div>
-              <div class="ps-radio">
-                <input class="form-control" type="radio" id="shipping-2" name="shipping"/>
-                <label for="shipping-2">Free Shipping Estimate for Vietnam. </label>
-              </div>
+              @endforeach
             </td>
           </tr>
           <tr class="total">
             <td>Total</td>
-            <td>$48.00</td>
+            <td class="total_price">${{number_format($sub_price,2)}}</td>
           </tr>
-        </table><a class="ps-btn ps-btn--fullwidth" href="#">Proceed to checkout</a>
+        </table><button class="ps-btn ps-btn--fullwidth">Proceed to checkout</button>
+      </form>
       </figure>
     </div>
     @endif
@@ -118,6 +126,12 @@
 @section('js')
 <script>
   $(document).ready(function () {
+    var total_price = {{$sub_price}};
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
+
     $('.form-group--number button').click(function () { 
       var quantity = parseInt($(this).siblings('input').val());
       if($(this).hasClass('up')){
@@ -131,18 +145,20 @@
       $(this).siblings('input').attr('value',quantity);
     });
    
-    // $('.size_box').change(function () { 
-    //   $.ajax(
-    //     {
-    //       type: 'GET',
-    //       url: '{{url("api/cart/change-size")}}',
-    //       dataType: 'json',
-    //       success: function(res){
-    //         console.log(res);
-    //       }
-    //     }
-    //   );
-    // });
+    $('.shipping_label').click(function () { 
+      $.ajax(
+        {
+          type: 'GET',
+          url: '{{url("api/cart/change-shipping")}}',
+          data: {shipping_id: $(this).prev().val()},
+          success: function(res){
+            var total_shipping_price = total_price + parseInt(res);
+            $('.total_price').html(formatter.format(total_shipping_price));
+          }
+        }
+      );
+      // console.log(total_price);
+    });
   });
 </script>
 @stop

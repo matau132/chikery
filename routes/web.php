@@ -41,6 +41,8 @@ Route::group(['prefix'=>'cart'],function(){
 });
 
 Route::get('/checkout', 'HomeController@checkout')->name('checkout')->middleware('customer');
+Route::post('/checkout', 'HomeController@post_checkout');
+
 Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
 Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');
@@ -146,5 +148,25 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 		Route::get('/update/change_password/{id}','AdminController@change_admin_pw')->name('admin.AdminPW');
 		Route::post('/update/change_password/{id}','AdminController@post_change_admin_pw');
 		Route::get('/delete/{id}','AdminController@delete_admin')->name('admin.deleteAdmin');
+	});
+
+	//shipping
+	Route::group(['prefix'=>'shipping'],function(){
+		Route::get('/','AdminController@shipping')->name('admin.Shipping');
+		Route::get('/add','AdminController@addShipping')->name('admin.addShipping');
+		Route::post('/add','AdminController@post_addShipping');
+		Route::get('/update/{id}','AdminController@updateShipping')->name('admin.updateShipping');
+		Route::post('/update/{id}','AdminController@post_updateShipping');
+		Route::get('/delete/{id}','AdminController@deleteShipping')->name('admin.deleteShipping');
+	});
+
+	//payment
+	Route::group(['prefix'=>'payment'],function(){
+		Route::get('/','AdminController@payment')->name('admin.Payment');
+		Route::get('/add','AdminController@addPayment')->name('admin.addPayment');
+		Route::post('/add','AdminController@post_addPayment');
+		Route::get('/update/{id}','AdminController@updatePayment')->name('admin.updatePayment');
+		Route::post('/update/{id}','AdminController@post_updatePayment');
+		Route::get('/delete/{id}','AdminController@deletePayment')->name('admin.deletePayment');
 	});
 });

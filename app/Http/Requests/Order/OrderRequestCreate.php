@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Shipping;
+namespace App\Http\Requests\Order;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShippingRequestAdd extends FormRequest
+class OrderRequestCreate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,16 @@ class ShippingRequestAdd extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:shippings',
-            'price' => 'required|numeric'
+            'name' => 'required',
+            'phone' => 'required|numeric',
+            'email' => is_null($this->email)? '' : 'email',
+            'address' => 'required',
+            'payment' => 'required'
         ];
     }
     public function messages(){
         return [
-            //
+            'payment.required' => 'Please choose 1 payment method.'
         ];
     }
 }

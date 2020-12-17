@@ -13,10 +13,14 @@ use App\Models\Customer;
 use App\Models\Size;
 use App\Models\Size_detail;
 use App\Models\Blog;
+use App\Models\Shipping;
+use App\Models\Payment;
+use App\Models\Order;
 use App\Http\Requests\User\UserRequestLogin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
 use App\Http\Requests\User\UserRequestChangePW;
+use App\Http\Requests\Order\OrderRequestCreate;
 
 class HomeController extends Controller
 {
@@ -158,8 +162,9 @@ class HomeController extends Controller
 //cart  
     public function cart(Cart $cart,Size $size,Product $product){
         $cart_items = $cart->items;
+        $ship = Shipping::all();
         // dd($cart_items);
-        return view('cart.cart',compact('cart_items','size','product'));
+        return view('cart.cart',compact('cart_items','size','product','ship'));
     }
     public function cart_add($id,$size_id,Cart $cart){
         $pro = Product::find($id);
@@ -182,9 +187,26 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function checkout(){
-    	return view('checkout.checkout');
+//checkout
+    public function checkout(Request $request,Cart $cart,Size $size){
+        if($request->shipping){
+            $cart_items = $cart->items;
+            $shipping = Shipping::find($request->shipping);
+            $payment = Payment::all();
+            return view('checkout.checkout',compact('cart_items','size','shipping','payment'));
+        }
+    	else{
+            return redirect()->route('cart')->with('error','Please select Shipping service before proceed to checkout!');
+        }
     }
+
+    public function post_checkout(OrderRequestCreate $request,Order $order)
+    {
+        $order->add($request);
+        session()->forget('cart');
+        return redirect()->route('cart');
+    }
+
     public function whishlist(){
     	return view('whishlist.whishlist');
     }

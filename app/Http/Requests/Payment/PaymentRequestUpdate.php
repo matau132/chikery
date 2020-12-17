@@ -13,7 +13,7 @@ class PaymentRequestUpdate extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,12 @@ class PaymentRequestUpdate extends FormRequest
      */
     public function rules()
     {
+        $id = $this->id;
+        return [
+            'name' => 'required|unique:payments,name,'.$id,
+        ];
+    }
+    public function messages(){
         return [
             //
         ];

@@ -242,6 +242,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.Payment')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Payment') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Payment</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.Product')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Product') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Product</p>
@@ -263,6 +269,12 @@
                 <a href="{{route('admin.size_detail')}}" class="nav-link {{Str::contains(Request::route()->getName(),'size_detail') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Size detail</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.Shipping')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Shipping') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Shipping</p>
                 </a>
               </li>
               <li class="nav-item">
