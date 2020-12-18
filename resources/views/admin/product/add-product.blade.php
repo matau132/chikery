@@ -35,13 +35,6 @@
         	<textarea name="content" class="form-control" placeholder="..." id="summernote"></textarea>
         </div>
     </div>
-    <div class="form-group">
-        <label for="">Price</label>
-        <input type="number" class="form-control" name="price" placeholder="Price...">
-        @error('price')
-            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-        @enderror
-    </div>
     <div class="form-group mb-1">
         <label for="">Ingredients</label>
         <div class="checkbox_wrapper">

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Models\Shipping;
+use App\Models\Size_detail;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,8 @@ Route::get('/product',function(){
 });
 Route::get('/cart/change-shipping',function(Request $request){
     return(Shipping::find($request->shipping_id)->price);
+});
+Route::get('/product-detail/change-size',function(Request $request){
+    $pro_dt = Size_detail::where('product_id',$request->pro_id)->where('size_id',$request->size_id)->first();
+    return($pro_dt);
 });

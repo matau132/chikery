@@ -41,6 +41,8 @@ class HomeController extends Controller
     public function about(){
     	return view('about.about');
     }
+
+//shop
     public function shop(Size_detail $size_dt){
         $pros = Product::orderby('name','asc')->paginate(6);
         $ingre_id = 0;
@@ -116,6 +118,16 @@ class HomeController extends Controller
     {
         return view('error.error');
     }
+
+    public function shop_order(Request $request,Cart $cart)
+    {
+        $request->validate([
+            'quantity' => 'required|numeric|min:1'
+        ]);
+        $cart->order($request->product,$request->size,$request->quantity);
+        return redirect()->route('cart')->with('success','Your order has been added to cart!');
+    }
+
 //user    
     public function user_login(Request $request)
     {

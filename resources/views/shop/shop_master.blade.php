@@ -53,7 +53,11 @@
           </div>
           <div class="ps-shopping__right">
             <div class="ps-shopping__top">
-              <p>Show 1-12 of 35 result</p>
+              @if($pros->currentPage()==$pros->lastPage())
+              <p>Show {{$pros->perPage()*($pros->currentPage()-1)+1}}-{{$pros->total()}} of {{$pros->total()}} result</p>
+              @else
+              <p>Show {{$pros->perPage()*($pros->currentPage()-1)+1}}-{{$pros->currentPage()*$pros->perPage()}} of {{$pros->total()}} result</p>
+              @endif
               <figure>
                 <select class="ps-select shop-sorting" title="Default Sorting">
                   <option value="1">Default Sorting 1</option>

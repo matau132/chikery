@@ -22,6 +22,7 @@ Route::group(['prefix'=>'shop'],function(){
 	Route::get('/{id}-{name}', 'HomeController@shop_cat')->name('shop.category');
 	Route::get('/{id}_{name}', 'HomeController@shop_ingre')->name('shop.ingredient');
 	Route::get('/product/{id}-{name}','HomeController@shop_detail')->name('shop.detail');
+	Route::post('/order','HomeController@shop_order')->name('shop.order');
 });
 //site user
 Route::group(['prefix'=>'user'],function(){

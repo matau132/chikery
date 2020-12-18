@@ -72,13 +72,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="">Price</label>
-        <input type="number" class="form-control" name="price" placeholder="Price..." value="{{$prod->price}}">
-        @error('price')
-            <small id="emailHelp" class="form-text  text-danger">{{$message}}.</small>
-        @enderror
-    </div>
-    <div class="form-group">
         <label for="">Image</label>
         <div class="mb-2">
             <img src="{{url('public/uploads/product')}}/{{$prod->image}}" alt="" width="300px">

@@ -23,7 +23,11 @@
           @endforeach
         </div>
       </div>
-      <div class="ps-product__info">
+      <style>@media screen and (max-width: 767px) {.product_form{padding-left: 0 !important;}}</style>
+      <form action="{{route('shop.order')}}" method="post" style="padding-left: 30px" class="product_form">
+        @csrf
+        <input type="hidden" name="product" value="{{$pro->id}}">
+      <div class="ps-product__info p-0" style="max-width: 100%">
         <h1>{{$pro->name}}</h1>
         <div class="ps-product__meta">
           <div class="ps-product__rating">
@@ -41,7 +45,7 @@
           $price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->price;
           $sale_price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->sale_price;  
         ?>
-        <h4 class="ps-product__price sale">
+        <h4 class="ps-product__price sale pro_price">
           @if(!is_null($sale_price))
             <del>${{$price}}</del> ${{$sale_price}}
           @else
@@ -52,27 +56,31 @@
           <p>{!!Str::limit($pro->summary,500)!!}</p>
         </div>
         <div class="ps-product__specification">
-          <p><strong>AVAILABILITY:</strong>InStock</p>
+          <p><strong>AVAILABILITY:</strong>{{$pro->status==1?'InStock':'Out of stock'}}</p>
           <p><strong> CATEGORIES:</strong><a href="{{route('shop.ingredient',[$pro->category->id, Str::slug($pro->category->name)])}}">{{$pro->category->name}}</a></p>
         </div>
         <div class="ps-product__shopping">
-          <select class="ps-select" title="Choose Size">
-            <option value="1">Small</option>
-            <option value="2">Medium</option>
-            <option value="3">Large</option>
+          <select class="ps-select size_box" title="Choose Size" name="size">
+            @foreach($pro->sizes as $model)
+            <option value="{{$model->id}}">{{$model->name}}</option>
+            @endforeach
           </select>
           <div class="form-group--number">
-            <button class="up"></button>
-            <button class="down"></button>
-            <input class="form-control" type="text" placeholder="1">
-          </div><a class="ps-btn" href="shopping-cart.html">Order now</a>
+            <button type="button" class="up"></button>
+            <button type="button" class="down"></button>
+            <input class="form-control pro_quantity" type="text" value="1" name="quantity">
+          </div><button class="ps-btn">Order now</button>
           <div class="ps-product__actions"><a href="#"><i class="icon-heart"></i></a><a href="#"><i class="icon-chart-bars"></i></a></div>
         </div>
+        @error('quantity')
+          <small id="emailHelp" class="form-text text-danger mb-4" style="font-size:1.5rem;margin-top: -20px">{{$message}}.</small>
+        @enderror
         <div class="ps-product__sharing">
           <div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
           <p>Share This:<a class="facebook" href="#"><i class="fa fa-facebook"></i></a><a class="twitter" href="#"><i class="fa fa-twitter"></i></a><a class="google" href="#"><i class="fa fa-google-plus"></i></a><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></p>
         </div>
       </div>
+      </form>
     </div>
     <div class="ps-product__content ps-tab-root">
       <ul class="ps-tab-list">
@@ -211,4 +219,43 @@
     <div class="ps-section__footer"><a class="ps-btn ps-btn--outline" href="{{route('shop')}}"> All products</a></div>
   </div>
 </div>
+@stop
+
+@section('js')
+<script>
+  $(document).ready(function () {
+    $('.form-group--number button').click(function () {       //change quantity
+      var quantity = parseInt($(this).siblings('input').val());
+      if($(this).hasClass('up')){
+        quantity += 1;
+      }
+      else{
+        if(quantity>1){
+          quantity -= 1;
+        }
+      }
+      $(this).siblings('input').attr('value',quantity);
+    });
+
+    $('.size_box').change(function(){     //change size
+      $.ajax({
+        type: 'GET',
+        url: '{{url("api/product-detail/change-size")}}',
+        data: {pro_id: {{$pro->id}},size_id: $(this).val()},
+        dataType: 'json',
+        success: function (res) {
+          if(res.sale_price){
+            $('.pro_price').html(
+              '<del>$' + res.price + '</del> $' + res.sale_price
+            );
+          }
+          else{
+            $('.pro_price').html('$' + res.price);
+          }
+        }
+      });
+    });
+
+  });
+</script>
 @stop
