@@ -248,6 +248,7 @@
     });
 
     $('.size_box').change(function(){     //change size
+      $('.load-animation').css('display','flex');
       $.ajax({
         type: 'GET',
         url: '{{url("api/product-detail/change-size")}}',
@@ -262,6 +263,7 @@
           else{
             $('.pro_price').html('$' + res.price);
           }
+          $('.load-animation').css('display','none');
         }
       });
     });
