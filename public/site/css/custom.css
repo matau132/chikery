@@ -78,3 +78,25 @@
 .register-form{
     padding: 30px 50px !important;
 }
+
+/* sale price */
+.sale_price{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(../../uploads/bg/bagde-sale.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+}

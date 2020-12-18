@@ -35,9 +35,16 @@
                 $rc_size_id = $recent_prod->sizes->first()->id;
                 $rc_price = $size_dt->where('product_id',$recent_prod->id)->where('size_id',$rc_size_id)->first()->price;
                 $rc_sale_price = $size_dt->where('product_id',$recent_prod->id)->where('size_id',$rc_size_id)->first()->sale_price;  
+                $rc_sale_percent = round(($rc_price-$rc_sale_price)/$rc_price*100);
               ?>
               <div class="ps-product--sidebar">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}"></a></div>
+                <div class="ps-product__thumbnail">
+                  <img src="{{url('public/uploads/product')}}/{{$recent_prod->image}}" alt=""/>
+                  <a class="ps-product__overlay" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}"></a>
+                  @if($rc_sale_price)
+                  <span class="ps-badge ps-badge--sale sale_price"><i>{{$rc_sale_percent}}%</i></span>
+                  @endif
+                </div>
                 <div class="ps-product__content pt-3"><a class="ps-product__title mb-0" href="{{route('shop.detail',[$recent_prod->id,Str::slug($recent_prod->name)])}}">{{$recent_prod->name}}</a>
                   <p style="line-height: 1.6rem"><span>{{$recent_prod->weight}}g</span></p><span class="ps-product__price sale">
                     @if(is_null($rc_sale_price))
@@ -68,7 +75,6 @@
             </div>
 
             @yield('shop-main')
-
             
           </div>
         </div>

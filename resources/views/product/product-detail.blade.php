@@ -2,12 +2,21 @@
 @section('title','Product Detail')
 @section('class','product-detail')
 @section('main')
+<?php 
+  $size_id = $pro->sizes->first()->id;
+  $price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->price;
+  $sale_price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->sale_price;  
+?>
 <div class="container">
   <div class="ps-product--detail">
     <div class="ps-product__header">
       <div class="ps-product__thumbnail" data-vertical="false">
         <figure>
-          <div class="ps-wrapper"><span class="ps-badge ps-badge--sale"><i>30%</i></span>
+          <div class="ps-wrapper">
+            @if($sale_price)
+            <?php $sale_percent = round(($price-$sale_price)/$price*100); ?>
+            <span class="ps-badge ps-badge--sale"><i>{{$sale_percent}}%</i></span>
+            @endif
             <div class="ps-product__gallery" data-arrow="true">
                 <div class="item"><a href="{{url('public/uploads/product')}}/{{$pro->image}}"><img src="{{url('public/uploads/product')}}/{{$pro->image}}" alt=""></a></div>
                 @foreach(json_decode($pro->image_list) as $img1)
@@ -40,11 +49,6 @@
             </select>
           </div>
         </div>
-        <?php 
-          $size_id = $pro->sizes->first()->id;
-          $price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->price;
-          $sale_price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->sale_price;  
-        ?>
         <h4 class="ps-product__price sale pro_price">
           @if(!is_null($sale_price))
             <del>${{$price}}</del> ${{$sale_price}}
@@ -192,10 +196,16 @@
           $rl_size_id = $model->sizes->first()->id;
           $rl_price = $size_dt->where('product_id',$model->id)->where('size_id',$rl_size_id)->first()->price;
           $rl_sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$rl_size_id)->first()->sale_price;  
+          $rl_sale_percent = round(($rl_price-$rl_sale_price)/$rl_price*100);
         ?>
         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
           <div class="ps-product">
-            <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" alt=""/><a class="ps-product__overlay" href="product-default.html"></a>
+            <div class="ps-product__thumbnail">
+              <img src="{{url('public/uploads/product')}}/{{$model->image}}" alt=""/>
+              <a class="ps-product__overlay" href="product-default.html"></a>
+              @if($rl_sale_price)
+              <span class="ps-badge ps-badge--sale sale_price"><i>{{$rl_sale_percent}}%</i></span>
+              @endif
             </div>
             <div class="ps-product__content">
               <div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$model->name}}</a>

@@ -212,11 +212,14 @@
               $size_id = $model->sizes->first()->id;
               $price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->price;
               $sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->sale_price;  
+              $sale_percent = round(($price-$sale_price)/$price*100);
             ?>
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
               <div class="ps-product text-center">
                 <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" style="width: 258.75px; height: 258.75px" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}"></a>
-                  <span class="ps-badge ps-badge--new"><i>New</i></span>
+                  @if($sale_price)
+                  <span class="ps-badge ps-badge--sale sale_price"><i>{{$sale_percent}}%</i></span>
+                  @endif
                 </div>
                 <div class="ps-product__content">
                   <div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
