@@ -17,6 +17,8 @@ use App\Models\Size_detail;
 use App\Models\Admin;
 use App\Models\Shipping;
 use App\Models\Payment;
+use App\Models\Order;
+use App\Models\Order_detail;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
 use App\Http\Requests\User\UserRequestChangePW;
@@ -348,5 +350,16 @@ public function size_detail(){
         else{
             return redirect()->route('admin.Payment')->with('error','There are still some orders related to this payment service!');
         }
+    }
+
+//order
+    public function order(Order_detail $order_dt)
+    {
+        $orders = Order::orderBy('created_at','desc')->paginate(8);
+        return view('admin.order.index',compact('orders','order_dt'));
+    }
+    public function order_detail($id)
+    {
+        dd($id);
     }
 }

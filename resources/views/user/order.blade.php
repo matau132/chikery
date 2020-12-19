@@ -10,7 +10,7 @@
           <th class="text-center">Total price</th>
           <th class="text-center">Shipping</th>
           <th class="text-center">Payment</th>
-          <th class="text-center">Order at</th>
+          <th class="text-center">Ordered at</th>
         </tr>
       </thead>
       <tbody>

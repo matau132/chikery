@@ -20,6 +20,10 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class,'id','payment_id');
     }
+    public function customer()
+    {
+        return $this->hasOne(Customer::class,'id','customer_id');
+    }
 
     public function add($request)
     {

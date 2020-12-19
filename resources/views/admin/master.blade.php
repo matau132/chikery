@@ -242,6 +242,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.Order')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Order') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Order</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.Payment')}}" class="nav-link {{Str::contains(Request::route()->getName(),'Payment') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Payment</p>

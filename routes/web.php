@@ -178,4 +178,10 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 		Route::post('/update/{id}','AdminController@post_updatePayment');
 		Route::get('/delete/{id}','AdminController@deletePayment')->name('admin.deletePayment');
 	});
+
+	//order
+	Route::group(['prefix'=>'order'],function(){
+		Route::get('/','AdminController@order')->name('admin.Order');
+		Route::get('/detail/{id}','AdminController@order_detail')->name('admin.Order_detail');
+	});
 });
