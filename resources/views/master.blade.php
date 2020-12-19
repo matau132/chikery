@@ -31,7 +31,14 @@
     </div>
     @else
     <div class="user-wrapper d-flex justify-content-end">
-      <a href="#" class="login-btn mr-4"><i class="fa fa-user pr-2"></i>{{Auth::guard('customer')->user()->email}}</a>
+      <span class="position-relative user-hover">
+      <a href="{{route('user.profile')}}" class="login-btn user-btn mr-4"><i class="fa fa-user pr-2"></i>{{Auth::guard('customer')->user()->email}}</a>
+      <ul class="user-submenu">
+        <li><a href="{{route('user.profile')}}">Profile</a></li>
+        <li><a href="{{route('user.order')}}">My order</a></li>
+        <li><a href="{{route('user.change_pw')}}">Change password</a></li>
+      </ul>
+    </span>
       <a href="{{route('user.logout')}}" style="margin-right: 30px">Log out</a>
     </div>
     @endif
@@ -240,6 +247,13 @@
     <script src="{{url('public/site')}}/js/customize.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
     @yield('js')
+    <script>
+      $(document).ready(function () {
+        $('.user-hover').hover(function(){
+          $('.user-submenu').slideToggle(400);
+        });
+      });
+    </script>
   </body>
 
 <!-- Mirrored from nouthemes.net/html/chikery/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Nov 2020 15:33:27 GMT -->

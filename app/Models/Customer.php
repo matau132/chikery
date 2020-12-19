@@ -20,6 +20,11 @@ class Customer extends Authenticatable
         'avatar',
     ];
 
+    public function order()
+    {
+        return $this->hasMany(Order::class,'customer_id','id');
+    }
+
     public function login($request)
     {
         return Auth::guard('customer')->attempt($request->only('email','password'),$request->has('remember'));
@@ -38,18 +43,14 @@ class Customer extends Authenticatable
         Auth::guard('customer')->attempt($request->only('email','password'),$request->has('remember'));
     }
 
-    // public function edit($id,$request){
-    //     Admin::where('id',$id)->update($request->only('name','email','phone','address'));
-    // }
+    public function edit($id,$request){
+        Customer::where('id',$id)->update($request->only('name','email','phone','address'));
+    }
 
-    // public function edit_pw($id,$request){
-    //     $hashed_pw = bcrypt($request->password);
-    //     Admin::where('id',$id)->update([
-    //         'password' => $hashed_pw
-    //     ]);
-    // }
-
-    // public function remove($id){
-    //     Admin::where('id',$id)->delete();
-    // }
+    public function edit_pw($id,$request){
+        $hashed_pw = bcrypt($request->password);
+        Customer::where('id',$id)->update([
+            'password' => $hashed_pw
+        ]);
+    }
 }

@@ -24,14 +24,22 @@ Route::group(['prefix'=>'shop'],function(){
 	Route::get('/product/{id}-{name}','HomeController@shop_detail')->name('shop.detail');
 	Route::post('/order','HomeController@shop_order')->name('shop.order');
 });
+
 //site user
-Route::group(['prefix'=>'user'],function(){
-	Route::get('/login', 'HomeController@user_login')->name('user.login');
-	Route::post('/login', 'HomeController@post_user_login');
-	Route::get('/register', 'HomeController@user_register')->name('user.register');
-	Route::post('/register', 'HomeController@post_user_register');
-	Route::get('/logout', 'HomeController@user_logout')->name('user.logout');
+Route::get('/login', 'HomeController@user_login')->name('user.login');
+Route::post('/login', 'HomeController@post_user_login');
+Route::get('/register', 'HomeController@user_register')->name('user.register');
+Route::post('/register', 'HomeController@post_user_register');
+Route::get('/logout', 'HomeController@user_logout')->name('user.logout');
+
+Route::group(['prefix'=>'user','middleware'=>'customer'],function(){
+	Route::get('/profile', 'HomeController@user_profile')->name('user.profile');
+	Route::post('/profile', 'HomeController@post_user_profile');
+	Route::get('/order', 'HomeController@user_order')->name('user.order');
+	Route::get('/change_pw', 'HomeController@user_change_pw')->name('user.change_pw');
+	Route::post('/change_pw', 'HomeController@post_user_change_pw');
 });
+
 //site cart
 Route::group(['prefix'=>'cart'],function(){
 	Route::get('/', 'HomeController@cart')->name('cart');

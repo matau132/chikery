@@ -38,6 +38,7 @@
           <a href="{{route('user.register')}}" style="color: #ce873a">Sign up</a>
         </div>
       </form>
+    </div>
   </div>
 </div>
 @stop

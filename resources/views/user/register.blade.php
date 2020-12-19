@@ -54,6 +54,7 @@
           <button type="submit" class="btn">Sign up</button>
         </div>
       </form>
+    </div>
   </div>
 </div>
 @stop

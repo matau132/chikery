@@ -61,9 +61,9 @@
           <div class="ps-shopping__right">
             <div class="ps-shopping__top">
               @if($pros->currentPage()==$pros->lastPage())
-              <p>Show {{$pros->perPage()*($pros->currentPage()-1)+1}}-{{$pros->total()}} of {{$pros->total()}} result</p>
+              <p>Show {{$pros->perPage()*($pros->currentPage()-1)+1}}-{{$pros->total()}} of {{$pros->total()}} result{{$pros->total()>1?'s':''}}</p>
               @else
-              <p>Show {{$pros->perPage()*($pros->currentPage()-1)+1}}-{{$pros->currentPage()*$pros->perPage()}} of {{$pros->total()}} result</p>
+              <p>Show {{$pros->perPage()*($pros->currentPage()-1)+1}}-{{$pros->currentPage()*$pros->perPage()}} of {{$pros->total()}} result{{$pros->total()>1?'s':''}}</p>
               @endif
               <figure>
                 <select class="ps-select shop-sorting" title="Default Sorting">

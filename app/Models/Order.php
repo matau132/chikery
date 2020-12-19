@@ -12,6 +12,15 @@ class Order extends Model
     use HasFactory;
     protected $fillable = ['customer_id','name','phone','address','note','status','payment_id','shipping_id'];
 
+    public function shipping()
+    {
+        return $this->hasOne(Shipping::class,'id','shipping_id');
+    }
+    public function payment()
+    {
+        return $this->hasOne(Payment::class,'id','payment_id');
+    }
+
     public function add($request)
     {
         $cart = new Cart();

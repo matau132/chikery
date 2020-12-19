@@ -79,6 +79,88 @@
     padding: 30px 50px !important;
 }
 
+/* user sub menu */
+.user-submenu{
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    padding: 0 !important;
+    margin-bottom: 0;
+    z-index: 10000;
+    list-style: none;
+    background: #fff;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
+}
+.user-submenu a{
+    display: block;
+    padding: 10px;
+    width: 100%;
+    transition: .5s ease-out;
+}
+.user-submenu a::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #ce873a;
+    transition: .5s ease-out;
+}
+.user-submenu a:hover::after{
+    width: 100%;
+}
+
+/* user-profile */
+.user-profile-wrapper .user-nav{
+    padding: 10px;
+}
+.user-profile-wrapper .user-nav.active{
+    background: #ce873a;
+    color: #fff;
+}
+.user-profile-wrapper .form-group{
+    width: 100% !important;
+}
+.user-profile-wrapper .form-group label{
+    width: 25%;
+    justify-content: flex-end;
+    padding-right: 70px;
+    font-size: 1.5rem;
+}
+.user-profile-wrapper .form-group input{
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 5px;
+}
+.user-profile-wrapper .btn-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.user-profile-wrapper .btn-wrapper button{
+    font-size: 1.7rem;
+    padding: 5px 20px;
+}
+.user-order thead tr{
+    height: 80px;
+}
+.user-order th{
+    font-size: 14px !important;
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+.user-order td{
+    min-width: 0 !important;
+    padding: 20px 10px !important;
+    font-size: 18px !important;
+    cursor: pointer;
+}
+
 /* sale price */
 .sale_price{
     position: absolute;

@@ -16,6 +16,7 @@ use App\Models\Blog;
 use App\Models\Shipping;
 use App\Models\Payment;
 use App\Models\Order;
+use App\Models\Order_detail;
 use App\Http\Requests\User\UserRequestLogin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
@@ -133,7 +134,7 @@ class HomeController extends Controller
     {
         if (session('link')) {
             $myPath     = session('link');
-            $loginPath  = url('/user/login');
+            $loginPath  = url('/login');
             $previous   = url()->previous();
             if ($previous == $loginPath) {
                 session(['link' => $myPath]);
@@ -169,6 +170,29 @@ class HomeController extends Controller
     {
         Auth::guard('customer')->logout();
         return redirect()->back();
+    }
+    public function user_profile()
+    {
+        return view('user.profile');
+    }
+    public function post_user_profile(UserRequestUpdate $request,Customer $user)
+    {
+        $user->edit($request->id,$request);
+        return redirect()->back()->with('success','Your information has been saved!');
+    }
+    public function user_order(Order_detail $order_dt)
+    {
+        $orders = Auth::guard('customer')->user()->order->sortByDesc('created_at');
+        return view('user.order',compact('orders','order_dt'));
+    }
+    public function user_change_pw()
+    {
+        return view('user.change_pw');
+    }
+    public function post_user_change_pw(UserRequestChangePW $request,Customer $user)
+    {  
+       $user->edit_pw($request->id,$request); 
+       return redirect()->back()->with('success','Your password has been changed!');
     }
 
 //cart  
