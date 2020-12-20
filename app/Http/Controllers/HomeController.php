@@ -185,6 +185,17 @@ class HomeController extends Controller
         $orders = Auth::guard('customer')->user()->order->sortByDesc('created_at');
         return view('user.order',compact('orders','order_dt'));
     }
+    public function user_order_detail($id)
+    {
+        $order = Order::find($id);
+        if($order){
+            $order_dt = Order_detail::where('order_id',$id)->get();
+            return view('user.order_detail',compact('order','order_dt'));
+        }
+        else{
+            return view('error.error');
+        }
+    }
     public function user_change_pw()
     {
         return view('user.change_pw');

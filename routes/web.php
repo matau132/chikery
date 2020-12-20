@@ -36,6 +36,7 @@ Route::group(['prefix'=>'user','middleware'=>'customer'],function(){
 	Route::get('/profile', 'HomeController@user_profile')->name('user.profile');
 	Route::post('/profile', 'HomeController@post_user_profile');
 	Route::get('/order', 'HomeController@user_order')->name('user.order');
+	Route::get('/order-detail/{id}', 'HomeController@user_order_detail')->name('user.order_detail');
 	Route::get('/change_pw', 'HomeController@user_change_pw')->name('user.change_pw');
 	Route::post('/change_pw', 'HomeController@post_user_change_pw');
 });

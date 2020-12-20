@@ -367,6 +367,14 @@
 </div>
 <!-- ./wrapper -->
 
+{{-- loading animation --}}
+<div class="load-animation" style="display: none">
+  <div class="loadingio-spinner-rolling-0csmh137313w"><div class="ldio-ynhbpq8l4qe">
+    <div></div>
+    </div></div>
+</div>
+
+
 <!-- jQuery -->
 <script src="{{url('public/admin')}}/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->

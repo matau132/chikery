@@ -27,7 +27,7 @@
         @if($models->status==1)
         <td class="text-warning">Pending</td>
         @elseif($models->status==2)
-        <td class="text-warning">Sending</td>
+        <td class="text-primary">Sending</td>
         @elseif($models->status==3)
         <td class="text-success">Received</td>
         @else

@@ -358,8 +358,10 @@ public function size_detail(){
         $orders = Order::orderBy('created_at','desc')->paginate(8);
         return view('admin.order.index',compact('orders','order_dt'));
     }
-    public function order_detail($id)
+    public function order_detail($id,Size_detail $size_dt)
     {
-        dd($id);
+        $order_dt = Order_detail::where('order_id',$id)->get();
+        $order = Order::find($id);
+        return view('admin.order.order_detail',compact('order_dt','order','size_dt'));
     }
 }

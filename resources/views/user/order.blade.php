@@ -8,7 +8,7 @@
           <th class="text-center">Status</th>
           <th class="text-center">Product quantity</th>
           <th class="text-center">Total price</th>
-          <th class="text-center">Shipping</th>
+          <th class="text-center">Delivery</th>
           <th class="text-center">Payment</th>
           <th class="text-center">Ordered at</th>
         </tr>
@@ -19,12 +19,12 @@
                 $shipping_price = $models->shipping->price;
                 $total_order_price = $order_price + $shipping_price;
           ?>
-          <tr>
+          <tr class="this_order" style="cursor: pointer">
             <td class="text-center">{{$models->id}}</td>
             @if($models->status==1)
             <td class="text-center text-warning">Pending</td>
             @elseif($models->status==2)
-            <td class="text-center text-warning">Sending</td>
+            <td class="text-center text-primary">Sending</td>
             @elseif($models->status==3)
             <td class="text-center text-success">Received</td>
             @else
@@ -40,4 +40,13 @@
       </tbody>
     </table>
   </div>
+@stop
+
+@section('js')
+<script>
+    $('.this_order').click(function(){
+        var order_id = parseInt($(this).children(':first-child').html());
+        window.location.assign('{{url("user/order-detail")}}'+'/'+order_id);
+    });
+</script>
 @stop
