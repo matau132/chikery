@@ -38,8 +38,8 @@ Route::group(['prefix'=>'user','middleware'=>'customer'],function(){
 	Route::get('/order', 'HomeController@user_order')->name('user.order');
 	Route::get('/order-detail/{id}', 'HomeController@user_order_detail')->name('user.order_detail');
 	Route::get('/order-cancel/{id}', 'HomeController@user_order_cancel')->name('user.order_cancel');
-	Route::get('/change_pw', 'HomeController@user_change_pw')->name('user.change_pw');
-	Route::post('/change_pw', 'HomeController@post_user_change_pw');
+	Route::get('/change-password', 'HomeController@user_change_pw')->name('user.change_pw');
+	Route::post('/change-password', 'HomeController@post_user_change_pw');
 });
 
 //site cart
