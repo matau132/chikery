@@ -44,8 +44,19 @@ class HomeController extends Controller
     }
 
 //shop
-    public function shop(Size_detail $size_dt){
-        $pros = Product::orderby('name','asc')->paginate(6);
+    public function shop(Size_detail $size_dt, Request $request){
+        if(isset($request->sort)){
+            $sort = $request->sort;
+            if($sort=='nameA-Z'){
+                $pros = Product::orderby('name','asc')->paginate(6);
+            }
+            elseif($sort=='nameZ-A'){
+                $pros = Product::orderby('name','desc')->paginate(6);
+            }
+        }
+        else{
+            $pros = Product::orderby('created_at','desc')->paginate(6);
+        }
         $ingre_id = 0;
     	return view('shop.shop_product',[
             'cats' => $this->cats,
@@ -56,8 +67,19 @@ class HomeController extends Controller
             'size_dt' => $size_dt
             ]);
     }
-    public function shop_cat($id,$name,Size_detail $size_dt){
-        $pros = Product::where('category_id',$id)->paginate(6);
+    public function shop_cat($id,$name,Size_detail $size_dt,Request $request){
+        if(isset($request->sort)){
+            $sort = $request->sort;
+            if($sort=='nameA-Z'){
+                $pros = Product::where('category_id',$id)->orderBy('name','asc')->paginate(6);
+            }
+            elseif($sort=='nameZ-A'){
+                $pros = Product::where('category_id',$id)->orderBy('name','desc')->paginate(6);
+            }
+        }
+        else{
+            $pros = Product::where('category_id',$id)->orderBy('created_at','desc')->paginate(6);
+        }
         $ingre_id = 0;
         if($pros){
             return view('shop.shop_product',[
@@ -73,11 +95,22 @@ class HomeController extends Controller
             return redirect()->route('error');
         }
     }
-    public function shop_ingre($id,$name,Size_detail $size_dt){
+    public function shop_ingre($id,$name,Size_detail $size_dt,Request $request){
         $prod = Ingredient::find($id);
         $ingre_id = $id;
         if($prod){
-            $pros = $prod->products->paginate(6);
+            if(isset($request->sort)){
+                $sort = $request->sort;
+                if($sort=='nameA-Z'){
+                    $pros = $prod->products->sortBy('name')->paginate(6);
+                }
+                elseif($sort=='nameZ-A'){
+                    $pros = $prod->products->sortByDesc('name')->paginate(6);
+                }
+            }
+            else{
+                $pros = $prod->products->sortByDesc('created_at')->paginate(6);
+            }
             return view('shop.shop_product',[
                 'cats' => $this->cats,
                 'ingre' => $this->ingre,

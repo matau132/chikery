@@ -40,7 +40,7 @@
 		@endforeach
 	</div>
 </div>
-{{$pros->links('vendor/pagination/shop-paginate')}}
+{{$pros->appends(request()->input())->links('vendor/pagination/shop-paginate')}}
 
 <!-- <div class="ps-pagination">
 	<ul class="pagination">
@@ -52,22 +52,3 @@
 	</ul>
 </div> -->
 @stop
-{{-- @section('js')
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-<script>
-	$(document).ready(function () {
-		$('.shop-sorting').change(function () { 
-			$.ajax({
-				url: 'api/product',
-				success: function (res) {
-					Cookies.set('product',JSON.stringify(res));
-					var demo = JSON.parse(Cookies.get('product'));
-					location.reload();
-				}
-			});
-			
-		});
-		
-	});
-</script>
-@stop --}}

@@ -67,9 +67,11 @@
               @endif
               <figure>
                 <select class="ps-select shop-sorting" title="Default Sorting">
-                  <option value="1">Default Sorting 1</option>
-                  <option value="2">Default Sorting 2</option>
-                  <option value="3">Default Sorting 3</option>
+                  <option selected disabled>Sort by</option>
+                  <option value="nameA-Z" {{request()->sort=='nameA-Z'?'selected':''}}>Name: A-Z</option>
+                  <option value="nameZ-A" {{request()->sort=='nameZ-A'?'selected':''}}>Name: Z-A</option>
+                  <option value="priceLow-High" {{request()->sort=='priceLow-High'?'selected':''}}>Price: Low to High</option>
+                  <option value="priceHigh-Low" {{request()->sort=='priceHigh-Low'?'selected':''}}>Price: High to Low</option>
                 </select>
               </figure>
             </div>
@@ -80,4 +82,15 @@
         </div>
       </div>
     </div>
+@stop
+
+@section('js')
+<script>
+  $(document).ready(function () {
+    $('.shop-sorting').change(function(){
+      var sort = $(this).val();
+      window.location.assign('{{Request::url()}}'+'?sort='+sort);
+    });
+  });
+</script>
 @stop
