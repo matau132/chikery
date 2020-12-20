@@ -151,7 +151,7 @@
 }
 .user-order th{
     font-size: 14px !important;
-    padding: 0 !important;
+    padding: 0 10px !important;
     vertical-align: middle !important;
 }
 .user-order td{

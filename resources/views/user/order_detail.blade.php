@@ -23,7 +23,7 @@
           </div>
           <div class="d-flex flex-wrap">
             <p style="width: 30%">Note: </p>
-            <p style="width: 70%">{{$order->customer->note}}</p>
+            <p style="width: 70%">{{$order->note}}</p>
           </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -94,5 +94,10 @@
         </tr>
       </tbody>
     </table>
+    @if($order->status==1)
+    <div class="mt-5">
+      <a href="{{route('user.order_cancel',$order->id)}}" class="btn btn-danger" style="font-size: 1.5rem">Cancel order</a>
+    </div>
+    @endif
 </div>
 @stop

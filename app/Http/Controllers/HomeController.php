@@ -182,7 +182,7 @@ class HomeController extends Controller
     }
     public function user_order(Order_detail $order_dt)
     {
-        $orders = Auth::guard('customer')->user()->order->sortByDesc('created_at');
+        $orders = Auth::guard('customer')->user()->order->sortByDesc('updated_at');
         return view('user.order',compact('orders','order_dt'));
     }
     public function user_order_detail($id)
@@ -195,6 +195,13 @@ class HomeController extends Controller
         else{
             return view('error.error');
         }
+    }
+    public function user_order_cancel($id)
+    {
+        Order::find($id)->update([
+            'status' => 4
+        ]);
+        return redirect()->route('user.order')->with('success','Your order has been canceled');
     }
     public function user_change_pw()
     {
@@ -251,7 +258,7 @@ class HomeController extends Controller
     {
         $order->add($request);
         session()->forget('cart');
-        return redirect()->route('cart');
+        return redirect()->route('user.order')->with('success','Thanks for your purchase!');
     }
 
     public function whishlist(){

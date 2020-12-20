@@ -38,7 +38,7 @@
       </div>
       <div class="d-flex flex-wrap">
         <p style="width: 30%">Note: </p>
-        <p style="width: 70%">{{$order->customer->note}}</p>
+        <p style="width: 70%">{{$order->note}}</p>
       </div>
     </div>
     <div class="col-lg-6 col-md-6">
