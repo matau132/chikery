@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Auth;
+use DB;
 use App\Helpers\Cart;
 use App\Models\Product;
 use App\Models\Category;
@@ -48,14 +49,23 @@ class HomeController extends Controller
         if(isset($request->sort)){
             $sort = $request->sort;
             if($sort=='nameA-Z'){
-                $pros = Product::orderby('name','asc')->paginate(6);
+                $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name'))->get()->unique('product_id')->sortBy('product_name')->paginate(6);
             }
             elseif($sort=='nameZ-A'){
-                $pros = Product::orderby('name','desc')->paginate(6);
+                $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name'))->get()->unique('product_id')->sortByDesc('product_name')->paginate(6);
+            }
+            elseif($sort=='priceLow-High'){
+                $pros = Size_detail::select('*',DB::raw('coalesce(sale_price,price) as current_price'))->get()->unique('product_id')->sortBy('current_price')->paginate(6);
+            }
+            elseif($sort=='priceHigh-Low'){
+                $pros = Size_detail::select('*',DB::raw('coalesce(sale_price,price) as current_price'))->get()->unique('product_id')->orderByDesc('current_price')->paginate(6);
+            }
+            else{
+                return redirect()->route('error');
             }
         }
         else{
-            $pros = Product::orderby('created_at','desc')->paginate(6);
+            $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.created_at as product_created'))->get()->unique('product_id')->sortByDesc('product_created')->paginate(6);
         }
         $ingre_id = 0;
     	return view('shop.shop_product',[
@@ -71,14 +81,23 @@ class HomeController extends Controller
         if(isset($request->sort)){
             $sort = $request->sort;
             if($sort=='nameA-Z'){
-                $pros = Product::where('category_id',$id)->orderBy('name','asc')->paginate(6);
+                $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name'))->where('category_id',$id)->get()->unique('product_id')->sortBy('product_name')->paginate(6);
             }
             elseif($sort=='nameZ-A'){
-                $pros = Product::where('category_id',$id)->orderBy('name','desc')->paginate(6);
+                $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name'))->where('category_id',$id)->get()->unique('product_id')->sortByDesc('product_name')->paginate(6);
+            }
+            elseif($sort=='priceLow-High'){
+                $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('coalesce(sale_price,price) as current_price'))->where('category_id',$id)->get()->unique('product_id')->sortBy('current_price')->paginate(6);
+            }
+            elseif($sort=='priceHigh-Low'){
+                $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('coalesce(sale_price,price) as current_price'))->where('category_id',$id)->get()->unique('product_id')->sortByDesc('current_price')->paginate(6);
+            }
+            else{
+                return redirect()->route('error');
             }
         }
         else{
-            $pros = Product::where('category_id',$id)->orderBy('created_at','desc')->paginate(6);
+            $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.created_at as product_created'))->where('category_id',$id)->get()->unique('product_id')->sortByDesc('product_created')->paginate(6);
         }
         $ingre_id = 0;
         if($pros){
@@ -102,14 +121,23 @@ class HomeController extends Controller
             if(isset($request->sort)){
                 $sort = $request->sort;
                 if($sort=='nameA-Z'){
-                    $pros = $prod->products->sortBy('name')->paginate(6);
+                    $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('products.name as product_name'))->where('ingredient_id',$ingre_id)->get()->unique('product_id')->sortBy('product_name')->paginate(6);
                 }
                 elseif($sort=='nameZ-A'){
-                    $pros = $prod->products->sortByDesc('name')->paginate(6);
+                    $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('products.name as product_name'))->where('ingredient_id',$ingre_id)->get()->unique('product_id')->sortBy('product_name')->paginate(6);
+                }
+                elseif($sort=='priceLow-High'){
+                    $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('coalesce(sale_price,price) as current_price'))->where('ingredient_id',$ingre_id)->get()->unique('product_id')->sortBy('current_price')->paginate(6);
+                }
+                elseif($sort=='priceHigh-Low'){
+                    $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('coalesce(sale_price,price) as current_price'))->where('ingredient_id',$ingre_id)->get()->unique('product_id')->sortByDesc('current_price')->paginate(6);
+                }
+                else{
+                    return redirect()->route('error');
                 }
             }
             else{
-                $pros = $prod->products->sortByDesc('created_at')->paginate(6);
+                $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('products.created_at as product_created'))->where('ingredient_id',$ingre_id)->get()->unique('product_id')->sortByDesc('product_created')->paginate(6);
             }
             return view('shop.shop_product',[
                 'cats' => $this->cats,

@@ -7,23 +7,22 @@
 		@endif
 		@foreach($pros as $model)
 		<?php 
-			$size_id = $model->sizes->first()->id;
-			$price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->price;
-			$sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->sale_price;  
+			$price = $model->price;
+			$sale_price = $model->sale_price;  
 			$sale_percent = round(($price-$sale_price)/$price*100);
 		?>
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
 			<div class="ps-product">
 				<div class="ps-product__thumbnail">
-					<img src="{{url("public/uploads/product")}}/{{$model->image}}" alt=""/>
-					<a class="ps-product__overlay" href="{{route("shop.detail",[$model->id,Str::slug($model->name)])}}"></a>
+					<img src="{{url("public/uploads/product")}}/{{$model->product->image}}" alt=""/>
+					<a class="ps-product__overlay" href="{{route("shop.detail",[$model->product->id,Str::slug($model->product->name)])}}"></a>
 					@if($sale_price)
 					<span class="ps-badge ps-badge--sale"><i>{{$sale_percent}}%</i></span>
 					@endif
 				</div>
 				<div class="ps-product__content">
-					<div class="ps-product__desc"><a class="ps-product__title" href="{{route("shop.detail",[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
-						<p><span>{{$model->weight}}g</span></p><span class="ps-product__price sale">
+					<div class="ps-product__desc"><a class="ps-product__title" href="{{route("shop.detail",[$model->product->id,Str::slug($model->product->name)])}}">{{$model->product->name}}</a>
+						<p><span>{{$model->product->weight}}g</span></p><span class="ps-product__price sale">
 							@if(is_null($sale_price))
 								${{number_format($price,2)}}
 							@else
@@ -31,7 +30,7 @@
 							@endif
 						</span>
 					</div>
-						<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->id,'size_id'=>$size_id])}}">Add to cart</a>
+						<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->product->id,'size_id'=>$model->size_id])}}">Add to cart</a>
 						<div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
 					</div>
 				</div>
