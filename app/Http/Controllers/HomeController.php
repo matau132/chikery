@@ -64,6 +64,9 @@ class HomeController extends Controller
                 return redirect()->route('error');
             }
         }
+        elseif(isset($request->filterMin)){
+            $pros = Size_detail::select('*',DB::raw('coalesce(sale_price,price) as current_price'))->having('current_price','>',$request->filterMin)->having('current_price','<',$request->filterMax)->get()->unique('product_id')->paginate(6);
+        }
         else{
             $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.created_at as product_created'))->get()->unique('product_id')->sortByDesc('product_created')->paginate(6);
         }
@@ -95,6 +98,9 @@ class HomeController extends Controller
             else{
                 return redirect()->route('error');
             }
+        }
+        elseif(isset($request->filterMin)){
+            $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('coalesce(sale_price,price) as current_price'))->where('category_id',$id)->having('current_price','>',$request->filterMin)->having('current_price','<',$request->filterMax)->get()->unique('product_id')->paginate(6);
         }
         else{
             $pros = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.created_at as product_created'))->where('category_id',$id)->get()->unique('product_id')->sortByDesc('product_created')->paginate(6);
@@ -135,6 +141,9 @@ class HomeController extends Controller
                 else{
                     return redirect()->route('error');
                 }
+            }
+            elseif(isset($request->filterMin)){
+                $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('coalesce(sale_price,price) as current_price'))->where('ingredient_id',$ingre_id)->having('current_price','>',$request->filterMin)->having('current_price','<',$request->filterMax)->get()->unique('product_id')->paginate(6);
             }
             else{
                 $pros = Size_detail::join('products','products.id','=','product_id')->join('product_details','product_details.product_id','=','products.id')->select('size_details.*',DB::raw('products.created_at as product_created'))->where('ingredient_id',$ingre_id)->get()->unique('product_id')->sortByDesc('product_created')->paginate(6);
