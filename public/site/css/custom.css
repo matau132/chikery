@@ -182,6 +182,14 @@
     color: #fff;
 }
 
+/* whishlist */
+.whishlist_btn.active{
+    background: #7f462c !important;
+}
+.whishlist_btn.active i{
+    color: #ffffff !important;
+}
+
 /* loading animation */
 .load-animation{
     position: fixed;

@@ -54,7 +54,12 @@ Route::group(['prefix'=>'cart'],function(){
 Route::get('/checkout', 'HomeController@checkout')->name('checkout')->middleware('customer');
 Route::post('/checkout', 'HomeController@post_checkout');
 
-Route::get('/whishlist', 'HomeController@whishlist')->name('whishlist');
+//whishlist
+Route::group(['prefix'=>'whishlist','middleware'=>'customer'],function(){
+	Route::get('/', 'HomeController@whishlist')->name('whishlist');
+	Route::get('/remove/{id}-{size_id}', 'HomeController@whishlist_remove')->name('whishlist.remove');
+});
+
 Route::get('/blog', 'HomeController@blog')->name('blog');
 Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/search', 'HomeController@search')->name('search');

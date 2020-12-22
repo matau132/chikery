@@ -31,7 +31,21 @@
 						</span>
 					</div>
 						<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->product->id,'size_id'=>$model->size_id])}}">Add to cart</a>
-						<div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
+						<?php 
+							if(Auth::guard('customer')->check()){
+								$whishlishs = [];
+								foreach(Auth::guard('customer')->user()->whishlist as $whish){
+									$whishlishs[] = $whish->product_id;
+								}
+							}	
+						?>
+						<div class="ps-product__actions">
+							@if(Auth::guard('customer')->check())
+							<a href="" class="whishlist_btn {{in_array($model->product->id,$whishlishs)?'active':''}}"><i class="fa fa-heart-o"></i></a>
+							@endif
+							<input type="hidden" value="{{$model->product->id}}">
+							<input type="hidden" value="{{$model->size_id}}">
+							<a href="#"><i class="fa fa-random"></i></a></div>
 					</div>
 				</div>
 			</div>
@@ -50,4 +64,37 @@
 		<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
 	</ul>
 </div> -->
+@stop
+
+@section('js')
+<script>
+	$(document).ready(function () {
+		$('.whishlist_btn').click(function(){
+			$('.load-animation').css('display','flex');
+			if($(this).hasClass('active')){
+				$.ajax({
+					url: '{{url("api/remove/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $(this).next().next().val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).removeClass('active');
+			}
+			else{
+				$.ajax({
+					url: '{{url("api/add/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $(this).next().next().val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).addClass('active');
+			}
+			return false;
+		});
+	});
+</script>
 @stop

@@ -18,6 +18,7 @@ use App\Models\Shipping;
 use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Order_detail;
+use App\Models\Whishlist;
 use App\Http\Requests\User\UserRequestLogin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
@@ -331,9 +332,19 @@ class HomeController extends Controller
         return redirect()->route('user.order')->with('success','Thanks for your purchase!');
     }
 
-    public function whishlist(){
-    	return view('whishlist.whishlist');
+//whishlist 
+    public function whishlist(Size_detail $size_dt){
+        $user = Auth::guard('customer')->user();
+        $whishlists = Whishlist::where('customer_id',$user->id)->get();
+    	return view('whishlist.whishlist',compact('whishlists','size_dt'));
     }
+    public function whishlist_remove($id,$size_id){
+        $user = Auth::guard('customer')->user();
+        Whishlist::where('customer_id',$user->id)->where('product_id',$id)->where('size_id',$size_id)->delete();
+    	return redirect()->back();
+    }
+
+
     public function blog(){
     	return view('blog.blog-grid');
     }

@@ -24,6 +24,10 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(Order::class,'customer_id','id');
     }
+    public function whishlist()
+    {
+        return $this->hasMany(Whishlist::class,'customer_id','id');
+    }
 
     public function login($request)
     {

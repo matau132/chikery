@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\Size_detail;
 use App\Models\Order;
+use App\Models\Whishlist;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ use App\Models\Order;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::get('/product',function(){
     return Product::paginate(2);
 });
@@ -35,5 +37,14 @@ Route::post('/order-status',function(Request $request){
     $check = Order::where('id',$request->order_id)->update([
         'status' => $request->status
     ]);
+    return $check;
+}); 
+
+Route::post('/add/whishlist',function(Request $request){
+    $check = Whishlist::create($request->only('customer_id','product_id','size_id'));
+    return $check;
+}); 
+Route::post('/remove/whishlist',function(Request $request){
+    $check = Whishlist::where('customer_id',$request->customer_id)->where('product_id',$request->product_id)->delete();
     return $check;
 }); 

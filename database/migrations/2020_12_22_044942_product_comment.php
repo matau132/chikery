@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Whishlist extends Migration
+class ProductComment extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class Whishlist extends Migration
      */
     public function up()
     {
-        Schema::create('whishlists', function (Blueprint $table) {
+        Schema::create('product_comments', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('customer_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('size_id')->unsigned();
+            $table->text('content')->nullable();
+            $table->tinyInteger('rating');
             $table->timestamps();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('size_id')->references('id')->on('sizes');
-            $table->primary(['customer_id', 'product_id']);
         });
     }
 
@@ -32,6 +32,6 @@ class Whishlist extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('whishlists');
+        Schema::dropIfExists('product_comments');
     }
 }

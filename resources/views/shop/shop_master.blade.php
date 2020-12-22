@@ -16,9 +16,9 @@
             </aside>
             <aside class="widget widget_shop widget_shop-filter">
               <h3 class="widget-title">Filter price</h3>
-              <div class="ps-slider" data-default-min="0" data-default-max="2000" data-max="2000" data-step="100" data-unit="$"></div>
+              <div class="ps-slider" data-default-min="{{request()->has('filterMin')?request()->filterMin:0}}" data-default-max="{{request()->has('filterMax')?request()->filterMax:2000}}" data-max="2000" data-step="100" data-unit="$"></div>
               <p class="ps-slider__meta">Price:<span class="ps-slider__value ps-slider__min"></span>-<span class="ps-slider__value ps-slider__max"></span></p>
-              <button type="button" class="btn btn-warning btn_filter" style="font-size: 1.5rem;background-color: #ce873a;color: #fff">Filter</button>
+              <button type="button" class="btn btn-warning mt-3 btn_filter" style="font-size: 1.5rem;background-color: #ce873a;color: #fff">Filter</button>
             </aside>
             <aside class="widget widget_shop widget_shop-ingredients">
               <h3 class="widget-title">Ingredient</h3>

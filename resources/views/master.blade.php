@@ -87,7 +87,7 @@
         </nav>
       </div>
       <div class="header__right">
-        <div class="header__actions"><a class="ps-search-btn" href="#"><i class="fa fa-search"></i></a><a href="#"><i class="fa fa-heart-o"></i></a>
+        <div class="header__actions"><a class="ps-search-btn" href="#"><i class="fa fa-search"></i></a><a href="{{route('whishlist')}}"><i class="fa fa-heart-o"></i></a>
           <x-cart />
         </div>
       </div>
