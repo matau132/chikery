@@ -69,7 +69,7 @@
       </nav>
     </div>
     <div class="header__right">
-      <div class="header__actions"><a class="ps-search-btn" href="#"><i class="fa fa-search"></i></a><a href="#"><i class="fa fa-heart-o"></i></a>
+      <div class="header__actions"><a class="ps-search-btn" href="#"><i class="fa fa-search"></i></a><a href="{{route('whishlist')}}"><i class="fa fa-heart-o"></i></a>
         <x-cart />
       </div>
     </div>
@@ -79,7 +79,7 @@
       <div class="header__left"><a class="ps-toggle--sidebar" href="#navigation-mobile"><i class="fa fa-bars"></i></a></div>
       <div class="header__center"><a class="ps-logo" href="{{route('home')}}"><img src="{{url('public/uploads')}}/logo.png" alt=""></a></div>
       <div class="header__right">
-        <div class="header__actions"><a href="#"><i class="fa fa-heart-o"></i></a></div>
+        <div class="header__actions"><a href="{{route('whishlist')}}"><i class="fa fa-heart-o"></i></a></div>
       </div>
     </div>
   </header>

@@ -3,7 +3,7 @@
 @section('class','contact')
 @section('main')
 <div class="ps-section ps-contact">
-  <div id="contact-map" data-address="17 Queen St, Southbank, Melbourne 10560, Australia" data-title="Funiture!" data-zoom="17"></div>
+  {{-- <div id="contact-map" data-address="17 Queen St, Southbank, Melbourne 10560, Australia" data-title="Funiture!" data-zoom="17"></div> --}}
   <div class="container">
     <div class="ps-section__header">
       <p>Contact Info</p>

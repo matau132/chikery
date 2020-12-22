@@ -85,7 +85,7 @@
     </div>
 @stop
 
-@section('js')
+@section('sub-js')
 <script>
   $(document).ready(function () {
     $('.shop-sorting').change(function(){

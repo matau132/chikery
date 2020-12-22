@@ -175,7 +175,7 @@ class HomeController extends Controller
     }
     public function search(Request $request,Size_detail $size_dt)
     {
-        $pros = Product::where('name','like','%'.$request->key_word.'%')->paginate(6);
+        $pros = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('name','like','%'.$request->key_word.'%')->get()->unique('product_id')->paginate(6);
         $ingre_id = 0;
         return view('shop.shop_product',[
             'cats' => $this->cats,

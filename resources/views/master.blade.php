@@ -97,7 +97,7 @@
         <div class="header__left"><a class="ps-toggle--sidebar" href="#navigation-mobile"><i class="fa fa-bars"></i></a></div>
         <div class="header__center"><a class="ps-logo" href="{{route('home')}}"><img src="{{url('public/uploads')}}/logo.png" alt=""></a></div>
         <div class="header__right">
-          <div class="header__actions"><a href="#"><i class="fa fa-heart-o"></i></a></div>
+          <div class="header__actions"><a href="{{route('whishlist')}}"><i class="fa fa-heart-o"></i></a></div>
         </div>
       </div>
     </header>
@@ -247,6 +247,7 @@
     <script src="{{url('public/site')}}/js/customize.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
     @yield('js')
+    @yield('sub-js')
     <script>
       $(document).ready(function () {
         $('.user-hover').hover(function(){
