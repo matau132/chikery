@@ -58,6 +58,7 @@ Route::post('/checkout', 'HomeController@post_checkout');
 Route::group(['prefix'=>'whishlist','middleware'=>'customer'],function(){
 	Route::get('/', 'HomeController@whishlist')->name('whishlist');
 	Route::get('/remove/{id}-{size_id}', 'HomeController@whishlist_remove')->name('whishlist.remove');
+	Route::post('/order', 'HomeController@whishlist_order')->name('whishlist.order');
 });
 
 Route::get('/blog', 'HomeController@blog')->name('blog');

@@ -5,7 +5,10 @@
 <?php 
   $size_id = $pro->sizes->first()->id;
   $price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->price;
-  $sale_price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->sale_price;  
+  $sale_price = $size_dt->where('product_id',$pro->id)->where('size_id',$size_id)->first()->sale_price;
+  if(Auth::guard('customer')->check()){
+    $user = Auth::guard('customer')->user();
+  }
 ?>
 <div class="container">
   <div class="ps-product--detail">
@@ -51,9 +54,9 @@
         </div>
         <h4 class="ps-product__price sale pro_price">
           @if(!is_null($sale_price))
-            <del>${{$price}}</del> ${{$sale_price}}
+            <del>${{number_format($price,2)}}</del> ${{number_format($sale_price,2)}}
           @else
-          ${{$price}}
+          ${{number_format($price,2)}}
           @endif
         </h4>
         <div class="ps-product__desc">
@@ -63,7 +66,7 @@
           <p><strong>AVAILABILITY:</strong>{{$pro->status==1?'InStock':'Out of stock'}}</p>
           <p><strong> CATEGORIES:</strong><a href="{{route('shop.ingredient',[$pro->category->id, Str::slug($pro->category->name)])}}">{{$pro->category->name}}</a></p>
         </div>
-        <div class="ps-product__shopping">
+        <div class="ps-product__shopping flex-wrap">
           <select class="ps-select size_box" title="Choose Size" name="size">
             @foreach($pro->sizes as $model)
             <option value="{{$model->id}}">{{$model->name}}</option>
@@ -73,14 +76,24 @@
             <button type="button" class="up"></button>
             <button type="button" class="down"></button>
             <input class="form-control pro_quantity" type="text" value="1" name="quantity">
-          </div><button class="ps-btn">Order now</button>
-          <div class="ps-product__actions"><a href="#"><i class="icon-heart"></i></a><a href="#"><i class="icon-chart-bars"></i></a></div>
+          </div><button class="ps-btn mt-3 mt-xl-0 order_btn">Order now</button>
+          <div class="ps-product__actions">
+            <a href="#"><i class="icon-heart"></i></a>
+            <a href="#"><i class="icon-chart-bars"></i></a>
+          </div>
         </div>
         @error('quantity')
           <small id="emailHelp" class="form-text text-danger mb-4" style="font-size:1.5rem;margin-top: -20px">{{$message}}.</small>
         @enderror
-        <div class="ps-product__sharing">
-          <div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
+        <div class="ps-product__sharing d-flex">
+          <div class="ps-product__actions d-flex">
+            @if(Auth::guard('customer')->check())
+            <?php $flag = $whishlist->where('customer_id',$user->id)->where('product_id',$pro->id)->where('size_id',$pro->sizes->first()->id)->first(); ?>
+            <a href="" class="dt_whishlist {{$flag?'active':''}}"><i class="fa fa-heart-o"></i></a>
+            @endif
+            <input type="hidden" value="{{$pro->id}}">
+            <a href="#"><i class="fa fa-random"></i></a>
+          </div>
           <p>Share This:<a class="facebook" href="#"><i class="fa fa-facebook"></i></a><a class="twitter" href="#"><i class="fa fa-twitter"></i></a><a class="google" href="#"><i class="fa fa-google-plus"></i></a><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></p>
         </div>
       </div>
@@ -193,23 +206,22 @@
       <div class="row">
         @foreach($relate_pro as $model)
         <?php 
-          $rl_size_id = $model->sizes->first()->id;
-          $rl_price = $size_dt->where('product_id',$model->id)->where('size_id',$rl_size_id)->first()->price;
-          $rl_sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$rl_size_id)->first()->sale_price;  
+          $rl_price = $model->price;
+          $rl_sale_price = $model->sale_price;  
           $rl_sale_percent = round(($rl_price-$rl_sale_price)/$rl_price*100);
         ?>
         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
           <div class="ps-product">
             <div class="ps-product__thumbnail">
-              <img src="{{url('public/uploads/product')}}/{{$model->image}}" alt=""/>
+              <img src="{{url('public/uploads/product')}}/{{$model->product->image}}" alt=""/>
               <a class="ps-product__overlay" href="product-default.html"></a>
               @if($rl_sale_price)
               <span class="ps-badge ps-badge--sale sale_price"><i>{{$rl_sale_percent}}%</i></span>
               @endif
             </div>
             <div class="ps-product__content">
-              <div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$model->name}}</a>
-                <p><span>{{$model->weight}}g</span></p><span class="ps-product__price sale">
+              <div class="ps-product__desc"><a class="ps-product__title" href="product-default.html">{{$model->product->name}}</a>
+                <p><span>{{$model->product->weight}}g</span></p><span class="ps-product__price sale">
                   @if(is_null($rl_sale_price))
                     ${{$rl_price}}
                   @else
@@ -217,8 +229,16 @@
                   @endif
                 </span>
               </div>
-              <div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="#">Add to cart</a>
-                <div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
+              <div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->product->id,'size_id'=>$model->size_id])}}">Add to cart</a>
+                <div class="ps-product__actions">
+                  @if(Auth::guard('customer')->check())
+                  <?php $flag2 = $whishlist->where('customer_id',$user->id)->where('product_id',$model->product_id)->where('size_id',$model->size_id)->first(); ?>
+                  <a href="" class="whishlist_btn {{$flag2?'active':''}}"><i class="fa fa-heart-o"></i></a>
+                  @endif
+                  <input type="hidden" value="{{$model->product->id}}">
+                  <input type="hidden" value="{{$model->size_id}}">
+                  <a href="#"><i class="fa fa-random"></i></a>
+                </div>
               </div>
             </div>
           </div>
@@ -234,6 +254,11 @@
 @section('js')
 <script>
   $(document).ready(function () {
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
+
     $('.form-group--number button').click(function () {       //change quantity
       var quantity = parseInt($(this).siblings('input').val());
       if($(this).hasClass('up')){
@@ -248,26 +273,86 @@
     });
 
     $('.size_box').change(function(){     //change size
+      var customer_id = {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}}
       $('.load-animation').css('display','flex');
       $.ajax({
         type: 'GET',
         url: '{{url("api/product-detail/change-size")}}',
-        data: {pro_id: {{$pro->id}},size_id: $(this).val()},
+        data: {pro_id: {{$pro->id}},size_id: $(this).val(),customer_id: customer_id},
         dataType: 'json',
         success: function (res) {
-          if(res.sale_price){
+          if(res.pro_dt.sale_price){
             $('.pro_price').html(
-              '<del>$' + res.price + '</del> $' + res.sale_price
+              '<del>' + formatter.format(res.pro_dt.price) + '</del> ' + formatter.format(res.pro_dt.sale_price)
             );
           }
           else{
-            $('.pro_price').html('$' + res.price);
+            $('.pro_price').html(formatter.format(res.pro_dt.price));
+          }
+          if(res.flag==0){
+            $('.dt_whishlist').removeClass('active');
+          }
+          else{
+            $('.dt_whishlist').addClass('active');
           }
           $('.load-animation').css('display','none');
         }
       });
     });
 
+    $('.whishlist_btn').click(function(){
+			$('.load-animation').css('display','flex');
+			if($(this).hasClass('active')){
+				$.ajax({
+					url: '{{url("api/remove/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $(this).next().next().val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).removeClass('active');
+			}
+			else{
+				$.ajax({
+					url: '{{url("api/add/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $(this).next().next().val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).addClass('active');
+			}
+			return false;
+		});
+
+    $('.dt_whishlist').click(function(){
+			$('.load-animation').css('display','flex');
+			if($(this).hasClass('active')){
+				$.ajax({
+					url: '{{url("api/remove/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $('.size_box').val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).removeClass('active');
+			}
+			else{
+				$.ajax({
+					url: '{{url("api/add/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $('.size_box').val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).addClass('active');
+			}
+			return false;
+		});
   });
 </script>
 @stop

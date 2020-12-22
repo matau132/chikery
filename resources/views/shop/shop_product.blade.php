@@ -1,5 +1,10 @@
 @extends('shop.shop_master')
 @section('shop-main')
+<?php 
+	if(Auth::guard('customer')->check()){
+    	$user = Auth::guard('customer')->user();
+	}
+?>
 <div class="ps-product-box">
 	<div class="row">
 		@if($pros->count()==0)
@@ -31,17 +36,10 @@
 						</span>
 					</div>
 						<div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->product->id,'size_id'=>$model->size_id])}}">Add to cart</a>
-						<?php 
-							if(Auth::guard('customer')->check()){
-								$whishlishs = [];
-								foreach(Auth::guard('customer')->user()->whishlist as $whish){
-									$whishlishs[] = $whish->product_id;
-								}
-							}	
-						?>
 						<div class="ps-product__actions">
 							@if(Auth::guard('customer')->check())
-							<a href="" class="whishlist_btn {{in_array($model->product->id,$whishlishs)?'active':''}}"><i class="fa fa-heart-o"></i></a>
+							<?php $flag = $whishlist->where('customer_id',$user->id)->where('product_id',$model->product_id)->where('size_id',$model->size_id)->first(); ?>
+							<a href="" class="whishlist_btn {{$flag?'active':''}}"><i class="fa fa-heart-o"></i></a>
 							@endif
 							<input type="hidden" value="{{$model->product->id}}">
 							<input type="hidden" value="{{$model->size_id}}">
@@ -66,7 +64,7 @@
 </div> -->
 @stop
 
-@section('js')
+@section('sub-js')
 <script>
 	$(document).ready(function () {
 		$('.whishlist_btn').click(function(){

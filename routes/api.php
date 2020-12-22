@@ -7,6 +7,7 @@ use App\Models\Shipping;
 use App\Models\Size_detail;
 use App\Models\Order;
 use App\Models\Whishlist;
+use App\Models\Customer;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,15 +24,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/product',function(){
-    return Product::paginate(2);
-});
+
 Route::get('/cart/change-shipping',function(Request $request){
     return(Shipping::find($request->shipping_id)->price);
 });
 Route::get('/product-detail/change-size',function(Request $request){
     $pro_dt = Size_detail::where('product_id',$request->pro_id)->where('size_id',$request->size_id)->first();
-    return($pro_dt);
+    if($request->customer_id!='null'){
+        $check = Whishlist::where('customer_id',$request->customer_id)->where('product_id',$request->pro_id)->where('size_id',$request->size_id)->first();
+        if($check){
+            $flag = 1;
+        }
+        else{
+            $flag = 0;
+        }
+    }
+    return ['pro_dt'=> $pro_dt,'flag' => $flag];
 });
 Route::post('/order-status',function(Request $request){
     $check = Order::where('id',$request->order_id)->update([
@@ -39,12 +47,14 @@ Route::post('/order-status',function(Request $request){
     ]);
     return $check;
 }); 
-
 Route::post('/add/whishlist',function(Request $request){
-    $check = Whishlist::create($request->only('customer_id','product_id','size_id'));
-    return $check;
+    $flag = Whishlist::where('customer_id',$request->customer_id)->where('product_id',$request->product_id)->where('size_id',$request->size_id)->first();
+    if(!$flag){
+        $check = Whishlist::create($request->only('customer_id','product_id','size_id'));
+    }
+    return $request->all();
 }); 
 Route::post('/remove/whishlist',function(Request $request){
-    $check = Whishlist::where('customer_id',$request->customer_id)->where('product_id',$request->product_id)->delete();
+    $check = Whishlist::where('customer_id',$request->customer_id)->where('product_id',$request->product_id)->where('size_id',$request->size_id)->delete();
     return $check;
 }); 

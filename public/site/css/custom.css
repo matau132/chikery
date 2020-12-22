@@ -190,6 +190,14 @@
     color: #ffffff !important;
 }
 
+.dt_whishlist.active{
+    background: #ce873a !important;
+}
+.dt_whishlist.active i{
+    color: #ffffff !important;
+    font-size: 14px !important;
+}
+
 /* loading animation */
 .load-animation{
     position: fixed;

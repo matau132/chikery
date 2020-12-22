@@ -37,16 +37,16 @@ class HomeController extends Controller
         $this->recent_prods = Product::orderBy('created_at','desc')->limit(3)->get();
     }
 
-    public function index(Size_detail $size_dt){
-        $pros = Product::orderBy('created_at','desc')->limit(4)->get();
-    	return view('home',compact('pros','size_dt'));
+    public function index(Size_detail $size_dt,Whishlist $whishlist){
+        $pros = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->orderBy('products.created_at','desc')->get()->unique('product_id')->take(4);
+    	return view('home',compact('pros','size_dt','whishlist'));
     }
     public function about(){
     	return view('about.about');
     }
 
 //shop
-    public function shop(Size_detail $size_dt, Request $request){
+    public function shop(Size_detail $size_dt,Whishlist $whishlist, Request $request){
         if(isset($request->sort)){
             $sort = $request->sort;
             if($sort=='nameA-Z'){
@@ -78,10 +78,11 @@ class HomeController extends Controller
             'pros' => $pros,
             'ingre_id' => $ingre_id,
             'recent_prods' => $this->recent_prods,
-            'size_dt' => $size_dt
+            'size_dt' => $size_dt,
+            'whishlist' => $whishlist
             ]);
     }
-    public function shop_cat($id,$name,Size_detail $size_dt,Request $request){
+    public function shop_cat($id,$name,Size_detail $size_dt,Whishlist $whishlist,Request $request){
         if(isset($request->sort)){
             $sort = $request->sort;
             if($sort=='nameA-Z'){
@@ -114,14 +115,15 @@ class HomeController extends Controller
                 'pros' => $pros,
                 'ingre_id' => $ingre_id,
                 'recent_prods' => $this->recent_prods,
-                'size_dt' => $size_dt
+                'size_dt' => $size_dt,
+                'whishlist' => $whishlist
                 ]);
         }
         else{
             return redirect()->route('error');
         }
     }
-    public function shop_ingre($id,$name,Size_detail $size_dt,Request $request){
+    public function shop_ingre($id,$name,Size_detail $size_dt,Whishlist $whishlist,Request $request){
         $prod = Ingredient::find($id);
         $ingre_id = $id;
         if($prod){
@@ -155,25 +157,26 @@ class HomeController extends Controller
                 'pros' => $pros,
                 'ingre_id' => $ingre_id,
                 'recent_prods' => $this->recent_prods,
-                'size_dt' => $size_dt
+                'size_dt' => $size_dt,
+                'whishlist' => $whishlist
                 ]);
         }
         else{
             return redirect()->route('error');
         }
     }
-    public function shop_detail($id,$name,Size_detail $size_dt)
+    public function shop_detail($id,$name,Size_detail $size_dt,Whishlist $whishlist)
     {
         $pro = Product::find($id);
         if($pro){
-            $relate_pro = Product::where('category_id',$pro->category_id)->limit(4)->get();
-            return view('product.product-detail',compact('pro','relate_pro','size_dt'));
+            $relate_pro = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('category_id',$pro->category_id)->get()->unique('product_id')->take(4);
+            return view('product.product-detail',compact('pro','relate_pro','size_dt','whishlist'));
         }
         else{
             return redirect()->route('error');
         }
     }
-    public function search(Request $request,Size_detail $size_dt)
+    public function search(Request $request,Size_detail $size_dt,Whishlist $whishlist)
     {
         $pros = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('name','like','%'.$request->key_word.'%')->get()->unique('product_id')->paginate(6);
         $ingre_id = 0;
@@ -183,7 +186,8 @@ class HomeController extends Controller
             'pros' => $pros,
             'ingre_id' => $ingre_id,
             'recent_prods' => $this->recent_prods,
-            'size_dt' => $size_dt
+            'size_dt' => $size_dt,
+            'whishlist' => $whishlist
             ]);
     }
     public function error()
@@ -335,7 +339,7 @@ class HomeController extends Controller
 //whishlist 
     public function whishlist(Size_detail $size_dt){
         $user = Auth::guard('customer')->user();
-        $whishlists = Whishlist::where('customer_id',$user->id)->get();
+        $whishlists = Whishlist::where('customer_id',$user->id)->orderBy('created_at','desc')->get();
     	return view('whishlist.whishlist',compact('whishlists','size_dt'));
     }
     public function whishlist_remove($id,$size_id){
@@ -343,7 +347,12 @@ class HomeController extends Controller
         Whishlist::where('customer_id',$user->id)->where('product_id',$id)->where('size_id',$size_id)->delete();
     	return redirect()->back();
     }
-
+    public function whishlist_order(Request $request,Cart $cart)
+    {
+        $cart->whishlist_order($request->product_id,$request->size_id);
+        Whishlist::where('customer_id',Auth::guard('customer')->user()->id)->where('product_id',$request->product_id)->where('size_id',$request->size_id)->delete();
+        return redirect()->back()->with('success','Your whishlish item has been added to your cart!');
+    }
 
     public function blog(){
     	return view('blog.blog-grid');

@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="{{url('public/site')}}/plugins/select2/dist/css/select2.min.css">
   <link rel="stylesheet" href="{{url('public/site')}}/plugins/chikery-icon/style.css">
   <link rel="stylesheet" href="{{url('public/site')}}/css/style.css">
+  <link rel="stylesheet" href="{{url('public/site')}}/css/custom.css">
 </head>
 <body>
   <header class="header header--default header--home-4 white" data-sticky="true">
@@ -209,20 +210,19 @@
           <div class="row">
             @foreach($pros as $model)
             <?php 
-              $size_id = $model->sizes->first()->id;
-              $price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->price;
-              $sale_price = $size_dt->where('product_id',$model->id)->where('size_id',$size_id)->first()->sale_price;  
+              $price = $model->price;
+              $sale_price = $model->sale_price;  
               $sale_percent = round(($price-$sale_price)/$price*100);
             ?>
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6 ">
               <div class="ps-product text-center">
-                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->image}}" style="width: 258.75px; height: 258.75px" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}"></a>
+                <div class="ps-product__thumbnail"><img src="{{url('public/uploads/product')}}/{{$model->product->image}}" style="width: 258.75px; height: 258.75px" alt=""/><a class="ps-product__overlay" href="{{route('shop.detail',[$model->product->id,Str::slug($model->product->name)])}}"></a>
                   @if($sale_price)
                   <span class="ps-badge ps-badge--sale sale_price"><i>{{$sale_percent}}%</i></span>
                   @endif
                 </div>
                 <div class="ps-product__content">
-                  <div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->id,Str::slug($model->name)])}}">{{$model->name}}</a>
+                  <div class="ps-product__desc"><a class="ps-product__title" href="{{route('shop.detail',[$model->product->id,Str::slug($model->product->name)])}}">{{$model->product->name}}</a>
                     <p><span>350g</span></p><span class="ps-product__price sale">
                       @if(is_null($sale_price))
                         ${{number_format($price,2)}}
@@ -231,8 +231,19 @@
                       @endif
                     </span>
                   </div> 
-                  <div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="#">Add to cart</a>
-                    <div class="ps-product__actions"><a href="#"><i class="fa fa-heart-o"></i></a><a href="#"><i class="fa fa-random"></i></a></div>
+                  <div class="ps-product__shopping"><a class="ps-btn ps-product__add-to-cart" href="{{route('cart.add',['id'=>$model->product->id,'size_id'=>$model->size_id])}}">Add to cart</a>
+                    <div class="ps-product__actions">
+                      @if(Auth::guard('customer')->check())
+                      <?php 
+                        $user = Auth::guard('customer')->user();
+                        $flag = $whishlist->where('customer_id',$user->id)->where('product_id',$model->product_id)->where('size_id',$model->size_id)->first(); 
+                      ?>
+                      <a href="" class="whishlist_btn {{$flag?'active':''}}"><i class="fa fa-heart-o"></i></a>
+                      @endif
+                      <input type="hidden" value="{{$model->product->id}}">
+                      <input type="hidden" value="{{$model->size_id}}">
+                      <a href="#"><i class="fa fa-random"></i></a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -504,6 +515,13 @@
 
     </div>
   </div>
+  
+  {{-- loading animation --}}
+  <div class="load-animation" style="display: none">
+    <div class="loadingio-spinner-rolling-a99t3vhlwoh">
+      <div class="ldio-sa9krme0op"><div></div></div>
+    </div>
+  </div>
   <!-- Plugins-->
   <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script src="{{url('public/site')}}/plugins/jquery-1.12.4.min.js"></script>
@@ -526,6 +544,36 @@
   <script src="{{url('public/site')}}/js/main.js"></script>
   <script src="{{url('public/site')}}/js/customize.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
+  <script>
+    $(document).ready(function () {
+		$('.whishlist_btn').click(function(){
+			$('.load-animation').css('display','flex');
+			if($(this).hasClass('active')){
+				$.ajax({
+					url: '{{url("api/remove/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $(this).next().next().val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).removeClass('active');
+			}
+			else{
+				$.ajax({
+					url: '{{url("api/add/whishlist")}}',
+					type: "POST",
+					data: {customer_id: {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}},product_id: $(this).next().val(),size_id: $(this).next().next().val()},
+					success: function(res){
+						$('.load-animation').css('display','none');
+					}
+				});
+				$(this).addClass('active');
+			}
+			return false;
+		});
+	});
+  </script>
 </body>
 
 <!-- Mirrored from nouthemes.net/html/chikery/homepage-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Nov 2020 15:38:32 GMT -->

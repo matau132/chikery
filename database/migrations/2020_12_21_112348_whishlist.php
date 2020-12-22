@@ -21,7 +21,7 @@ class Whishlist extends Migration
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('size_id')->references('id')->on('sizes');
-            $table->primary(['customer_id', 'product_id']);
+            $table->primary(['customer_id', 'product_id','size_id']);
         });
     }
 

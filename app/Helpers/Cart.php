@@ -94,6 +94,27 @@ class Cart{
         }
         session(['cart'=>$this->items]);
     }
+
+    public function whishlist_order($product_id,$size_id, $quantity = 1)
+    {
+        $pro = Product::find($product_id);
+        $product_detail = Size_detail::where('product_id',$pro->id)->where('size_id',$size_id)->first();
+        if(isset($this->items[$pro->id][$size_id])){
+            $this->items[$pro->id][$size_id]['quantity'] += 1;
+        }
+        else{
+            $item = [
+                'id' => $pro->id,
+                'size_id' => $size_id,
+                'name' => $pro->name,
+                'image' => $pro->image,
+                'price' => $product_detail->sale_price ? $product_detail->sale_price : $product_detail->price,
+                'quantity' => $quantity,
+            ];
+            $this->items[$pro->id][$size_id] = $item;
+        }
+        session(['cart'=>$this->items]);
+    }
 }
 
 ?>
