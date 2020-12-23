@@ -44,11 +44,19 @@
         <div class="ps-product__meta">
           <div class="ps-product__rating">
             <select class="ps-rating" data-read-only="true">
-              <option value="1">1</option>
-              <option value="1">2</option>
-              <option value="1">3</option>
-              <option value="1">4</option>
-              <option value="2">5</option>
+              <?php 
+                $star = round($comments->avg('rating')); 
+                $unstar = 5-$star;
+                $star_count = 1;
+              ?>
+              @for($i=0;$i<$star;$i++)
+              <option value="1">{{$star_count}}</option>
+              <?php $star_count++; ?>
+              @endfor
+              @for($i=0;$i<$unstar;$i++)
+              <option value="2">{{$star_count}}</option>
+              <?php $star_count++; ?>
+              @endfor
             </select>
           </div>
         </div>
