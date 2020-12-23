@@ -57,6 +57,9 @@
          @endforeach
         </tbody>
       </table>
+      @if($whishlists->count()==0)
+      <p class="text-center mt-5">There are no products in your whishlist.</p>
+      @endif
     </div>
   </div>
 </div>

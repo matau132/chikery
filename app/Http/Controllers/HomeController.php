@@ -19,6 +19,7 @@ use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Order_detail;
 use App\Models\Whishlist;
+use App\Models\Product_comment;
 use App\Http\Requests\User\UserRequestLogin;
 use App\Http\Requests\User\UserRequestAdd;
 use App\Http\Requests\User\UserRequestUpdate;
@@ -165,17 +166,36 @@ class HomeController extends Controller
             return redirect()->route('error');
         }
     }
+
+//shop detail
     public function shop_detail($id,$name,Size_detail $size_dt,Whishlist $whishlist)
     {
         $pro = Product::find($id);
         if($pro){
             $relate_pro = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('category_id',$pro->category_id)->get()->unique('product_id')->take(4);
-            return view('product.product-detail',compact('pro','relate_pro','size_dt','whishlist'));
+            $comments = Product_comment::where('product_id',$id)->orderBy('created_at','desc')->get();
+            return view('product.product-detail',compact('pro','relate_pro','size_dt','whishlist','comments'));
         }
         else{
             return redirect()->route('error');
         }
     }
+    public function shop_detail_review(Request $request)
+    {   
+        $request->validate([
+            'rating' => 'required'
+        ],[
+            'rating.required' => 'Please rate your review'
+        ]);
+        Product_comment::create([
+            'customer_id' => Auth::guard('customer')->user()->id,
+            'product_id' => $request->product_id,
+            'content' => $request->content,
+            'rating' => $request->rating
+        ]);
+        return redirect()->back();
+    }
+
     public function search(Request $request,Size_detail $size_dt,Whishlist $whishlist)
     {
         $pros = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('name','like','%'.$request->key_word.'%')->get()->unique('product_id')->paginate(6);

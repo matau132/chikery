@@ -113,42 +113,36 @@
         </div>
         <div class="ps-tab" id="tab-2">
           <div class="ps-reviews">
+            @foreach($comments as $model)
+            <?php 
+              $unrated_star = 5-$model->rating; 
+              $count = 1;
+            ?>
             <div class="ps-block--review">
               <div class="ps-block__thumbnail"><img src="{{url('public/uploads')}}/users/review/1.jpg" alt=""></div>
               <div class="ps-block__content">
                 <figure>
-                  <figcaption>By <strong> Jont herry</strong> <span> 22/04/2019</span></figcaption>
+                  <figcaption>By <strong> {{$model->customer->name}}</strong> <span> {{$model->created_at->format('d/m/Y')}}</span></figcaption>
                   <select class="ps-rating" data-read-only="true">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
+                    @for($i=0;$i<$model->rating;$i++)
+                    <option value="1">{{$count}}</option>
+                    <?php $count++; ?>
+                    @endfor
+                    @for($i=0;$i<$unrated_star;$i++)
+                    <option value="2">{{$count}}</option>
+                    <?php $count++; ?>
+                    @endfor
                   </select>
                 </figure>
-                <p>Nam ac elit a ante commodo tristique. Duis lacus urna, condimentum a vehicula a, hendrerit ac nisi Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vulputate, tortor nec commodo ultricies, vitae viverra urna nulla sed turpis. Curabitur sed turpis feugiat, mollis felis vel, viverra metus. Sed vel nulla non neque dictum imperdiet. Aliquam egestas hendrerit euismod.</p>
+                <p>{{$model->content}}</p>
               </div>
             </div>
-            <div class="ps-block--review">
-              <div class="ps-block__thumbnail"><img src="{{url('public/uploads')}}/users/review/2.jpg" alt=""></div>
-              <div class="ps-block__content">
-                <figure>
-                  <figcaption>By <strong> Jont herry</strong> <span> 22/04/2019</span></figcaption>
-                  <select class="ps-rating" data-read-only="true">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                    <option value="1">4</option>
-                    <option value="2">5</option>
-                  </select>
-                </figure>
-                <p>Nam ac elit a ante commodo tristique. Duis lacus urna, condimentum a vehicula a, hendrerit ac nisi Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vulputate, tortor nec commodo ultricies, vitae viverra urna nulla sed turpis. Curabitur sed turpis feugiat, mollis felis vel, viverra metus. Sed vel nulla non neque dictum imperdiet. Aliquam egestas hendrerit euismod.</p>
-              </div>
-            </div>
+            @endforeach
           </div>
-          <form class="ps-form--review" action="http://nouthemes.net/html/chikery/index.html" method="get">
+          <form class="ps-form--review review_form" action="{{route('shop.review')}}" method="post">
+            @csrf
             <div class="ps-form__header">
-              <h4>Add your review</h4>
+              <h4 class="mb-5">Add your review</h4>
             </div>
             <div class="row">
               <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
@@ -156,31 +150,24 @@
                   <label>Your rating:</label>
                   <div class="form-group__content">
                     <select class="ps-rating" data-read-only="false">
-                      <option value="0">0</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
+                      <option value="0" class="rating-star">0</option>
+                      <option value="1" class="rating-star">1</option>
+                      <option value="2" class="rating-star">2</option>
+                      <option value="3" class="rating-star">3</option>
+                      <option value="4" class="rating-star">4</option>
+                      <option value="5" class="rating-star">5</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 ">
-                <div class="row">
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  ">
-                    <div class="form-group">
-                      <input class="form-control" type="text" placeholder="Your Name">
-                    </div>
-                  </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  ">
-                    <div class="form-group">
-                      <input class="form-control" type="email" placeholder="Your Email">
-                    </div>
-                  </div>
-                </div>
                 <div class="form-group">
-                  <textarea class="form-control" rows="6" placeholder="Write your review here"></textarea>
+                  <textarea class="form-control pt-0" rows="6" placeholder="Write your review here" name="content"></textarea>
+                  <input type="hidden" name="rating">
+                  <input type="hidden" name="product_id" value="{{$pro->id}}">
+                  @error('rating')
+                  <span id="emailHelp" class="form-text text-danger mt-2">{{$message}}.</span>
+                  @enderror
                 </div>
                 <div class="form-group submit">
                   <button class="ps-btn">Submit Review</button>
@@ -254,12 +241,14 @@
 @section('js')
 <script>
   $(document).ready(function () {
+    //currency
     var formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
     });
 
-    $('.form-group--number button').click(function () {       //change quantity
+    //change quantity
+    $('.form-group--number button').click(function () {       
       var quantity = parseInt($(this).siblings('input').val());
       if($(this).hasClass('up')){
         quantity += 1;
@@ -271,8 +260,9 @@
       }
       $(this).siblings('input').attr('value',quantity);
     });
-
-    $('.size_box').change(function(){     //change size
+    
+    //change size
+    $('.size_box').change(function(){     
       var customer_id = {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}}
       $('.load-animation').css('display','flex');
       $.ajax({
@@ -300,6 +290,7 @@
       });
     });
 
+    //whishlist
     $('.whishlist_btn').click(function(){
 			$('.load-animation').css('display','flex');
 			if($(this).hasClass('active')){
@@ -353,6 +344,14 @@
 			}
 			return false;
 		});
+
+    //rating
+    $('.review_form .br-widget a').click(function(){
+      $('.review_form input[name=rating]').val(
+        $('.review_form .br-widget .br-current').data('rating-value')
+      );
+    });
+
   });
 </script>
 @stop
