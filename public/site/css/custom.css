@@ -159,7 +159,48 @@
     padding: 20px 10px !important;
     font-size: 18px !important;
 }
-
+.avatar-wrapper{
+    padding-left: 80px;
+    margin-bottom: 60px !important;
+}
+.avatar{
+    overflow: hidden;
+    border-radius: 50%;
+}
+.avatar label{
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    transition: .5s;
+}
+.avatar i{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: rgb(206, 206, 206);
+    font-size: 2rem;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: .5s;
+}
+.avatar label:hover{
+    background: rgba(0, 0, 0, .4);
+}
+.avatar:hover i{
+    opacity: 1;
+}
+@media screen and (max-width: 575px){
+    .avatar-wrapper{
+        display: flex !important;
+        padding-left: 0;
+    }
+}
 /* sale price */
 .sale_price{
     position: absolute;

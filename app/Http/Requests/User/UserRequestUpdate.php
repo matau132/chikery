@@ -26,7 +26,8 @@ class UserRequestUpdate extends FormRequest
         $id = $this->id;
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:customers,email,'.$id
+            'email' => 'required|email|unique:customers,email,'.$id,
+            'avatar' => 'mimes:png,jpg,jpeg'
         ];
     }
     public function messages()

@@ -173,7 +173,7 @@ class HomeController extends Controller
         $pro = Product::find($id);
         if($pro){
             $relate_pro = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('category_id',$pro->category_id)->get()->unique('product_id')->take(4);
-            $comments = Product_comment::where('product_id',$id)->orderBy('created_at','desc')->get();
+            $comments = Product_comment::where('product_id',$id)->orderBy('created_at','desc')->limit(3)->get();
             return view('product.product-detail',compact('pro','relate_pro','size_dt','whishlist','comments'));
         }
         else{

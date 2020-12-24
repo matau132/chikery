@@ -8,6 +8,7 @@ use App\Models\Size_detail;
 use App\Models\Order;
 use App\Models\Whishlist;
 use App\Models\Customer;
+use App\Models\Product_comment;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +58,9 @@ Route::post('/add/whishlist',function(Request $request){
 Route::post('/remove/whishlist',function(Request $request){
     $check = Whishlist::where('customer_id',$request->customer_id)->where('product_id',$request->product_id)->where('size_id',$request->size_id)->delete();
     return $check;
+}); 
+Route::get('/comment',function(Request $request){
+    $id = $request->pro_id;
+    $comments = Product_comment::where('product_id',$id)->orderBy('created_at','desc')->limit($request->cmt_count)->get();
+    return view('product_comment.comments',compact('id','comments'));
 }); 

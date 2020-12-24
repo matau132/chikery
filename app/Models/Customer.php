@@ -43,12 +43,26 @@ class Customer extends Authenticatable
             'phone' => $request->phone,
             'address' => $request->address,
             'password' => $hashed_pw,
+            'avatar' => 'default-avatar.png'
         ]);
         Auth::guard('customer')->attempt($request->only('email','password'),$request->has('remember'));
     }
 
     public function edit($id,$request){
-        Customer::where('id',$id)->update($request->only('name','email','phone','address'));
+        Customer::where('id',$id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ]);
+
+        if($request->has('avatar')){
+            $img_name = time().($request->avatar->getClientOriginalName());
+            $request->avatar->move(public_path('uploads/users'),$img_name);
+            Customer::where('id',$id)->update([
+                'avatar' => $img_name
+            ]);
+        }
     }
 
     public function edit_pw($id,$request){

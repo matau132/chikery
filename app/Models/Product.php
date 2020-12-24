@@ -22,6 +22,10 @@ class Product extends Model
     {
         return $this->hasMany(Size_detail::class,'product_id','id');
     }
+    public function comment()
+    {
+        return $this->hasMany(Product_comment::class,'product_id','id');
+    }
 
     public function add($request)
     {

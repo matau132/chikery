@@ -10,6 +10,9 @@
     $user = Auth::guard('customer')->user();
   }
 ?>
+@if($comments->count()==0)
+<style>.ps-product--detail .ps-product__meta .ps-product__rating .br-wrapper .br-widget a.br-selected:after {color: #d2d2d2;}</style>
+@endif
 <div class="container">
   <div class="ps-product--detail">
     <div class="ps-product__header">
@@ -44,19 +47,27 @@
         <div class="ps-product__meta">
           <div class="ps-product__rating">
             <select class="ps-rating" data-read-only="true">
-              <?php 
-                $star = round($comments->avg('rating')); 
-                $unstar = 5-$star;
-                $star_count = 1;
-              ?>
-              @for($i=0;$i<$star;$i++)
-              <option value="1">{{$star_count}}</option>
-              <?php $star_count++; ?>
-              @endfor
-              @for($i=0;$i<$unstar;$i++)
-              <option value="2">{{$star_count}}</option>
-              <?php $star_count++; ?>
-              @endfor
+              @if($comments->count()==0)
+                <option value="2">1</option>
+                <option value="2">2</option>
+                <option value="2">3</option>
+                <option value="2">4</option>
+                <option value="2">5</option>
+              @else
+                <?php 
+                  $star = round($comments->avg('rating')); 
+                  $unstar = 5-$star;
+                  $star_count = 1;
+                ?>
+                @for($i=0;$i<$star;$i++)
+                <option value="1">{{$star_count}}</option>
+                <?php $star_count++; ?>
+                @endfor
+                @for($i=0;$i<$unstar;$i++)
+                <option value="2">{{$star_count}}</option>
+                <?php $star_count++; ?>
+                @endfor
+              @endif
             </select>
           </div>
         </div>
@@ -127,7 +138,7 @@
               $count = 1;
             ?>
             <div class="ps-block--review">
-              <div class="ps-block__thumbnail"><img src="{{url('public/uploads')}}/users/review/1.jpg" alt=""></div>
+              <div class="ps-block__thumbnail"><img src="{{url('public/uploads/users')}}/{{$model->customer->avatar}}" alt="" width="70px" height="70px" style="border-radius: 50%"></div>
               <div class="ps-block__content">
                 <figure>
                   <figcaption>By <strong> {{$model->customer->name}}</strong> <span> {{$model->created_at->format('d/m/Y')}}</span></figcaption>
@@ -147,6 +158,11 @@
             </div>
             @endforeach
           </div>
+          @if($pro->comment->count()>3)
+          <div class="text-center mb-5">
+            <a href="" class="load_cmt" style="color: #ce873a">Load more comments</a>
+          </div>
+          @endif
           <form class="ps-form--review review_form" action="{{route('shop.review')}}" method="post">
             @csrf
             <div class="ps-form__header">
@@ -358,6 +374,27 @@
       $('.review_form input[name=rating]').val(
         $('.review_form .br-widget .br-current').data('rating-value')
       );
+    });
+
+    //load comment
+    var click_count = 2;
+    $('.load_cmt').click(function(){
+      var cmt_count = click_count*3;
+      $('.load-animation').css('display','flex');
+      $.ajax({
+        url: '{{url("api/comment")}}',
+        type: 'GET',
+        data: {pro_id: {{$pro->id}},cmt_count: cmt_count},
+        success: function(res){
+          $('.ps-reviews').html(res);
+          if(cmt_count >= {{$pro->comment->count()}}){
+            $('.load_cmt').parent().css('display','none');
+          }
+          $('.load-animation').css('display','none');
+        }
+      });
+      click_count++;
+      return false;
     });
 
   });
