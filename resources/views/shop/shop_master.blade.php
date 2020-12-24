@@ -90,17 +90,20 @@
   $(document).ready(function () {
     $('.shop-sorting').change(function(){
       var sort = $(this).val();
-      window.location.assign('{{Request::url()}}'+'?sort='+sort);
+      var params = 'sort='+sort;
+      if({{request()->has('filterMin')?'true':'false'}}){
+        params += '&filterMin={{request("filterMin")}}&filterMax={{request("filterMax")}}';
+      }
+      window.location.assign('{{Request::url()}}?'+params);
     });
     $('.btn_filter').click(function(){
       var min = parseInt($('.ps-slider__min').html().replace('$',''));
       var max = parseInt($('.ps-slider__max').html().replace('$',''));
-      window.location.assign('{{Request::url()}}'+'?filterMin='+min+'&filterMax='+max);
-      // var url = new URL('{{Request::fullUrl()}}');
-      // var params = new URLSearchParams(url.search);
-      // params.set('filterMin',min);
-      // params.set('filterMax',max);
-      // console.log(params.toString());
+      var params = 'filterMin='+min+'&filterMax='+max;
+      if({{request()->has('sort')?'true':'false'}}){
+        params += '&sort={{request("sort")}}';
+      }
+      window.location.assign('{{Request::url()}}?'+params);
     });
   });
 </script>
