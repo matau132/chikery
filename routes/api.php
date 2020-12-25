@@ -61,6 +61,14 @@ Route::post('/remove/whishlist',function(Request $request){
 }); 
 Route::get('/comment',function(Request $request){
     $id = $request->pro_id;
+    $user_id = $request->user_id;
     $comments = Product_comment::where('product_id',$id)->orderBy('created_at','desc')->limit($request->cmt_count)->get();
-    return view('product_comment.comments',compact('id','comments'));
+    return view('product_comment.comments',compact('id','comments','user_id'));
+}); 
+Route::post('/comment/remove',function(Request $request){
+    $id = $request->pro_id;
+    $user_id = $request->user_id;
+    Product_comment::where('id',$request->cmt_id)->delete();
+    $comments = Product_comment::where('product_id',$id)->orderBy('created_at','desc')->limit($request->cmt_count)->get();
+    return view('product_comment.comments',compact('id','comments','user_id'));
 }); 

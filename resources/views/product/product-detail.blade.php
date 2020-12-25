@@ -137,7 +137,7 @@
               $unrated_star = 5-$model->rating; 
               $count = 1;
             ?>
-            <div class="ps-block--review">
+            <div class="ps-block--review position-relative">
               <div class="ps-block__thumbnail"><img src="{{url('public/uploads/users')}}/{{$model->customer->avatar}}" alt="" width="70px" height="70px" style="border-radius: 50%"></div>
               <div class="ps-block__content">
                 <figure>
@@ -155,6 +155,12 @@
                 </figure>
                 <p>{{$model->content}}</p>
               </div>
+              @if(Auth::guard('customer')->check())
+                @if(Auth::guard('customer')->user()->id == $model->customer_id)
+                <i class="fa fa-times delete_cmt" style="position: absolute;right:0;top:0;color:#ce873a;width: initial;cursor:pointer"></i>
+                <input type="hidden" value="{{$model->id}}">
+                @endif
+              @endif
             </div>
             @endforeach
           </div>
@@ -377,14 +383,16 @@
     });
 
     //load comment
+    var user_id = {{Auth::guard('customer')->check()?Auth::guard('customer')->user()->id:'null'}}
     var click_count = 2;
+    var cmt_count = 3;
     $('.load_cmt').click(function(){
-      var cmt_count = click_count*3;
+      cmt_count = click_count*3;
       $('.load-animation').css('display','flex');
       $.ajax({
         url: '{{url("api/comment")}}',
         type: 'GET',
-        data: {pro_id: {{$pro->id}},cmt_count: cmt_count},
+        data: {pro_id: {{$pro->id}},cmt_count: cmt_count,user_id: user_id},
         success: function(res){
           $('.ps-reviews').html(res);
           if(cmt_count >= {{$pro->comment->count()}}){
@@ -395,6 +403,26 @@
       });
       click_count++;
       return false;
+    });
+
+    //delete comment
+    var cmt_deleted = 0;
+    $('.ps-reviews').on('click','.delete_cmt',function(){
+      cmt_deleted ++;
+      $('.load-animation').css('display','flex');
+      $.ajax({
+        url: '{{url("api/comment/remove")}}',
+        type: 'POST',
+        data: {cmt_id: $(this).next().val(),pro_id: {{$pro->id}},cmt_count: cmt_count,user_id: user_id},
+        success: function(res){
+          $('.ps-reviews').html(res);
+          var cmt_remain = {{$pro->comment->count()}}-cmt_deleted;
+          if(cmt_count >= cmt_remain){
+            $('.load_cmt').parent().css('display','none');
+          }
+          $('.load-animation').css('display','none');
+        }
+      });
     });
 
   });

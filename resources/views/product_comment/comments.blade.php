@@ -3,7 +3,7 @@
   $unrated_star = 5-$model->rating; 
   $count = 1;
 ?>
-<div class="ps-block--review">
+<div class="ps-block--review position-relative">
   <div class="ps-block__thumbnail"><img src="{{url('public/uploads/users')}}/{{$model->customer->avatar}}" alt="" width="70px" height="70px" style="border-radius: 50%"></div>
   <div class="ps-block__content">
     <figure>
@@ -19,5 +19,9 @@
     </figure>
     <p>{{$model->content}}</p>
   </div>
+  @if($user_id == $model->customer_id)
+  <i class="fa fa-times delete_cmt" style="position: absolute;right:0;top:0;color:#ce873a;width: initial;cursor:pointer"></i>
+  <input type="hidden" value="{{$model->id}}">
+  @endif
 </div>
 @endforeach
