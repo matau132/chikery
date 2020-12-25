@@ -48,8 +48,12 @@ class HomeController extends Controller
 
 //shop
     public function shop(Size_detail $size_dt,Whishlist $whishlist, Request $request){
-        $primal_pro = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name,coalesce(sale_price,price) as current_price,products.created_at as product_created'))->get();
-
+        if($request->has('key_word')){
+            $primal_pro = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name,coalesce(sale_price,price) as current_price,products.created_at as product_created'))->where('name','like','%'.$request->key_word.'%')->get();
+        }
+        else{
+            $primal_pro = Size_detail::join('products','products.id','=','product_id')->select('size_details.*',DB::raw('products.name as product_name,coalesce(sale_price,price) as current_price,products.created_at as product_created'))->get();
+        }
         if(isset($request->sort)&&isset($request->filterMin)){
             $sort = $request->sort;
             if($sort=='nameA-Z'){
@@ -91,9 +95,6 @@ class HomeController extends Controller
         }
         else{
             $pros = $primal_pro->unique('product_id')->sortByDesc('product_created')->paginate(6);
-        }
-        if($request->has('key_word')){
-            $pros = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->where('name','like','%'.$request->key_word.'%')->get()->unique('product_id')->paginate(6);
         }
         $ingre_id = 0;
     	return view('shop.shop_product',[

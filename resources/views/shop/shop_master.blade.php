@@ -94,6 +94,9 @@
       if({{request()->has('filterMin')?'true':'false'}}){
         params += '&filterMin={{request("filterMin")}}&filterMax={{request("filterMax")}}';
       }
+      if({{request()->has('key_word')?'true':'false'}}){
+        params += '&key_word={{request("key_word")}}';
+      }
       window.location.assign('{{Request::url()}}?'+params);
     });
     $('.btn_filter').click(function(){
@@ -102,6 +105,9 @@
       var params = 'filterMin='+min+'&filterMax='+max;
       if({{request()->has('sort')?'true':'false'}}){
         params += '&sort={{request("sort")}}';
+      }
+      if({{request()->has('key_word')?'true':'false'}}){
+        params += '&key_word={{request("key_word")}}';
       }
       window.location.assign('{{Request::url()}}?'+params);
     });
