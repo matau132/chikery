@@ -50,9 +50,6 @@ class AdminController extends Controller
     	return view('admin.index');
     }
 
-    public function upload(){
-    	return redirect('public/filemanager/dialog.php');
-    }
 
 //login
     public function login()

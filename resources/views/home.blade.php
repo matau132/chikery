@@ -128,24 +128,14 @@
   <div id="homepage-5">
     <div class="ps-home-banner">
       <div class="ps-carousel--dots owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="off">
-        <div class="ps-banner ps-banner--1 bg--cover" data-background="{{url('public/uploads')}}/banner/home-5/1.jpg">
+        @foreach($banners as $model)
+        <div class="ps-banner ps-banner--1 bg--cover" data-background="{{url('public/uploads')}}/banner/{{$model->image}}">
           <div class="ps-banner__content">
-            <h3 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Super Delicious Cakes</h3>
-            <p data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">100% Natural, FRESH baked goods</p><a class="ps-btn" href="#" data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Order Now</a>
+            <h3 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">{{$model->title}}</h3>
+            <p data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">{{$model->summary}}</p><a class="ps-btn" href="{{route('shop')}}" data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Order Now</a>
           </div>
         </div>
-        <div class="ps-banner ps-banner--1 bg--cover" data-background="{{url('public/uploads')}}/banner/home-5/2.jpg">
-          <div class="ps-banner__content">
-            <h3 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Super Delicious Cakes</h3>
-            <p data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">100% Natural, FRESH baked goods</p><a class="ps-btn" href="#" data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Order Now</a>
-          </div>
-        </div>
-        <div class="ps-banner ps-banner--1 bg--cover" data-background="{{url('public/uploads')}}/banner/home-5/3.jpg">
-          <div class="ps-banner__content">
-            <h3 data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Super Delicious Cakes</h3>
-            <p data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">100% Natural, FRESH baked goods</p><a class="ps-btn" href="#" data-animation-in="fadeInDown" data-animation-out="animate-out fadeOutRight">Order Now</a>
-          </div>
-        </div>
+        @endforeach
       </div>
     </div>
     <div class="ps-section ps-home-wellcome bg--top" data-background="{{url('public/uploads')}}/bg/home-5/home-wellcome.png">

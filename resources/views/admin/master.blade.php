@@ -283,12 +283,6 @@
                   <p>Shipping</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('admin.upload')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Uploaded Files</p>
-                </a>
-              </li>
             </ul>
           </li>
          

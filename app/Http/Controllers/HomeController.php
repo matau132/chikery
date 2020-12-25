@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Auth;
 use DB;
 use App\Helpers\Cart;
+use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Ingredient;
@@ -40,7 +41,8 @@ class HomeController extends Controller
 
     public function index(Size_detail $size_dt,Whishlist $whishlist){
         $pros = Size_detail::join('products','products.id','=','size_details.product_id')->select('size_details.*')->orderBy('products.created_at','desc')->get()->unique('product_id')->take(4);
-    	return view('home',compact('pros','size_dt','whishlist'));
+        $banners = Banner::all();
+    	return view('home',compact('pros','size_dt','whishlist','banners'));
     }
     public function about(){
     	return view('about.about');

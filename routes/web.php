@@ -78,8 +78,6 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	//index
 	Route::get('/','AdminController@index')->name('admin.index');
 	
-	Route::get('/uploads','AdminController@upload')->name('admin.upload');
-
     //product
     Route::group(['prefix'=>'product'],function(){
 		Route::get('/','AdminController@product')->name('admin.Product');
