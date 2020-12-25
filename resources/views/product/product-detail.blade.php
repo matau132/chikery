@@ -157,7 +157,7 @@
               </div>
               @if(Auth::guard('customer')->check())
                 @if(Auth::guard('customer')->user()->id == $model->customer_id)
-                <i class="fa fa-times delete_cmt" style="position: absolute;right:0;top:0;color:#ce873a;width: initial;cursor:pointer"></i>
+                <i class="fa fa-times delete_cmt" style="position: absolute;right:0;top:0;color:#ce873a;width: initial;cursor:pointer" title="delete"></i>
                 <input type="hidden" value="{{$model->id}}">
                 @endif
               @endif
