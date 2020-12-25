@@ -20,9 +20,9 @@ class AdminAuthenticate extends Middleware
             return route('login');
         }
     }
-    public function handle($request, Closure $next, $guard = 'admin')
+    public function handle($request, Closure $next, ...$guards)
     {
-        if(!Auth::guard($guard)->check()){
+        if(!Auth::guard('admin')->check()){
             return redirect()->route('admin.login');
         }
 

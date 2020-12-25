@@ -20,9 +20,9 @@ class CustomerAuthenticate extends Middleware
             return route('login');
         }
     }
-    public function handle($request, Closure $next, $guard = 'customer')
+    public function handle($request, Closure $next, ...$guards)
     {
-        if(!Auth::guard($guard)->check()){
+        if(!Auth::guard('customer')->check()){
             return redirect()->route('user.login');
         }
 
