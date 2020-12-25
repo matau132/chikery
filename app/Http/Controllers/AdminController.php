@@ -75,8 +75,13 @@ class AdminController extends Controller
     }
 
 //product
-    public function product(){
-        $pros = Product::orderBy('name','asc')->paginate(5);
+    public function product(Request $request){
+        if($request->has('key_word')){
+            $pros = Product::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(5);
+        }
+        else{
+            $pros = Product::orderBy('name','asc')->paginate(5);
+        }
         return view('admin.product.product',compact('pros'));
     }
 
@@ -115,8 +120,13 @@ class AdminController extends Controller
     }
 
 //category
-    public function category(){
-        $cats = Category::orderBy('name','asc')->paginate(5);
+    public function category(Request $request){
+        if($request->has('key_word')){
+            $cats = Category::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(5);
+        }
+        else{
+            $cats = Category::orderBy('name','asc')->paginate(5);
+        }
         return view('admin.category.category',compact('cats'));
     }
     public function addcategory(){
@@ -144,8 +154,13 @@ class AdminController extends Controller
     }
 
 //blog
-    public function blog(){
-        $blogs = Blog::orderBy('title','asc')->paginate(5);
+    public function blog(Request $request){
+        if($request->has('key_word')){
+            $blogs = Blog::where('id','like','%'.$request->key_word.'%')->orWhere('title','like','%'.$request->key_word.'%')->orderBy('title','asc')->paginate(5);
+        }
+        else{
+            $blogs = Blog::orderBy('title','asc')->paginate(5);
+        }
         return view('admin.blog.blog',compact('blogs'));
     }
     public function addblog(){
@@ -169,8 +184,13 @@ class AdminController extends Controller
     }
 
 //banner
-    public function banner(){
-        $bns = Banner::orderBy('title','asc')->paginate(5);
+    public function banner(Request $request){
+        if($request->has('key_word')){
+            $bns = Banner::where('id','like','%'.$request->key_word.'%')->orWhere('title','like','%'.$request->key_word.'%')->orderBy('title','asc')->paginate(5);
+        }
+        else{
+            $bns = Banner::orderBy('title','asc')->paginate(5);
+        }
         return view('admin.banner.banner',compact('bns'));
     }
 
@@ -195,8 +215,13 @@ class AdminController extends Controller
     }
 
 // ingredient
-    public function ingredient(){
-        $ingre = Ingredient::orderBy('name','asc')->paginate(8);
+    public function ingredient(Request $request){
+        if($request->has('key_word')){
+            $ingre = Ingredient::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(8);
+        }
+        else{
+            $ingre = Ingredient::orderBy('name','asc')->paginate(8);
+        }
         return view('admin.ingredient.index',compact('ingre'));
     }
     public function addIngredient(){
@@ -220,14 +245,24 @@ class AdminController extends Controller
     }
 
 //product detail
-    public function product_detail(){
-        $pro_d = Product_detail::orderBy('product_id','asc')->paginate(8);
+    public function product_detail(Request $request){
+        if($request->has('key_word')){
+            $pro_d = Product_detail::join('products','products.id','=','product_details.product_id')->join('ingredients','ingredients.id','=','product_details.ingredient_id')->select('product_details.*')->where('products.id','like','%'.$request->key_word.'%')->orWhere('products.name','like','%'.$request->key_word.'%')->orWhere('ingredients.id','like','%'.$request->key_word.'%')->orWhere('ingredients.name','like','%'.$request->key_word.'%')->orderBy('product_id','asc')->paginate(8);
+        }
+        else{
+            $pro_d = Product_detail::orderBy('product_id','asc')->paginate(8);
+        }
         return view('admin.product_detail.index',compact('pro_d'));
     }
 
 //size
-    public function size(){
-        $sizes = Size::orderBy('name','asc')->paginate(5);
+    public function size(Request $request){
+        if($request->has('key_word')){
+            $sizes = Size::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(5);
+        }
+        else{
+            $sizes = Size::orderBy('name','asc')->paginate(5);
+        }
         return view('admin.size.index',compact('sizes'));
     }
     public function addSize(){
@@ -251,20 +286,35 @@ class AdminController extends Controller
     }
 
 //size detail
-public function size_detail(){
-    $size_d = Size_detail::orderBy('product_id','asc')->paginate(8);
+public function size_detail(Request $request){
+    if($request->has('key_word')){
+        $size_d = Size_detail::join('products','products.id','=','size_details.product_id')->join('sizes','sizes.id','=','size_details.size_id')->select('size_details.*')->where('products.id','like','%'.$request->key_word.'%')->orWhere('products.name','like','%'.$request->key_word.'%')->orWhere('sizes.id','like','%'.$request->key_word.'%')->orWhere('sizes.name','like','%'.$request->key_word.'%')->orderBy('product_id','asc')->paginate(8);
+    }
+    else{
+        $size_d = Size_detail::orderBy('product_id','asc')->paginate(8);
+    }
     return view('admin.size_detail.index',compact('size_d'));
 }
 
 //customer
-    public function customer(){
-        $customers = Customer::orderBy('name','asc')->paginate(8);
+    public function customer(Request $request){
+        if($request->has('key_word')){
+            $customers = Customer::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orWhere('email','like','%'.$request->key_word.'%')->orWhere('phone','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(8);
+        }
+        else{
+            $customers = Customer::orderBy('name','asc')->paginate(8);
+        }
         return view('admin.customer.index',compact('customers'));
     }
     
 //admin
-    public function admin(){
-        $admins = Admin::orderBy('name','asc')->paginate(8);
+    public function admin(Request $request){
+        if($request->has('key_word')){
+            $admins = Admin::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orWhere('email','like','%'.$request->key_word.'%')->orWhere('phone','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(8);
+        }
+        else{
+            $admins = Admin::orderBy('name','asc')->paginate(8);
+        }
         return view('admin.ad.index',compact('admins'));
     }
     public function addadmin(){
@@ -295,8 +345,13 @@ public function size_detail(){
     }
 
 //shipping
-    public function shipping(){
-        $ship = Shipping::orderBy('name','asc')->paginate(8);
+    public function shipping(Request $request){
+        if($request->has('key_word')){
+            $ship = Shipping::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(8);
+        }
+        else{
+            $ship = Shipping::orderBy('name','asc')->paginate(8);
+        }
         return view('admin.shipping.index',compact('ship'));
     }
     public function addShipping(){
@@ -324,8 +379,13 @@ public function size_detail(){
     }
 
 //payment
-    public function payment(){
-        $payment = Payment::orderBy('name','asc')->paginate(8);
+    public function payment(Request $request){
+        if($request->has('key_word')){
+            $payment = Payment::where('id','like','%'.$request->key_word.'%')->orWhere('name','like','%'.$request->key_word.'%')->orderBy('name','asc')->paginate(8);
+        }
+        else{
+            $payment = Payment::orderBy('name','asc')->paginate(8);
+        }
         return view('admin.payment.index',compact('payment'));
     }
     public function addPayment(){
@@ -353,9 +413,14 @@ public function size_detail(){
     }
 
 //order
-    public function order(Order_detail $order_dt)
+    public function order(Order_detail $order_dt,Request $request)
     {
-        $orders = Order::orderBy('created_at','desc')->paginate(8);
+        if($request->has('key_word')){
+            $orders = Order::join('customers','customers.id','=','orders.customer_id')->select('orders.*')->where('orders.id','like','%'.$request->key_word.'%')->orWhere('customer_id','like','%'.$request->key_word.'%')->orWhere('customers.email','like','%'.$request->key_word.'%')->orderBy('orders.created_at','desc')->paginate(8);
+        }
+        else{
+            $orders = Order::orderBy('created_at','desc')->paginate(8);
+        }
         return view('admin.order.index',compact('orders','order_dt'));
     }
     public function order_detail($id,Size_detail $size_dt)

@@ -21,6 +21,6 @@
   </tbody>
 </table>
 </div>
-{{$payment->links()}}
+{{$payment->appends(request()->input())->links()}}
 <a href="{{route('admin.addPayment')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

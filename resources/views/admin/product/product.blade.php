@@ -31,6 +31,6 @@
   </tbody>
 </table>
 </div>
-{{$pros->links()}}
+{{$pros->appends(request()->input())->links()}}
 <a href="{{route('admin.addProduct')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

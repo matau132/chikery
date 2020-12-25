@@ -28,6 +28,6 @@
   </tbody>
 </table>
 </div>
-{{$cats->links()}}
+{{$cats->appends(request()->input())->links()}}
 <a href="{{route('admin.addCategory')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

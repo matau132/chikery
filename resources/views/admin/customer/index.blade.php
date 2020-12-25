@@ -25,5 +25,5 @@
   </tbody>
 </table>
 </div>
-{{$customers->links()}}
+{{$customers->appends(request()->input())->links()}}
 @stop

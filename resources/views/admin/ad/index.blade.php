@@ -25,7 +25,7 @@
   </tbody>
 </table>
 </div>
-{{$admins->links()}}
+{{$admins->appends(request()->input())->links()}}
 <a href="{{route('admin.addAdmin')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @if(Auth::guard('admin')->check())
 <a href="{{route('admin.updateAdmin',Auth::guard('admin')->user()->id)}}" class="btn btn-primary" title="Update"><i class="fas fa-pen pr-2"></i>Update</a>

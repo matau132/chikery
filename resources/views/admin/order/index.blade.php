@@ -39,7 +39,7 @@
   </tbody>
 </table>
 </div>
-{{$orders->links()}}
+{{$orders->appends(request()->input())->links()}}
 @stop
 
 @section('js')

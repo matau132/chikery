@@ -23,6 +23,6 @@
   </tbody>
 </table>
 </div>
-{{$ship->links()}}
+{{$ship->appends(request()->input())->links()}}
 <a href="{{route('admin.addShipping')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

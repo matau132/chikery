@@ -23,6 +23,6 @@
   </tbody>
 </table>
 </div>
-{{$ingre->links()}}
+{{$ingre->appends(request()->input())->links()}}
 <a href="{{route('admin.addIngredient')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

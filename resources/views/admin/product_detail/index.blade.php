@@ -19,5 +19,5 @@
   </tbody>
 </table>
 </div>
-{{$pro_d->links()}}
+{{$pro_d->appends(request()->input())->links()}}
 @stop

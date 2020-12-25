@@ -27,6 +27,6 @@
   </tbody>
 </table>
 </div>
-{{$bns->links()}}
+{{$bns->appends(request()->input())->links()}}
 <a href="{{route('admin.addBanner')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop

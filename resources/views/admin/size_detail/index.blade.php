@@ -19,5 +19,5 @@
   </tbody>
 </table>
 </div>
-{{$size_d->links()}}
+{{$size_d->appends(request()->input())->links()}}
 @stop

@@ -23,6 +23,6 @@
   </tbody>
 </table>
 </div>
-{{$sizes->links()}}
+{{$sizes->appends(request()->input())->links()}}
 <a href="{{route('admin.addSize')}}" class="btn btn-success" title="Add"><i class="fas fa-plus pr-2"></i>Add new</a>
 @stop
