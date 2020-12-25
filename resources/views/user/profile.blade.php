@@ -6,9 +6,9 @@
     <input type="hidden" name="id" value="{{$user->id}}">
     <div class="form-group avatar-wrapper">
         <div class="position-relative avatar">
-            <img src="{{url('public/uploads/users')}}/{{$user->avatar}}" alt="" style="width: 70px;height:70px">
+            <img src="{{url('public/uploads/users')}}/{{$user->avatar}}" alt="" style="width: 70px;height:70px" class="avatar-img">
             <label for="avatar" class="position-absolute"></label>
-            <input type="file" class="d-none" id="avatar" name="avatar"">
+            <input type="file" class="d-none" id="avatar" name="avatar">
             <i class="fa fa-edit"></i>
         </div>
         <div class="ml-5">
@@ -53,4 +53,14 @@
         <button class="btn btn-success">Save</button>
     </div>
 </form>
+@stop
+
+@section('js')
+<script>
+    $(document).ready(function () {
+       $('input[name=avatar]').change(function(event){
+        $('.avatar-img').attr('src',URL.createObjectURL(event.target.files[0]));
+       }); 
+    });
+</script>
 @stop
