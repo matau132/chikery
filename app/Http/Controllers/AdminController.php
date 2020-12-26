@@ -113,7 +113,12 @@ class AdminController extends Controller
     }
     public function delete_product($id,Product $pro){
         $pro->remove($id);
-        return redirect()->route('admin.Product')->with('success','Deleted data successfully!');
+        if($pro->remove($id)){
+            return redirect()->route('admin.Product')->with('success','Deleted data successfully!');
+        }
+        else{
+            return redirect()->route('admin.Product')->with('error','There are some orders or whishlists belong to this product!');
+        }
     }
 
 //category
@@ -279,7 +284,12 @@ class AdminController extends Controller
     }
     public function deleteSize($id,Size $size){
         $size->remove($id);
-        return redirect()->route('admin.Size')->with('success','Deleted data successfully!');
+        if($size->remove($id)){
+            return redirect()->route('admin.Size')->with('success','Deleted data successfully!');
+        }
+        else{
+            return redirect()->route('admin.Size')->with('error','There are some whishlists belong to this size!');
+        }
     }
 
 //size detail

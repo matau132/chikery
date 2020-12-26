@@ -18,6 +18,9 @@ class Product extends Model
     public function sizes(){
         return Product::belongsToMany(Size::class,'size_details','product_id','size_id');
     }
+    public function orders(){
+        return Product::belongsToMany(Order::class,'order_details','product_id','order_id');
+    }
     public function size_detail()
     {
         return $this->hasMany(Size_detail::class,'product_id','id');
@@ -128,8 +131,18 @@ class Product extends Model
 
     public function remove($id)
     {
-        Product_detail::where('product_id',$id)->delete();
-        Size_detail::where('product_id',$id)->delete();
-        Product::where('id',$id)->delete();
+        $count_whishlist = Whishlist::where('product_id',$id)->get()->count();
+        $count_order = Product::find($id)->orders->count();
+        if($count_order>0||$count_whishlist>0){
+            $flag = false;
+        }
+        else{
+            Product_detail::where('product_id',$id)->delete();
+            Size_detail::where('product_id',$id)->delete();
+            Product_comment::where('product_id',$id)->delete();
+            Product::where('id',$id)->delete();
+            $flag = true;
+        }
+        return $flag;
     }
 }

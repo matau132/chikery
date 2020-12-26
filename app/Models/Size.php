@@ -25,7 +25,15 @@ class Size extends Model
 
     public function remove($id)
     {
-        Size_detail::where('size_id',$id)->delete();
-        Size::where('id',$id)->delete();
+        $count_whishlist = Whishlist::where('size_id',$id)->get()->count();
+        if($count_whishlist>0){
+            $flag = false;
+        }
+        else{
+            Size_detail::where('size_id',$id)->delete();
+            Size::where('id',$id)->delete();
+            $flag = true;
+        }
+        return $flag;
     }
 }
