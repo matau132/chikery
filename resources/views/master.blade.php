@@ -69,7 +69,7 @@
               <ul class="sub-menu">
                 <li class="current-menu-item "><a href="{{route('checkout')}}">Checkout</a>
                 </li>
-                <li class="current-menu-item "><a href="{{route('whishlist')}}">Whishlist</a>
+                <li class="current-menu-item "><a href="{{route('whishlist')}}">Wishlist</a>
                 </li>
               </ul>
             </li>
@@ -120,7 +120,7 @@
             <ul class="sub-menu">
               <li class="current-menu-item "><a href="{{route('checkout')}}">Checkout</a>
               </li>
-              <li class="current-menu-item "><a href="{{route('whishlist')}}">Whishlist</a>
+              <li class="current-menu-item "><a href="{{route('whishlist')}}">Wishlist</a>
               </li>
             </ul>
           </li>

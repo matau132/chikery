@@ -1,5 +1,5 @@
 @extends('master')
-@section('title','Whishlist')
+@section('title','Wishlist')
 @section('class','whishlist ps-page')
 @section('main')
 <div class="container">
