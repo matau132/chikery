@@ -10,7 +10,7 @@ use App\Helpers\Cart;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['customer_id','name','phone','address','note','status','payment_id','shipping_id'];
+    protected $fillable = ['customer_id','name','email','phone','address','note','status','payment_id','shipping_id'];
 
     public function shipping()
     {
@@ -32,6 +32,7 @@ class Order extends Model
             'customer_id' => Auth::guard('customer')->user()->id,
             'name' => $request->name,
             'phone' => $request->phone,
+            'email' => $request->email,
             'address' => $request->address,
             'note' => $request->note,
             'payment_id' => $request->payment,
