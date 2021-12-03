@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   
-<!-- Mirrored from nouthemes.net/html/chikery/blog-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Nov 2020 15:40:20 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -484,5 +483,4 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
   </body>
 
-<!-- Mirrored from nouthemes.net/html/chikery/blog-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Nov 2020 15:40:22 GMT -->
 </html>
