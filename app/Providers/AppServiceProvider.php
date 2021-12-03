@@ -28,7 +28,11 @@ class AppServiceProvider extends ServiceProvider
     {
         //paginate
         Paginator::useBootstrap();
-
+        
+        if($this->app->environment('production')) {
+            \URL::forceScheme('https');
+        }
+        
         Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
